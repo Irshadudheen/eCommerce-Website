@@ -1,5 +1,6 @@
 const login =async (req,res,next)=>{
     try {
+       
         if(!req.session.user_id){
             res.redirect('/')
         }
@@ -16,6 +17,7 @@ const login =async (req,res,next)=>{
 const logout =async (req,res,next)=>{
     try {
         if(req.session.admin_id){
+            
             res.redirect('/admin/adminWelcome')
         }else if(req.session.user_id){
             res.redirect('/dashboard')
@@ -33,7 +35,10 @@ const logout =async (req,res,next)=>{
 
 const isadminlogin =async (req,res,next)=>{
     try {
+        console.log(req.session)
         if(!req.session.admin_id){
+            console.log(req.session.admin_id)
+            console.log("fhdj")
             res.redirect('/')
         }else{
             next()

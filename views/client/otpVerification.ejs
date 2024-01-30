@@ -1,5 +1,4 @@
-<%-include('../layouts/header.ejs')%>
-<%-include('../layouts/navbar.ejs')%>
+
 
 
 <style>
@@ -115,7 +114,7 @@
                                         <i class="bx bxs-check-shield"></i>
                                     </header> -->
                                     <h4>Enter OTP Code</h4>
-                                    <form action="/otp" method="POST">
+                                    <form action="/otpSubmit" method="POST">
                                         <div class="input-field">
                                             <input name="digit1" type="number" required   />
                                             <input name="digit2" type="number" required disabled />
@@ -190,5 +189,3 @@
     window.addEventListener("load", () => inputs[0].focus());
 </script>
 
-<%-include('../layouts/footbar.ejs')%>
-<%-include('../layouts/footer.ejs')%>

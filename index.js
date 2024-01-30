@@ -2,7 +2,6 @@ const express = require('express')
 const app =express()
 const mongoose = require('mongoose')
 const nocache= require('nocache')
-
 const path = require('path')
 const session = require('express-session')
 const config = require('./config/config')
@@ -14,12 +13,8 @@ app.use(express.urlencoded({extended:true}))
 app.set('view engine','ejs')
 app.set('views','views/client')
 //SET PUBLIC
-app.use(express.static(path.join(__dirname,'public')))
-app.use(express.static(path.join(__dirname,'public/assets')))
 
-// app.get('/',(req,res)=>{
-//     res.render('index')
-// })
+
 
 //SESSION CONNETIION
 app.use(session({secret:config,resave:false,

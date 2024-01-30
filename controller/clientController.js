@@ -1,7 +1,7 @@
 const client = require("../model/clientDb")
 const bcrypt = require("bcrypt")
 const nodemailer =require('nodemailer')
-
+const otpModel=require('../model/otpDb')
 
 
 //PASSWORD CONVERTING TO HASH
@@ -35,7 +35,7 @@ const sendOtpMail = async (name,email,otp)=>{
             from:'irshadudheen.p10@gmail.com',
             to:email,
             subject:'For your verification the mail',
-            html:'<p>Hi '+name+'the '+otp+' </p>'
+            html:'<p>Hi '+name+' the '+otp+' </p>'
 
         }
         Transporter.sendMail(mailOption,(err,info)=>{
@@ -84,9 +84,19 @@ const signUpPost= async (req,res)=>{
                     const result = await Client.save()
                     if(result){
                         const otp=Math.floor((Math.random()*1000))+1000
+                        const otpsave = new otpModel({
+                            userId:result._id,
+                            emailId:email,
+                            otp:otp
+                        })
+                        const otpResult = await otpsave.save()
+                        console.log(otpResult)
                         console.log(otp)
                         sendOtpMail(fname,email,otp,result._id)
-                        res.redirect('/')
+                        res.render('otpVerification',{email:email})
+                        
+
+                        // res.redirect('/')
                         
                         console.log('register succcc')
                     }else{
@@ -125,22 +135,30 @@ const loginPost = async (req,res)=>{
         
         const passwordMatch = await bcrypt.compare(password,clientData.password)
         if(passwordMatch){
-            // if(clientData.is_varified===0){
-            //     console.log("verfiy the email")
-            // }
-            if(clientData.is_admin===true){
-                req.session.admin_id=clientData._id
-                res.redirect('/admin/adminWelcome')
-            }else{
-
-                req.session.user_id=clientData._id
-                
-                res.redirect('/dashboard')
+            
+            if(clientData.is_varified===0){
+                console.log("verfiy the email")
             }
+            if(clientData.is_varified===true){
 
+                if(clientData.is_admin===true){
+                    req.session.admin_id=clientData._id
+               
+                    res.redirect('/admin/adminWelcome')
+                }else{
+                    
+                    req.session.user_id=clientData._id
+                    
+                    
+                    res.redirect('/dashboard')
+                }
+                
+            }else {
 
-
-        }else{
+            }res.redirect('/')
+                
+                
+            }else{
             res.redirect('/')
         }
 
@@ -156,6 +174,7 @@ const loginPost = async (req,res)=>{
 //
 const clientDashboard = async (req,res)=>{
     try {
+        console.log("wer")
         
         res.render('index')
     } catch (error) {
@@ -175,6 +194,45 @@ const logout=async (req,res)=>{
     }
 }
 
+//
+const otpSubmit= async (req,res)=>{
+    try {
+        const email=req.body.email
+        console.log(email)
+
+        const otpVerify= await otpModel.findOne({emailId:email})
+        console.log(otpVerify)
+        if(otpVerify){
+           const inputOtp=req.body.digit1*1000+req.body.digit2*100+req.body.digit3*10+req.body.digit4*1
+           console.log(inputOtp)
+           if(inputOtp==otpVerify.otp){
+            const clientDbUbdate= await client.updateOne({email:email},{$set:{is_varified:true}})
+            if(clientDbUbdate){
+
+                req.session.user_id=otpVerify.userId
+                
+                res.redirect("/dashboard")
+            }
+           }
+
+        }
+    
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+//PRODUCT
+const product = async (req,res)=>{
+    try {
+        res.render('product')
+        
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
 
 //
 module.exports={
@@ -182,5 +240,8 @@ module.exports={
     login,
     loginPost,
     signUpPost,
-    logout
+    logout,
+    otpSubmit,
+    product
+    
 }
