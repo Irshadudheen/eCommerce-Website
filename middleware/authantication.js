@@ -35,7 +35,7 @@ const logout =async (req,res,next)=>{
 
 const isadminlogin =async (req,res,next)=>{
     try {
-        console.log(req.session)
+      
         if(!req.session.admin_id){
             console.log(req.session.admin_id)
             console.log("fhdj")

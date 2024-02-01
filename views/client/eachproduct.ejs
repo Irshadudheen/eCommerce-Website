@@ -66,10 +66,9 @@
                                 <a href="#">Links</a>
                                 <ul>
                                     <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
-                                    <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                    <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                                    <li><a href="/"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
+                                    <li><a href="/">About Us</a></li>
+                                    <li><a href="/">Contact Us</a></li>
                                 </ul>
                             </li>
                         </ul><!-- End .top-menu -->
@@ -256,26 +255,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
-
-                                    <ul>
-                                        <li><a href="elements-products.html">Products</a></li>
-                                        <li><a href="elements-typography.html">Typography</a></li>
-                                        <li><a href="elements-titles.html">Titles</a></li>
-                                        <li><a href="elements-banners.html">Banners</a></li>
-                                        <li><a href="elements-product-category.html">Product Category</a></li>
-                                        <li><a href="elements-video-banners.html">Video Banners</a></li>
-                                        <li><a href="elements-buttons.html">Buttons</a></li>
-                                        <li><a href="elements-accordions.html">Accordions</a></li>
-                                        <li><a href="elements-tabs.html">Tabs</a></li>
-                                        <li><a href="elements-testimonials.html">Testimonials</a></li>
-                                        <li><a href="elements-blog-posts.html">Blog Posts</a></li>
-                                        <li><a href="elements-portfolio.html">Portfolio</a></li>
-                                        <li><a href="elements-cta.html">Call to Action</a></li>
-                                        <li><a href="elements-icon-boxes.html">Icon Boxes</a></li>
-                                    </ul>
-                                </li>
+                              
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
@@ -411,7 +391,7 @@
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
                                         <figure class="product-main-image">
-                                            <img id="product-zoom" src="assets/images/products/single/1.jpg" data-zoom-image="assets/images/products/single/1-big.jpg" alt="product image">
+                                            <img id="product-zoom" src="/productImage/<%=image  %>" data-zoom-image="/productImage/<%=image  %>" alt="product image">
 
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery">
                                                 <i class="icon-arrows"></i>
@@ -419,20 +399,20 @@
                                         </figure><!-- End .product-main-image -->
 
                                         <div id="product-zoom-gallery" class="product-image-gallery">
-                                            <a class="product-gallery-item active" href="#" data-image="assets/images/products/single/1.jpg" data-zoom-image="assets/images/products/single/1-big.jpg">
-                                                <img src="assets/images/products/single/1-small.jpg" alt="product side">
+                                            <a class="product-gallery-item active" href="#" data-image="" data-zoom-image="/productImage/<%=image  %>">
+                                                <img src="/productImage/<%=image  %>" alt="product side">
                                             </a>
 
-                                            <a class="product-gallery-item" href="#" data-image="assets/images/products/single/2.jpg" data-zoom-image="assets/images/products/single/2-big.jpg">
-                                                <img src="assets/images/products/single/2-small.jpg" alt="product cross">
+                                            <a class="product-gallery-item" href="#" data-image="/productImage/<%=image  %>" data-zoom-image="/productImage/<%=image  %>">
+                                                <img src="/productImage/<%=image  %>" alt="product cross">
                                             </a>
 
                                             <a class="product-gallery-item" href="#" data-image="assets/images/products/single/3.jpg" data-zoom-image="assets/images/products/single/3-big.jpg">
-                                                <img src="assets/images/products/single/3-small.jpg" alt="product with model">
+                                                <img src="/productImage/<%=image  %>" alt="product with model">
                                             </a>
 
-                                            <a class="product-gallery-item" href="#" data-image="assets/images/products/single/4.jpg" data-zoom-image="assets/images/products/single/4-big.jpg">
-                                                <img src="assets/images/products/single/4-small.jpg" alt="product back">
+                                            <a class="product-gallery-item" href="#" data-image="/productImage/<%=image  %>" data-zoom-image="/productImage/<%=image  %>">
+                                                <img src="/productImage/<%=image  %>" alt="product back">
                                             </a>
                                         </div><!-- End .product-image-gallery -->
                                     </div><!-- End .row -->
@@ -463,7 +443,7 @@
 
                                         <div class="product-nav product-nav-thumbs">
                                             <a href="#" class="active">
-                                                <img src="assets/images/products/single/1-thumb.jpg" alt="product desc">
+                                                <img src="/productImage/<%=image  %>" alt="product desc">
                                             </a>
                                             <a href="#">
                                                 <img src="assets/images/products/single/2-thumb.jpg" alt="product desc">
@@ -952,7 +932,7 @@
                 <div class="col-6">
                     <figure class="product-media">
                         <a href="product.html">
-                            <img src="assets/images/products/sticky/product-1.jpg" alt="Product image">
+                            <img src="/productImage/<%=image  %>" alt="Product image">
                         </a>
                     </figure><!-- End .product-media -->
                     <h4 class="product-title"><a href="product.html">Dark yellow lace cut out swing dress</a></h4><!-- End .product-title -->

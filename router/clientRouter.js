@@ -8,7 +8,7 @@ const path =require('path')
 clientRouter.set('views','./views/client')
 
 
-// clientRouter.use(express.static(path.join(__dirname,'../public')))
+clientRouter.use(express.static(path.join(__dirname,'../public')))
 clientRouter.use(express.static(path.join(__dirname,'../public/client')))
 
 //register
@@ -25,7 +25,7 @@ clientRouter.get('/logout',authantication.login,clientController.logout)
 clientRouter.post('/otpSubmit',clientController.otpSubmit)
 
 
-clientRouter.get('/product',authantication.login,clientController.product)
+clientRouter.get('/product',authantication.login,productController.Clientproduct)
 clientRouter.get('/eachproduct',authantication.login,productController.eachproduct)
 
 

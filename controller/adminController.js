@@ -21,8 +21,6 @@ const logoutadmin =async (req,res)=>{
 const clientview = async (req,res)=>{
     try {
         const data = await clientDb.find({is_admin:0})
-        console.log(data)
-        console.log(data.length)
         res.render('clientview',{data:data})
         
     } catch (error) {
@@ -36,7 +34,6 @@ const editUser = async (req,res)=>{
        const id=req.query.id
        const clientData= await clientDb.findById({_id:id})
 
-       console.log(clientData)
        if(clientData){
            
            res.render('editClient',{client:clientData,id})
@@ -54,7 +51,6 @@ const editUser = async (req,res)=>{
 const updateClient = async (req,res)=>{
     try {
         const client = req.body.id
-        console.log(req.body.name)
         const ClientData= await clientDb.findByIdAndUpdate({_id:client},{$set:{ fname:req.body.name,email:req.body.email,mobile:req.body.mobile }},{new:true})
         if(ClientData){
             res.redirect('/admin/clientview')
@@ -68,12 +64,7 @@ const updateClient = async (req,res)=>{
 }
 //TO DELETE THE  CLIENT
 const deleteClient = async (req,res)=>{
-    try {
-        
-        
-        console.log(req.body.delet)
-       
-    
+    try {       
        const result= await clientDb.deleteOne({_id:req.body.delet})
         console.log(result)
         if(result){

@@ -34,6 +34,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/eCommereseDb").then(()=>console.log(
 
 //ERROR
 app.use((req,res)=>res.status(404).render('404'))
+// app.get('*',(req,res)=>res.status(404).render('404'))
 
 //CONNETTION OF SERVER
 const PORT=process.env.PORT||3000

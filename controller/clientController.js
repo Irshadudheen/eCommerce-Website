@@ -19,8 +19,7 @@ const securePassword = async (password)=>{
 //FOR SEND MAIL
 const sendOtpMail = async (name,email,otp)=>{
     try {
-        console.log(name)
-        console.log(email)
+   console.log(email);
         const Transporter =nodemailer.createTransport({
             host:'smtp.gmail.com',
             port:587,
@@ -28,9 +27,10 @@ const sendOtpMail = async (name,email,otp)=>{
             requireTLS:true,
             auth:{
                 user:"irshadudheen.p10@gmail.com",
-                pass:'kiop xlqt tqio zxwn'
+                pass:'tylm ddnl qpie pjwg'
             }
         })
+
         const mailOption ={
             from:'irshadudheen.p10@gmail.com',
             to:email,
@@ -174,7 +174,6 @@ const loginPost = async (req,res)=>{
 //
 const clientDashboard = async (req,res)=>{
     try {
-        console.log("wer")
         
         res.render('index')
     } catch (error) {
@@ -224,14 +223,6 @@ const otpSubmit= async (req,res)=>{
     }
 }
 //PRODUCT
-const product = async (req,res)=>{
-    try {
-        res.render('product')
-        
-    } catch (error) {
-        console.log(error.message)
-    }
-}
 
 
 //
@@ -242,6 +233,6 @@ module.exports={
     signUpPost,
     logout,
     otpSubmit,
-    product
+  
     
 }
