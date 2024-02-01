@@ -1,5 +1,6 @@
 const clientDb =require('../model/clientDb');
 
+//ADMIN ADASHBOARD
 const adminDashboard =async (req,res)=>{
     try {
     res.render('adminDashboard')
@@ -9,6 +10,7 @@ const adminDashboard =async (req,res)=>{
     }
 }
 
+//LOGOUTADMIN
 const logoutadmin =async (req,res)=>{
     try {
         req.session.destroy()
@@ -18,6 +20,8 @@ const logoutadmin =async (req,res)=>{
         console.log(error.message)
     }
 }
+
+//SHOW ADMIN THE CLIENT
 const clientview = async (req,res)=>{
     try {
         const data = await clientDb.find({is_admin:0})
@@ -28,6 +32,8 @@ const clientview = async (req,res)=>{
         
     }
 }
+
+//PAGE TO ADMIN FOR THE EDIT CLIENT
 const editUser = async (req,res)=>{
     try {
       
@@ -47,7 +53,7 @@ const editUser = async (req,res)=>{
     }
 }
 
-//
+//EDIT SUBMIT OF CLIENT
 const updateClient = async (req,res)=>{
     try {
         const client = req.body.id

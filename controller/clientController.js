@@ -51,6 +51,7 @@ const sendOtpMail = async (name,email,otp)=>{
     }
 }
 
+//REGISTER THE SUBMIT 
 const signUpPost= async (req,res)=>{
     try {
         if(/[A-Za-z.]+$/.test(req.body.register_fname)){
@@ -115,7 +116,7 @@ const signUpPost= async (req,res)=>{
     }
 }
 
-//
+//LOGIN PAGE
 const login = async (req,res)=>{
     try {
         
@@ -124,7 +125,7 @@ const login = async (req,res)=>{
         console.log(error.massege)
     }
 }
-//
+//LOGIN PAGE SUBMINT
 const loginPost = async (req,res)=>{
     try {
         const email=req.body.singin_email
@@ -171,7 +172,7 @@ const loginPost = async (req,res)=>{
 }
 
 
-//
+//SHOW THE CLIENT DASHBOARD
 const clientDashboard = async (req,res)=>{
     try {
         
@@ -182,7 +183,7 @@ const clientDashboard = async (req,res)=>{
     }
 }
 
-//
+//CLIENT LOGOUT
 const logout=async (req,res)=>{
     try {
         req.session.destroy()
@@ -193,7 +194,7 @@ const logout=async (req,res)=>{
     }
 }
 
-//
+//OTP SUBMIT
 const otpSubmit= async (req,res)=>{
     try {
         const email=req.body.email
@@ -207,14 +208,16 @@ const otpSubmit= async (req,res)=>{
            if(inputOtp==otpVerify.otp){
             const clientDbUbdate= await client.updateOne({email:email},{$set:{is_varified:true}})
             if(clientDbUbdate){
-
+                await otpModel.deleteOne({_id:otpVerify._id})
                 req.session.user_id=otpVerify.userId
-                
                 res.redirect("/dashboard")
             }
-           }
-
         }
+    }
+
+
+                
+
     
         
     } catch (error) {
@@ -222,10 +225,10 @@ const otpSubmit= async (req,res)=>{
         
     }
 }
-//PRODUCT
 
 
-//
+
+//EXPORT
 module.exports={
     clientDashboard,
     login,

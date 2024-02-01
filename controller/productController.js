@@ -1,9 +1,10 @@
 const productDb = require('../model/productDb')
 
+
+//TOTAL VIEW OF PRODUCT IN CLIENT
 const Clientproduct = async (req,res)=>{
     try {
         const product= await productDb.find({})
-        console.log(product)
         res.render('product',{productData:product})
         
     } catch (error) {
@@ -11,7 +12,7 @@ const Clientproduct = async (req,res)=>{
     }
 }
 
-
+//SELCTED PRODUCT IN CLIENT
 const eachproduct = async (req,res)=>{
     try {
         
@@ -22,17 +23,18 @@ const eachproduct = async (req,res)=>{
         
     }
 }
-//
+
+//PRODUCT VIEW
 const productAdmin= async (req,res)=>{
     try {
         const Allproduct = await productDb.find({})
-        console.log(Allproduct)
         res.render('productAdmin',{product:Allproduct})
     } catch (error) {
         console.log(error.message)
     }
 }
-//
+
+//ADD PRODUCT THE PAGE
 const addProduct = async (req,res)=>{
     try {
         res.render('addProduct')
@@ -41,6 +43,7 @@ const addProduct = async (req,res)=>{
         console.log(error.message)
     }
 }
+
 //EDIT THE PRODUCT
 const editProduct = async (req,res)=>{
     try {
@@ -55,6 +58,8 @@ const editProduct = async (req,res)=>{
         
     }
 }
+
+//TO ADD THE PRODUCT SUBMIT
 const addProductsubmit = async (req,res)=>{
     try {
         
@@ -79,9 +84,11 @@ const addProductsubmit = async (req,res)=>{
         
     }
 }
+
 //UPDATEPRODUCT
 const Updateproduct = async (req,res)=>{
     try {
+
       
 
         
@@ -103,6 +110,24 @@ const Updateproduct = async (req,res)=>{
     }
 }
 
+//TO DELETE THE PRODUCT
+const deleteProduct= async (req,res)=>{
+    try {
+        // req.body.id
+        console.log(req.body.ida)
+    
+        const deleteProduct =await productDb.deleteOne({_id:req.body.ida})
+        
+        if(deleteProduct){
+        res.send({status: true})
+        }
+
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
 
 module.exports={
     eachproduct,
@@ -111,5 +136,6 @@ module.exports={
     editProduct,
     addProductsubmit,
     Updateproduct,
-    Clientproduct
+    Clientproduct,
+    deleteProduct
 }

@@ -107,9 +107,9 @@
     </nav>
     <div class="container mt-5">
       <div class="row tm-content-row">
-        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
+        <div class="col-sm-12 col-md-12 col-lg-8 col-12 col-xl-8 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-products">
-            <div class="tm-product-table-container" >
+            <div id="#load" class="tm-product-table-container" >
               <input type="hidden" value="<%=product%>">
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>
@@ -120,15 +120,21 @@
                     <th scope="col">PRICE</th>
                     <th scope="col">STATUS</th>
                     <th scope="col">QUANITITY</th>
+                    <th scope="col">IMAGE</th>
+                   <th scope="col">Category</th>
+
                     <th scope="col">&nbsp;</th>
                   </tr>
                 </thead>
                 <% 
                 if(product.length >0){
                     for(let i=0;i<product.length;i++){
+                      
+                        
+                    
                         %>
                 <tbody>
-                  <tr>
+                  <tr  id="row<%=i%>">
                     <th scope="row"><input type="checkbox" /></th>
                     <td class="tm-product-name"><a href="/admin/editProduct?id=<%=product[i]._id%>" style="color: #dee2e6;"><%= product[i].name %></a></td>
 
@@ -136,11 +142,28 @@
                     <td><%=product[i].status%></td>
                     <td><%=product[i].quantity%></td>
                     <td>
-                      <a href="#" class="tm-product-delete-link">
+                      <%if(product[i].image && product[i].image.length > 0){%>
+                        <%for(j=0;j<product[i].image.length;j++){%>
+                      <img src="productImage/<%= product[i].image[j] %>"  width="50" height="50" alt="Product Image">
+                      <% } %>
+                              <% } else { %>
+                                  N/A 
+                              <% } %>
+              
+                      </td>
+                      <td><%=product[i].categoryid%></td>
+                    <td>
+                      <a href="#" onclick="deleteRecord('<%=product[i]._id%>','<%=i%>')" id="<%=product[i]._id%>" class="tm-product-delete-link">
+                       
                         <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                     
                       </a>
                     </td>
+                      
+                      
                   </tr>
+                  
+
                   <%
             }
         }else{
@@ -153,6 +176,33 @@
             %>
                   </tbody>
                 </table>
+
+
+                <script>
+                  
+                  function deleteRecord(id, i) {
+    const row = document.getElementById(`row${i}`);
+    console.log(i);
+    console.log(row);
+    console.log(id);
+
+    fetch('/admin/delete', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ida: id })
+    }).then(res => res.json()).then(data => {
+        // Remove the corresponding table row
+        if (row) {
+            row.remove();
+        }
+    }).catch(error => {
+        console.error('Error deleting record:', error);
+    });
+}
+
+                  </script>
             </div>
             <!-- table container -->
             <a
@@ -169,7 +219,10 @@
             <div class="tm-product-table-container">
               <table class="table tm-table-small tm-product-table">
                 <tbody>
+
                   <tr>
+                   
+                   
                     <td class="tm-product-name">Product Category 1</td>
                     <td class="text-center">
                       <a href="#" class="tm-product-delete-link">
@@ -261,9 +314,11 @@
               </table>
             </div>
             <!-- table container -->
-            <button class="btn btn-primary btn-block text-uppercase mb-3">
-              Add new category
-            </button>
+            <a href="/admin/addCategory">
+              <button class="btn btn-primary btn-block text-uppercase mb-3">
+                Add new category
+                </button>
+                </a>
           </div>
         </div>
       </div>

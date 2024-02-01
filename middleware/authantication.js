@@ -1,3 +1,5 @@
+//
+
 const login =async (req,res,next)=>{
     try {
        
@@ -14,6 +16,8 @@ const login =async (req,res,next)=>{
     }
    
 }
+
+//
 const logout =async (req,res,next)=>{
     try {
         if(req.session.admin_id){
@@ -33,6 +37,7 @@ const logout =async (req,res,next)=>{
    
 }
 
+//
 const isadminlogin =async (req,res,next)=>{
     try {
       
@@ -50,7 +55,7 @@ const isadminlogin =async (req,res,next)=>{
     }
 }
 
-
+//
 module.exports={
     login,
     logout,
