@@ -347,7 +347,7 @@
                 			<div class="product text-center">
                 				<figure class="product-media">
                 					<span class="product-label label-sale">30% off</span>
-                					<a href="/eachproduct?id=<%=data.image[0] %>">
+                					<a href="/eachproduct?id=<%=data._id %>">
                 						<img src="productImage/<%=data.image[0]%>" alt="Product image" class="product-image">
                 					</a>
 
@@ -360,11 +360,11 @@
 
                 				<div class="product-body">
                 					<div class="product-cat">
-                						<a href="#">Women</a>
+                						<a href="#"></a>
                 					</div><!-- End .product-cat -->
-                					<h3 class="product-title"><a href="product.html">Aliquam tincidunt mauris</a></h3><!-- End .product-title -->
+                					<h3 class="product-title"><a href="/eachproduct?id=<%=data._id %>"><%=data.name%></a></h3><!-- End .product-title -->
                 					<div class="product-price">
-                						<span class="new-price">$50.00</span>
+                						<span class="new-price"><%=data.price%></span>
                 						<span class="old-price">$84.00</span>
                 					</div><!-- End .product-price -->
                                     <div class="product-size">

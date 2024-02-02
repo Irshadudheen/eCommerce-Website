@@ -93,6 +93,8 @@
                 <span> Settings <i class="fas fa-angle-down"></i> </span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/admin/ViewCategory">Category</a>
+
                 <a class="dropdown-item" href="#">Profile</a>
                 <a class="dropdown-item" href="#">Billing</a>
                 <a class="dropdown-item" href="#">Customize</a>
@@ -131,7 +133,7 @@
                       id="name"
                       name="name"
                       type="text"
-                      value="Lorem Ipsum Product"
+                      value="<%=productData.name %>"
                       class="form-control validate"
                       required
                     />
@@ -145,6 +147,7 @@
                       class="form-control validate tm-small"
                       rows="5"
                       name="description"
+                      value="<%=productData.description %>"
                       required
                     >Lorem ipsum dolor amet gentrify glossier locavore messenger bag chillwave hashtag irony migas wolf kale chips small batch kogi direct trade shaman.</textarea>
                   </div>
@@ -158,10 +161,11 @@
                       id="category"
                       name="category"
                     >
-                      <option>Select category</option>
-                      <option value="1" selected>New Arrival</option>
-                      <option value="2">Most Popular</option>
-                      <option value="3">Trending</option>
+                    
+                   <%  category.forEach(data=> {%>
+
+                      <option value="<%=data._id%>" selected><%=data.name%></option>
+                   <%})%>
                     </select>
                   </div>
                   <div class="row">
@@ -172,35 +176,23 @@
                       </label>
                       <input
                         id="stock"
-                        name="status"
-                        type="text"
-                        value="19,765"
+                        name="quantity"
+                        type="number"
+                        value="<%=productData.quantity %>"
                         class="form-control validate"
                       />
                     </div>
                         <div class="form-group mb-3 col-xs-12 col-sm-6">
-                          <label
-                            for="stock"
-                            >Units In Stock
-                          </label>
-                          <input
-                            id="stock"
-                            name="stock"
-                            type="text"
-                            value="19,765"
-                            class="form-control validate"
-                          />
+                          
                         </div>
                   </div>
                   
               </div>
               <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                <div class="tm-product-img-edit mx-auto">
-                  <img src="img/avatar.png" alt="Product image" class="img-fluid d-block mx-auto">
-                  
-                </div>
+                
                 <div class="custom-file mt-3 mb-3">
-                  <input id="fileInput" type="file" name="image" multiple/>
+                  
+                  <input id="fileInput" type="file" name="image" multiple />
                   
                 </div>
               </div>

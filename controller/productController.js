@@ -1,5 +1,5 @@
 const productDb = require('../model/productDb')
-
+const categoryDb=require('../model/categoryDb')
 
 //TOTAL VIEW OF PRODUCT IN CLIENT
 const Clientproduct = async (req,res)=>{
@@ -15,8 +15,8 @@ const Clientproduct = async (req,res)=>{
 //SELCTED PRODUCT IN CLIENT
 const eachproduct = async (req,res)=>{
     try {
-        
-        res.render('eachproduct',{image:req.query.id})
+        const productData =await productDb.findOne({_id:req.query.id})
+        res.render('eachproduct',{productData})
         
     } catch (error) {
         console.log(error.message)
@@ -27,7 +27,10 @@ const eachproduct = async (req,res)=>{
 //PRODUCT VIEW
 const productAdmin= async (req,res)=>{
     try {
-        const Allproduct = await productDb.find({})
+        const Allproduct = await productDb.find().populate("categoryid")
+        console.log(Allproduct.categoryid,"category");
+        
+
         res.render('productAdmin',{product:Allproduct})
     } catch (error) {
         console.log(error.message)
@@ -37,7 +40,10 @@ const productAdmin= async (req,res)=>{
 //ADD PRODUCT THE PAGE
 const addProduct = async (req,res)=>{
     try {
-        res.render('addProduct')
+        const category = await categoryDb.find()
+
+
+        res.render('addProduct',{category})
         
     } catch (error) {
         console.log(error.message)
@@ -48,11 +54,12 @@ const addProduct = async (req,res)=>{
 const editProduct = async (req,res)=>{
     try {
         
-      
-        // const productData= await productDb.findByIdAndUpdate({_id:id},{$set:{ name:req.body.name,email:req.body.email,mobile:req.body.mobile }},{new:true})
+        const category = await categoryDb.find()
 
-        
-        res.render('editProduct',{id:req.query.id})
+        // const productData= await productDb.findByIdAndUpdate({_id:id},{$set:{ name:req.body.name,email:req.body.email,mobile:req.body.mobile }},{new:true})
+        const productData= await productDb.findOne({_id:req.query.id})
+        console.log(productData);
+        res.render('editProduct',{id:req.query.id,productData,category})
     } catch (error) {
         console.log(error.message)
         
@@ -62,23 +69,31 @@ const editProduct = async (req,res)=>{
 //TO ADD THE PRODUCT SUBMIT
 const addProductsubmit = async (req,res)=>{
     try {
+        const {name,price,stock,category,description}=req.body
         
-        const product    = new productDb({
-            name:req.body.name,
-            price:req.body.price,
-            status:req.body.stock,
-            quantity:1,
-            categoryid:req.body.category,
-            createdate:Date.now(),
-            image:req.files.map(file=>file.filename),
-            productDescription:req.body.description
-        })
-        const result = await product.save()
-        if(result){
-            res.redirect('/admin/productAdmin')
-        }
-        console.log(result)
+        console.log(stock)
+        // const checkName =await find({name:{$regex: new RegExp("^"+name+"$","i")}})
+        // console.log(checkName);
+    
 
+            console.log(name)
+            const product    = new productDb({
+                name:name,
+                price:price,
+                status:true,
+                quantity:stock,
+                categoryid:category,
+                createdate:Date.now(),
+                image:req.files.map(file=>file.filename),
+                productDescription:description
+            })
+            const result = await product.save()
+            if(result){
+                res.redirect('/admin/productAdmin')
+            }
+            console.log(result)
+       
+            
     } catch (error) {
         console.log(error.message)
         
@@ -90,16 +105,29 @@ const Updateproduct = async (req,res)=>{
     try {
 
       
+            const {name,price,status,quantity,category,description}=req.body
+        if(req.files.length == 0){
+            const product = await productDb.findByIdAndUpdate({_id:req.body.id},
+                {name,
+                    price,
+                    status,
+                    quantity,
+                    categoryid:category,
+                    productDescription:description,
+                
+                },{new:true})
+                console.log(product)
+            return   res.redirect('/admin/productAdmin')
 
-        
+        }
         const product = await productDb.findByIdAndUpdate({_id:req.body.id},
-            {name:req.body.name,
-                price:req.body.price,
-                status:req.body.status,
-                quantity:req.body.quantity,
-                categoryid:req.body.category,
+            {name,
+                price,
+                status,
+                quantity,
+                categoryid:category,
                 image:req.files.map(file=>file.filename),
-                productDescription:req.body.description,
+                productDescription:description,
             
             },{new:true})
             console.log(product)

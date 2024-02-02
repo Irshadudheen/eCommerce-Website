@@ -15,7 +15,7 @@ const addCategory = async (req,res)=>{
 //SUBMIT THE PAGE OF ADD CCATEGORY
 const addCategorySumbit = async (req,res)=>{
     try {
-        console.log(req.body.name,req.body.description,req.body.status)
+        
 
         const name= req.body.name
         const checkCatogery = await categoryDb.findOne({name:{$regex:new RegExp("^" + name +"$","i")}})
@@ -36,7 +36,7 @@ const addCategorySumbit = async (req,res)=>{
             const result = await category.save()
             console.log(result)
             if (result) {
-                res.render('addCategory',{message:'category addded success'})
+                res.redirect('/admin/viewCategory')
 
             }
 
@@ -49,10 +49,33 @@ const addCategorySumbit = async (req,res)=>{
     }
 }
 
+//
+const ViewCategory = async (req,res)=>{
+    try {
+        const category = await categoryDb.find()
+        res.render('ViewCategory',{category})
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
 
+const deleteCategory = async (req,res)=>{
+    try {
+        console.log(req.query.id)
+        await categoryDb.deleteOne({_id:req.query.id})
+        return res.redirect('/admin/ViewCategory')
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
 
 
 module.exports={
     addCategory,
-    addCategorySumbit
+    addCategorySumbit,
+    ViewCategory,
+    deleteCategory
 }

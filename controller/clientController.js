@@ -54,21 +54,22 @@ const sendOtpMail = async (name,email,otp)=>{
 //REGISTER THE SUBMIT 
 const signUpPost= async (req,res)=>{
     try {
-        if(/[A-Za-z.]+$/.test(req.body.register_fname)){
-            if(/[A-Za-z0-9._%+-]+@gmail.com/.test(req.body.register_email)){
+        const {register_fname,register_lname,register_email,register_mobile,register_password}=req.body
+        if(/[A-Za-z.]+$/.test(register_fname)){
+            if(/[A-Za-z0-9._%+-]+@gmail.com/.test(register_email)){
 
                 
-                const checkmail= await client.findOne({email:req.body.register_email})
+                const checkmail= await client.findOne({register_email})
                 if(checkmail){
                     console.log('Email is already exsit')
                 }else{
                     
                     
-                    const sPassword= await securePassword(req.body.register_password)
-                    const fname=req.body.register_fname;
-                    const lname=req.body.register_lname;
-                    const email=req.body.register_email;
-                    const mobile=req.body.register_mobile;
+                    const sPassword= await securePassword(register_password)
+                    const fname=register_fname;
+                    const lname=register_lname;
+                    const email=register_email;
+                    const mobile=register_mobile;
                     
                     
                     const Client =  new  client({
@@ -78,7 +79,8 @@ const signUpPost= async (req,res)=>{
                         email:email,
                         password:sPassword,
                         mobile:mobile,
-                        is_admin:0
+                        is_admin:0,
+                        is_block:false
                         
                         
                     })
@@ -97,7 +99,7 @@ const signUpPost= async (req,res)=>{
                         res.render('otpVerification',{email:email})
                         
 
-                        // res.redirect('/')
+                       
                         
                         console.log('register succcc')
                     }else{
@@ -105,9 +107,12 @@ const signUpPost= async (req,res)=>{
                     }
                 }
             }else{
+                res.render("login",{message:"give the correct structure to the Email"})
+
                 console.log('give the correct structure to the Email')
             }
             }else{
+                res.render("login",{message:"give correct structure to the name"})
             console.log("give correct structure to the name")
         }
     } catch (error) {
@@ -140,7 +145,7 @@ const loginPost = async (req,res)=>{
             if(clientData.is_varified===0){
                 console.log("verfiy the email")
             }
-            if(clientData.is_varified===true){
+            if(clientData.is_varified===true&&clientData.is_block===false){
 
                 if(clientData.is_admin===true){
                     req.session.admin_id=clientData._id
@@ -155,15 +160,20 @@ const loginPost = async (req,res)=>{
                 }
                 
             }else {
+                res.render('login',{message:'not verfied'})
 
             }res.redirect('/')
                 
                 
             }else{
+                res.render('login',{message:'password not correct'})
+
             res.redirect('/')
         }
 
       }else{
+        res.render('login',{message:'email and password not correct'})
+
         res.redirect('/')
       }
     } catch (error) {

@@ -93,6 +93,8 @@
                 <span> Settings <i class="fas fa-angle-down"></i> </span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/admin/ViewCategory">Category</a>
+
                 <a class="dropdown-item" href="#">Profile</a>
                 <a class="dropdown-item" href="#">Billing</a>
                 <a class="dropdown-item" href="#">Customize</a>
@@ -157,9 +159,11 @@
                       name="category"
                     >
                       <option selected>Select category</option>
-                      <option value="1">Men</option>
-                      <option value="2">Women</option>
-                      <option value="3">Kids</option>
+                      <%category.forEach(data => {%>
+                        
+                        <option value="<%=data._id%>"><%=data.name%></option>
+                    <%  }) %>
+                      
                     </select>
                   </div>
                   <div class="row">
@@ -171,7 +175,7 @@
                         <input
                           id="price"
                           name="price"
-                          type="number "
+                          type="number"
                           class="form-control validate"
                           required
                         />
@@ -184,7 +188,7 @@
                           <input
                             id="stock"
                             name="stock"
-                            type="text"
+                            type="number"
                             class="form-control validate"
                             required
                           />

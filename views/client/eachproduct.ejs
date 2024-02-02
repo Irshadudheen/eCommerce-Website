@@ -389,39 +389,29 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="product-gallery product-gallery-vertical">
-                                    <div class="row">
+                                    <div class="row">                                    
                                         <figure class="product-main-image">
-                                            <img id="product-zoom" src="/productImage/<%=image  %>" data-zoom-image="/productImage/<%=image  %>" alt="product image">
-
+                                            <img id="product-zoom" src="/productImage/<%= productData.image[1] %>" data-zoom-image="/productImage/<%= productData.image[1] %>" alt="product image">
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery">
                                                 <i class="icon-arrows"></i>
                                             </a>
                                         </figure><!-- End .product-main-image -->
-
+                                    
                                         <div id="product-zoom-gallery" class="product-image-gallery">
-                                            <a class="product-gallery-item active" href="#" data-image="" data-zoom-image="/productImage/<%=image  %>">
-                                                <img src="/productImage/<%=image  %>" alt="product side">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="/productImage/<%=image  %>" data-zoom-image="/productImage/<%=image  %>">
-                                                <img src="/productImage/<%=image  %>" alt="product cross">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="assets/images/products/single/3.jpg" data-zoom-image="assets/images/products/single/3-big.jpg">
-                                                <img src="/productImage/<%=image  %>" alt="product with model">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="/productImage/<%=image  %>" data-zoom-image="/productImage/<%=image  %>">
-                                                <img src="/productImage/<%=image  %>" alt="product back">
-                                            </a>
-                                        </div><!-- End .product-image-gallery -->
+                                            <% for (let i = 0; i < productData.image.length; i++) { %>
+                                                <a class="product-gallery-item <%= i === 0 ? 'active' : '' %>" href="#" data-image="" data-zoom-image="/productImage/<%= productData.image[i] %>">
+                                                    <img src="/productImage/<%= productData.image[i] %>" alt="product image ">
+                                                </a>
+                                            <% } %>
+                                        </div>
                                     </div><!-- End .row -->
+                                    
                                 </div><!-- End .product-gallery -->
                             </div><!-- End .col-md-6 -->
 
                             <div class="col-md-6">
                                 <div class="product-details">
-                                    <h1 class="product-title">Dark yellow lace cut out swing dress</h1><!-- End .product-title -->
+                                    <h1 class="product-title"><%=productData.name%></h1><!-- End .product-title -->
 
                                     <div class="ratings-container">
                                         <div class="ratings">
@@ -431,7 +421,7 @@
                                     </div><!-- End .rating-container -->
 
                                     <div class="product-price">
-                                        $84.00
+                                       <%=productData.price%>
                                     </div><!-- End .product-price -->
 
                                     <div class="product-content">
@@ -443,7 +433,7 @@
 
                                         <div class="product-nav product-nav-thumbs">
                                             <a href="#" class="active">
-                                                <img src="/productImage/<%=image  %>" alt="product desc">
+                                                <img src="/productImage/<%=productData.image[0] %>" alt="product desc">
                                             </a>
                                             <a href="#">
                                                 <img src="assets/images/products/single/2-thumb.jpg" alt="product desc">
@@ -522,7 +512,7 @@
                             <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
                                 <div class="product-desc-content">
                                     <h3>Product Information</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. </p>
+                                    <p><%=productData.productDescription%> </p>
                                     <ul>
                                         <li>Nunc nec porttitor turpis. In eu risus enim. In vitae mollis elit. </li>
                                         <li>Vivamus finibus vel mauris ut vehicula.</li>
@@ -932,7 +922,7 @@
                 <div class="col-6">
                     <figure class="product-media">
                         <a href="product.html">
-                            <img src="/productImage/<%=image  %>" alt="Product image">
+                            <img src="/productImage/<%=productData.image[0]  %>" alt="Product image">
                         </a>
                     </figure><!-- End .product-media -->
                     <h4 class="product-title"><a href="product.html">Dark yellow lace cut out swing dress</a></h4><!-- End .product-title -->

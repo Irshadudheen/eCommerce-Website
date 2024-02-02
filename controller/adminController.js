@@ -57,11 +57,18 @@ const editUser = async (req,res)=>{
 const updateClient = async (req,res)=>{
     try {
         const client = req.body.id
-        const ClientData= await clientDb.findByIdAndUpdate({_id:client},{$set:{ fname:req.body.name,email:req.body.email,mobile:req.body.mobile }},{new:true})
-        if(ClientData){
-            res.redirect('/admin/clientview')
+        const clientemailCheck = await clientDb.findOne({_id:client})
+        if(!clientemailCheck){
+
+            const ClientData= await clientDb.findByIdAndUpdate({_id:client},{$set:{ fname:req.body.name,email:req.body.email,mobile:req.body.mobile }},{new:true})
+            if(ClientData){
+                res.redirect('/admin/clientview')
+            }else{
+                res.redirect("/admin/editUser",{message:'there data not update'})
+            }
         }else{
-            res.redirect("/admin/editUser",{message:'there data not update'})
+            res.redirect("/admin/clientview")
+            console.log("the email is already exists")
         }
     } catch (error) {
         console.log(error.message)
@@ -83,6 +90,33 @@ const deleteClient = async (req,res)=>{
     }
 }
 
+//TO BLOCK THE CLIENT
+const blockClient =async (req,res)=>{
+    try {
+        console.log(req.query.id)
+        const {id}=req.query
+        const check =await clientDb.findOne({_id:id})
+        if(check.is_block==true){
+            const data= await clientDb.findOneAndUpdate({_id:id},{$set:{is_block:false}})
+            if(data){
+console.log("rtyuiop[");
+                res.redirect("/admin/clientview")
+            }
+
+        }else{
+            const data= await clientDb.findOneAndUpdate({_id:id},{$set:{is_block:true}})
+            if(data){
+console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqq");
+                res.redirect("/admin/clientview")
+            }
+
+        }
+
+
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
 
 module.exports={
@@ -92,5 +126,6 @@ module.exports={
     editUser,
     updateClient,
     deleteClient,
+    blockClient
     
 }
