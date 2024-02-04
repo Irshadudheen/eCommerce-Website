@@ -92,8 +92,8 @@
                   <span> Settings <i class="fas fa-angle-down"></i> </span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  
                   <a class="dropdown-item" href="/admin/ViewCategory">Category</a>
-
                   <a class="dropdown-item" href="#">Profile</a>
                   <a class="dropdown-item" href="#">Billing</a>
                   <a class="dropdown-item" href="#">Customize</a>
@@ -118,10 +118,10 @@
               
               <!-- Search Bar -->
               <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search for users..." oninput="searchUsers(this.value)">
+                <input type="text" class="form-control" id="myInput" placeholder="Search for users..." onkeyup="myFunction()">
               </div>
               <input type="hidden" name="data" id="data" value="<%=data%>">
-              <table class="table table-striped">
+              <table class="table table-striped" id="myTable">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -166,25 +166,30 @@
             </div>
           </div>
         </div>
-        // <script>
-          
+        <script>
+          function myFunction() {
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }       
+          }
+        }
 
-        //     // function delet()
-        //     //   const value = document.getElementById('delete').value
-              
-        //     //   fetch("/admin/deleteClient",{
-        //     //     method:'POST',
-        //     //     headers:{
-        //     //       'Content-Type': 'application/json',
-        //     //     },
-        //     //     body: JSON.stringify({ id: value })
-        //     //   })
-              
-        //   //   }
-        //   // }
+           
         
           
-        //   </script>
+          </script>
         
         
         <!-- <div class="row tm-content-row">

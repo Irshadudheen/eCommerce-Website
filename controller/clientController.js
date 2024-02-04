@@ -1,7 +1,8 @@
 const client = require("../model/clientDb")
 const bcrypt = require("bcrypt")
 const nodemailer =require('nodemailer')
-const otpModel=require('../model/otpDb')
+const clientDb = require("../model/clientDb")
+const otpDb = require("../model/otpDb")
 
 
 //PASSWORD CONVERTING TO HASH
@@ -74,11 +75,11 @@ const signUpPost= async (req,res)=>{
                     
                     const Client =  new  client({
                         
-                        fname:fname,
-                        lname:lname,
-                        email:email,
+                        fname,
+                        lname,
+                        email,
                         password:sPassword,
-                        mobile:mobile,
+                        mobile,
                         is_admin:0,
                         is_block:false
                         
@@ -87,16 +88,16 @@ const signUpPost= async (req,res)=>{
                     const result = await Client.save()
                     if(result){
                         const otp=Math.floor((Math.random()*1000))+1000
-                        const otpsave = new otpModel({
+                        const otpsave = new otpDb({
                             userId:result._id,
                             emailId:email,
-                            otp:otp
+                            otp
                         })
                         const otpResult = await otpsave.save()
                         console.log(otpResult)
                         console.log(otp)
                         sendOtpMail(fname,email,otp,result._id)
-                        res.render('otpVerification',{email:email})
+                        res.render('otpVerification',{email})
                         
 
                        
@@ -162,19 +163,20 @@ const loginPost = async (req,res)=>{
             }else {
                 res.render('login',{message:'not verfied'})
 
-            }res.redirect('/')
+            }
+            
                 
                 
             }else{
                 res.render('login',{message:'password not correct'})
 
-            res.redirect('/')
+            
         }
 
       }else{
         res.render('login',{message:'email and password not correct'})
 
-        res.redirect('/')
+        
       }
     } catch (error) {
         console.log(error.message)
@@ -208,17 +210,16 @@ const logout=async (req,res)=>{
 const otpSubmit= async (req,res)=>{
     try {
         const email=req.body.email
-        console.log(email)
 
-        const otpVerify= await otpModel.findOne({emailId:email})
+        const otpVerify= await otpDb.findOne({emailId:email})
         console.log(otpVerify)
         if(otpVerify){
            const inputOtp=req.body.digit1*1000+req.body.digit2*100+req.body.digit3*10+req.body.digit4*1
            console.log(inputOtp)
            if(inputOtp==otpVerify.otp){
-            const clientDbUbdate= await client.updateOne({email:email},{$set:{is_varified:true}})
+            const clientDbUbdate= await client.updateOne({email},{$set:{is_varified:true}})
             if(clientDbUbdate){
-                await otpModel.deleteOne({_id:otpVerify._id})
+                await otpDb.deleteOne({_id:otpVerify._id})
                 req.session.user_id=otpVerify.userId
                 res.redirect("/dashboard")
             }
@@ -236,6 +237,53 @@ const otpSubmit= async (req,res)=>{
     }
 }
 
+//CLIENT PROFILE
+const profile =async (req,res)=>{
+    try {
+        res.render('clientProfile')
+
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
+//RESENT OTP
+const resendOtp = async (req,res)=>{
+    try {
+        const {email}=req.query
+        
+        
+        console.log("aklsjnm")
+        const personData =await client.findOne({email})
+        const deleteOtp =  await otpDb.deleteOne({userId:personData._id})
+        console.log(deleteOtp)
+        const otp=Math.floor((Math.random()*1000))+1000
+        console.log(otp)
+        const otpUpdate = new otpDb({
+            userId:personData._id,
+            emailId:email,
+            otp
+        })
+        const dataOtp = await otpUpdate.save()
+        if(dataOtp){
+            console.log(otp)
+        console.log(email)
+        if(personData){
+        sendOtpMail(personData.fname,email,otp)
+        console.log("slkajlkajlakjfaklajkla")
+        res.render('otpVerification',{email})
+            
+        }
+
+        }
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 
 
 //EXPORT
@@ -246,6 +294,8 @@ module.exports={
     signUpPost,
     logout,
     otpSubmit,
+    profile,
+    resendOtp
   
     
 }

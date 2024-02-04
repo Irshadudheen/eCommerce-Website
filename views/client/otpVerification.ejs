@@ -122,7 +122,9 @@
                                             <input name="digit4" type="number" required disabled />
                                             <input type="text" value="<%=email%>"  name="email" hidden>
                                         </div>
-                                        <a href="#">Resend OTP</a>
+                                        <div id="otpTimer">Time remaining: 00:00</div>
+
+                                        <a href="/resendOtp?email=<%=email%>">Resend OTP</a>
                                         <button type="submit">Verify OTP</button>
                                     </form>
                                 </div>
@@ -135,8 +137,32 @@
         </div><!-- End .container -->
     </div><!-- End .login-page section-bg -->
 </main><!-- End .main -->
-
 <script>
+startOtpTimer(120);
+function startOtpTimer(durationInSeconds) {
+    const timerElement = document.getElementById('otpTimer');
+    let duration = durationInSeconds;
+
+    function updateTimer() {
+        const minutes = Math.floor(duration / 60);
+        const seconds = duration % 60;
+        const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timerElement.textContent = `Time remaining: ${formattedTime}`;
+
+        if (duration <= 0) {
+            clearInterval(timerInterval);
+            // Optionally, handle expiration logic here
+        } else {
+            duration--;
+        }
+    }
+
+    updateTimer(); // Initial update
+    const timerInterval = setInterval(updateTimer, 1000); // Update every second
+}
+</script>
+<script>
+
     const inputs = document.querySelectorAll("input"),
     button = document.querySelector("button");
 

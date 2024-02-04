@@ -42,7 +42,7 @@ const addCategorySumbit = async (req,res)=>{
 
             
         }else {
-            res.render('addCategory',{message:'category is already exits'})
+            res.render('addCategory',{message:'category is already exist'})
         }
     } catch (error) {
         console.log(error.message)
@@ -63,7 +63,6 @@ const ViewCategory = async (req,res)=>{
 
 const deleteCategory = async (req,res)=>{
     try {
-        console.log(req.query.id)
         await categoryDb.deleteOne({_id:req.query.id})
         return res.redirect('/admin/ViewCategory')
     } catch (error) {

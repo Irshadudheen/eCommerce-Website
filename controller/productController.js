@@ -78,8 +78,8 @@ const addProductsubmit = async (req,res)=>{
 
             console.log(name)
             const product    = new productDb({
-                name:name,
-                price:price,
+                name,
+                price,
                 status:true,
                 quantity:stock,
                 categoryid:category,
@@ -130,7 +130,7 @@ const Updateproduct = async (req,res)=>{
                 productDescription:description,
             
             },{new:true})
-            console.log(product)
+            
             res.redirect('/admin/productAdmin')
         
     } catch (error) {

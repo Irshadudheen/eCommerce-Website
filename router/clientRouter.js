@@ -15,6 +15,7 @@ clientRouter.use(express.static(path.join(__dirname,'../public/client')))
 clientRouter.post('/register',clientController.signUpPost)
 
 
+
 clientRouter.get('/',authantication.logout,clientController.login)
 clientRouter.post('/',clientController.loginPost)
 
@@ -28,6 +29,6 @@ clientRouter.post('/otpSubmit',clientController.otpSubmit)
 clientRouter.get('/product',authantication.login,productController.Clientproduct)
 clientRouter.get('/eachproduct',authantication.login,productController.eachproduct)
 
-
-
+clientRouter.get('/profile',authantication.login,clientController.profile)
+clientRouter.get('/resendOtp',authantication.logout,clientController.resendOtp)
 module.exports=clientRouter;

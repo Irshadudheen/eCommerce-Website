@@ -162,10 +162,14 @@
                       name="category"
                     >
                     
-                   <%  category.forEach(data=> {%>
+                   <% if(category.length){%>
+                  <%  category.forEach(data=> {%>
 
                       <option value="<%=data._id%>" selected><%=data.name%></option>
                    <%})%>
+                   <%}else{%>
+                    <option value="" disabled selected>N/A</option>
+                    <%}%>
                     </select>
                   </div>
                   <div class="row">
