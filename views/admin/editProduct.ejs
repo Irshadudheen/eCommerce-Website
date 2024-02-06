@@ -192,18 +192,25 @@
                       
                     </div>
                   <script>
-                    function delectTheImage(image,id){
-                      console.log(image,id)
+                    function delectTheImage(image,id,i){
+                      console.log(i)
+                      const rowImage = document.getElementById(`row${i}`)
+                      console.log(image,id,rowImage)
                       fetch('/admin/delectTheImage', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
                   },
                   body: JSON.stringify({ image,id})
-                }).then(res => res.json())
+                }).then(res => res.json()).then(data =>{
+                  if(rowImage){
+                    rowImage.remove()
+                  }
+
+                })
                 
-                      
-                      
+                
+                
                     }
                     </script>
                 
@@ -217,22 +224,24 @@
                 <button type="submit" class="btn btn-primary btn-block text-uppercase">Update Now</button>
               </div>
             </form>
-                    <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4 ">
-                    <div class="row">
-                      <% if (productData.image.length > 0) { %>
-                        <% for (let i = 0; i < productData.image.length; i++) { %>
-                                <div class="image-button-wrapper">
-                                    <div class="image-container">
-                                        <img src="/productImage/<%= productData.image[i] %>" width="150" height="150" alt="">
-                                    </div>
-                                    <div class="button-container">
-                                      <input type="submit" value="delete" onclick="delectTheImage('<%=productData.image[i]%>','<%=productData._id%>')">
-                                    </div>
-                                </div>
-                      <% } %>
-                        <% } %>
+            <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4 ">
+              
+              
+                <% if (productData.image.length > 0) { %>
+                  <% for (let i = 0; i < productData.image.length; i++) { %>
+                    <div  id="row<%=i%>">
+                      <div class="image-button-wrapper">
+                        <div class="image-container">
+                          <img src="/productImage/<%= productData.image[i] %>" width="150" height="150" alt="">
+                        </div>
+                        <div class="button-container">
+                          <input type="submit" value="delete" onclick="delectTheImage('<%=productData.image[i]%>','<%=productData._id%>','<%=i%>')">
+                        </div>
+                      </div>
                     </div>
-                  <style>
+                    <% } %>
+                    <% } %>
+                    <style>
                     .row {
                      display: flex;
                      align-items: flex-start; 
