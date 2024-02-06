@@ -56,67 +56,75 @@ const sendOtpMail = async (name,email,otp)=>{
 const signUpPost= async (req,res)=>{
     try {
         const {register_fname,register_lname,register_email,register_mobile,register_password}=req.body
-        if(/[A-Za-z.]+$/.test(register_fname)){
-            if(/[A-Za-z0-9._%+-]+@gmail.com/.test(register_email)){
+        const checkAccount = await clientDb.findOne({email:register_email})
+        if(!checkAccount){
 
-                
-                const checkmail= await client.findOne({register_email})
-                if(checkmail){
-                    console.log('Email is already exsit')
-                }else{
+            if(/[A-Za-z.]+$/.test(register_fname)){
+                if(/[A-Za-z0-9._%+-]+@gmail.com/.test(register_email)){
                     
                     
-                    const sPassword= await securePassword(register_password)
-                    const fname=register_fname;
-                    const lname=register_lname;
-                    const email=register_email;
-                    const mobile=register_mobile;
-                    
-                    
-                    const Client =  new  client({
-                        
-                        fname,
-                        lname,
-                        email,
-                        password:sPassword,
-                        mobile,
-                        is_admin:0,
-                        is_block:false
-                        
-                        
-                    })
-                    const result = await Client.save()
-                    if(result){
-                        const otp=Math.floor((Math.random()*1000))+1000
-                        const otpsave = new otpDb({
-                            userId:result._id,
-                            emailId:email,
-                            otp
-                        })
-                        const otpResult = await otpsave.save()
-                        console.log(otpResult)
-                        console.log(otp)
-                        sendOtpMail(fname,email,otp,result._id)
-                        res.render('otpVerification',{email})
-                        
-
-                       
-                        
-                        console.log('register succcc')
+                    const checkmail= await client.findOne({register_email})
+                    if(checkmail){
+                        console.log('Email is already exsit')
                     }else{
                         
+                        
+                        const sPassword= await securePassword(register_password)
+                        const fname=register_fname;
+                        const lname=register_lname;
+                        const email=register_email;
+                        const mobile=register_mobile;
+                        
+                        
+                        const Client =  new  client({
+                            
+                            fname,
+                            lname,
+                            email,
+                            password:sPassword,
+                            mobile,
+                            is_admin:0,
+                            is_block:false
+                            
+                            
+                        })
+                        const result = await Client.save()
+                        if(result){
+                            const otp=Math.floor((Math.random()*1000))+1000
+                            const otpsave = new otpDb({
+                                userId:result._id,
+                                emailId:email,
+                                otp
+                            })
+                            const otpResult = await otpsave.save()
+                            console.log(otpResult)
+                            console.log(otp)
+                            sendOtpMail(fname,email,otp,result._id)
+                            res.render('otpVerification',{email})
+                            
+                            
+                            
+                            
+                            console.log('register succcc')
+                        }else{
+                            
+                        }
                     }
+                }else{
+                    res.render("login",{message:"give the correct structure to the Email"})
+                    
+                    console.log('give the correct structure to the Email')
                 }
             }else{
-                res.render("login",{message:"give the correct structure to the Email"})
-
-                console.log('give the correct structure to the Email')
-            }
-            }else{
                 res.render("login",{message:"give correct structure to the name"})
-            console.log("give correct structure to the name")
+                console.log("give correct structure to the name")
+            }
+        }else{
+            console.log('email already exists')
+            res.render("login",{message:"email already exists"})
+
         }
-    } catch (error) {
+        } catch (error) {
         console.log(error.message)
         
     }
@@ -136,7 +144,7 @@ const loginPost = async (req,res)=>{
     try {
         const email=req.body.singin_email
         const password=req.body.singin_password
-      const clientData= await  client.findOne({email:email})
+      const clientData= await  client.findOne({email})
       if(clientData){
         
         

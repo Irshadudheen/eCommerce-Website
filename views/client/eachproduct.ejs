@@ -482,7 +482,8 @@
                                     </div><!-- End .details-filter-row -->
 
                                     <div class="product-details-action">
-                                        <a href="/addToCart" class="btn-product btn-cart"><span>add to cart</span></a>
+                                       
+                                            <button onclick="cartAdd('<%=productData._id%>')" class="btn-product btn-cart">add to cart</button>
 
                                         <div class="details-action-wrapper">
                                             <a href="#" class="btn-product btn-wishlist"
@@ -634,7 +635,21 @@
                     </div><!-- End .product-details-tab -->
 
                     <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
-
+                    <script>
+                    function  cartAdd(id){
+                        console.log(id)
+                        console.log("esrdhdjkelcfvdjmcfdajmcd vbzmc vbg")
+                        fetch('/addToCart',{
+                            method:'POST',
+                            headers: {
+                           'Content-Type': 'application/json'
+                             },
+                             body: JSON.stringify({id})
+                            })
+                        
+                        
+                    }
+                    </script>
                     <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
                         data-owl-options='{
                             "nav": false, 
