@@ -71,10 +71,28 @@ const deleteCategory = async (req,res)=>{
     }
 }
 
+//EDIT THE CATEGORY
+const editCategory = async (req,res)=>{
+    try {
+        const {id}=req.query
+        console.log(id);
+        const dataCatogory = await categoryDb.findOne({_id:id})
+        console.log(dataCatogory.description)
+        res.render('editCategory',{dataCatogory})
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
 
 module.exports={
     addCategory,
     addCategorySumbit,
     ViewCategory,
-    deleteCategory
+    deleteCategory,
+    editCategory
+    
+    
+
 }

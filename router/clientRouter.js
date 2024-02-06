@@ -31,4 +31,8 @@ clientRouter.get('/eachproduct',authantication.login,productController.eachprodu
 
 clientRouter.get('/profile',authantication.login,clientController.profile)
 clientRouter.get('/resendOtp',authantication.logout,clientController.resendOtp)
+clientRouter.get('/forgotPassword',authantication.logout,clientController.forgotPassword)
+clientRouter.post('/forgotPassword',clientController.forgotPasswordSubmit)
+clientRouter.post('/otpSubmitForgot',clientController.otpSubmitForgot)
+clientRouter.post('/passwordUpdate',clientController.passwordUpdate)
 module.exports=clientRouter;

@@ -254,7 +254,6 @@ const resendOtp = async (req,res)=>{
         const {email}=req.query
         
         
-        console.log("aklsjnm")
         const personData =await client.findOne({email})
         const deleteOtp =  await otpDb.deleteOne({userId:personData._id})
         console.log(deleteOtp)
@@ -284,7 +283,101 @@ const resendOtp = async (req,res)=>{
     }
 }
 
+//FORGOT PASSWORD
+const forgotPassword = async (req,res)=>{
+    try {
 
+        res.render('forgotPasswordPage')
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
+//FORGOT PASSWORD SUBMIT
+const forgotPasswordSubmit = async (req,res)=>{
+    try {
+        const {email}=req.body
+        console.log(req.body.email)
+
+        const checkmail = await clientDb.findOne({email})
+        console.log(checkmail)
+        const otp=Math.floor((Math.random()*1000))+1000
+        console.log(otp)
+        
+
+        if(checkmail){
+            const otpUpdate = new otpDb({
+                userId:checkmail._id,
+                emailId:email,
+                otp
+            })
+            const dataOtp = await otpUpdate.save()
+            console.log(dataOtp)
+
+            sendOtpMail(checkmail.name,email,otp)
+            console.log(email)
+
+            res.render('forgetOtp',{email})
+
+        }
+
+
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
+//OTPSUBMITFPRGET 
+const otpSubmitForgot = async (req,res)=>{
+    try {
+        
+        const {digit1,digit2,digit3,digit4,email}=req.body
+        console.log(req.body)
+        
+        const otpVerify= await otpDb.findOne({emailId:email})
+        const inputOtp=digit1*1000+digit2*100+digit3*10+digit4*1
+        
+        console.log(digit1,digit2)
+        console.log(otpVerify)
+        console.log("sdjksjkncdn")
+        console.log(inputOtp)
+        if(otpVerify.otp==inputOtp){
+            console.log(email,"aklsdo;ksxklmxlkmesxflkmsfxlnmdfvlkmdklfm,")
+            res.render('toSetNewPassword',{email})
+
+            
+        }else{
+            console.log("the otp is incorrect")
+        }
+
+
+        
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+//TO UPDATE THE PASSWORD
+const passwordUpdate = async (req,res)=>{
+    try {
+        const {password,email}=req.body
+        console.log(req.body)
+        const sPassword= await securePassword(password)
+        console.log(req.body)
+
+        const update = await clientDb.updateOne({email},{$set:{password:sPassword}})
+        console.log(update)
+        if(update){
+            res.redirect('/')
+        }
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
 
 //EXPORT
 module.exports={
@@ -295,7 +388,12 @@ module.exports={
     logout,
     otpSubmit,
     profile,
-    resendOtp
+    resendOtp,
+    forgotPassword,
+    forgotPasswordSubmit,
+    otpSubmitForgot,
+    passwordUpdate,
+
   
     
 }
