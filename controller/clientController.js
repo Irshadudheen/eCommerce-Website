@@ -240,7 +240,10 @@ const otpSubmit= async (req,res)=>{
 //CLIENT PROFILE
 const profile =async (req,res)=>{
     try {
-        res.render('clientProfile')
+        const {user_id}=req.session
+        const userData = await clientDb.findOne({_id:user_id})
+        console.log(userData)
+        res.render('clientProfile',{userData})
 
     } catch (error) {
         console.log(error.message)

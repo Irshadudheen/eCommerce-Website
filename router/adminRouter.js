@@ -49,7 +49,9 @@ adminRouter.get('/blockClient',authantication.isadminlogin,adminController.block
 adminRouter.get('/logoutadmin',authantication.isadminlogin,adminController.logoutadmin)
 adminRouter.get('/clientview',authantication.isadminlogin,adminController.clientview)
 adminRouter.get('/editUser',authantication.isadminlogin,adminController.editUser)
+adminRouter.post('/delectTheImage',authantication.isadminlogin,adminProductController.delectTheImage)
 adminRouter.post('/delete',adminProductController.deleteProduct)
 adminRouter.post('/updateClient',adminController.updateClient)
 adminRouter.post('/deleteClient',adminController.deleteClient)
+
 module.exports=adminRouter;

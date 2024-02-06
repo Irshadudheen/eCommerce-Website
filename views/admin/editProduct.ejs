@@ -187,12 +187,25 @@
                       />
                     </div>
                         <div class="form-group mb-3 col-xs-12 col-sm-6">
-                          
                         </div>
-                  </div>
-                  
-              </div>
-              <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                      </div>
+                      
+                    </div>
+                  <script>
+                    function delectTheImage(image,id){
+                      console.log(image,id)
+                      fetch('/admin/delectTheImage', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ image,id})
+                }).then(res => res.json())
+                
+                      
+                      
+                    }
+                    </script>
                 
                 <div class="custom-file mt-3 mb-3">
                   
@@ -200,10 +213,37 @@
                   
                 </div>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <button type="submit" class="btn btn-primary btn-block text-uppercase">Update Now</button>
               </div>
             </form>
+                    <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4 ">
+                    <div class="row">
+                      <% if (productData.image.length > 0) { %>
+                        <% for (let i = 0; i < productData.image.length; i++) { %>
+                                <div class="image-button-wrapper">
+                                    <div class="image-container">
+                                        <img src="/productImage/<%= productData.image[i] %>" width="150" height="150" alt="">
+                                    </div>
+                                    <div class="button-container">
+                                      <input type="submit" value="delete" onclick="delectTheImage('<%=productData.image[i]%>','<%=productData._id%>')">
+                                    </div>
+                                </div>
+                      <% } %>
+                        <% } %>
+                    </div>
+                  <style>
+                    .row {
+                     display: flex;
+                     align-items: flex-start; 
+                      }
+
+                      .image-container,
+                      .button-container {
+                       display: block; 
+                       margin-right: 10px; 
+                        }
+                  </style>
             </div>
           </div>
         </div>

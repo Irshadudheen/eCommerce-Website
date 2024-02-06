@@ -605,16 +605,15 @@
                                         <!-- User Dashboard Content -->
                                         <div>
                                             <!-- User Image -->
-                                            <img src="user_avatar.jpg" alt="User Avatar" width="100" height="100">
                                             
                                             <!-- User Name -->
-                                            <h2>User Name</h2>
-                                            
+                                            <h3><%=userData.fname%></h3>
+                                            <p>lname:<%=userData.lname%></p>
                                             <!-- User Email -->
-                                            <p>Email: user@example.com</p>
+                                            <p>Email: <%=userData.email%></p>
                                             
                                             <!-- Edit Button -->
-                                            <button id="editButton">Edit Profile</button>
+                                            <p>mobile:<%=userData.mobile%></p>
                                         </div>
                                     </div>
                                     <!-- .End .tab-pane -->

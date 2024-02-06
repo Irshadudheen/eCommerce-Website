@@ -29,6 +29,7 @@ const productAdmin= async (req,res)=>{
     try {
         const Allproduct = await productDb.find().populate("categoryid")
         console.log(Allproduct.categoryid,"category");
+        console.log(Allproduct)
         
 
         res.render('productAdmin',{product:Allproduct})
@@ -157,6 +158,28 @@ const deleteProduct= async (req,res)=>{
     }
 }
 
+//DELETE THE IMAGE
+const delectTheImage = async (req,res)=>{
+    try {
+        console.log(req.body)
+        const {image,id}=req.body
+        
+        
+        const deleteTheImage = await productDb.updateOne({_id:id},{$pull:{image}})
+        if(delectTheImage){
+            res.send({status: true})
+            console.log(delectTheImage)
+            console.log("sduifxjkwaefyuhijedfvyuhdjwdfhjcdfvhffddddddd")
+
+            
+        }
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports={
     eachproduct,
     productAdmin,
@@ -165,5 +188,6 @@ module.exports={
     addProductsubmit,
     Updateproduct,
     Clientproduct,
-    deleteProduct
+    deleteProduct,
+    delectTheImage
 }
