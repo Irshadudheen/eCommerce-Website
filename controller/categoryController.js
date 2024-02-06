@@ -86,12 +86,37 @@ const editCategory = async (req,res)=>{
     }
 }
 
+//
+const editCategorySubmit =async (req,res)=>{
+    try {
+        console.log("fetch the data ")
+        const {id,name,description}=req.body
+        const checkdata = await categoryDb.findOne({name:{$regex:new RegExp('^'+name+"$","i")}})
+        if(!checkdata){
+
+            console.log(req.body,req.query)
+            const categoryUpdate = await categoryDb.updateOne({_id:id},{$set:{name,description}})
+            console.log(categoryUpdate)
+            
+        }else{
+            console.log("the catogory is already exists")
+        }
+            
+        
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports={
     addCategory,
     addCategorySumbit,
     ViewCategory,
     deleteCategory,
-    editCategory
+    editCategory,
+    editCategorySubmit
     
     
 

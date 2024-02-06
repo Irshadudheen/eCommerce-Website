@@ -2,7 +2,7 @@
 
 const login =async (req,res,next)=>{
     try {
-       
+       console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
         if(!req.session.user_id){
             res.redirect('/')
         }

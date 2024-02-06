@@ -3,6 +3,7 @@ const clientRouter = express();
 const clientController = require('../controller/clientController');
 const productController = require('../controller/productController')
 const authantication =require('../middleware/authantication')
+const cartController = require('../controller/cartController')
 const path =require('path')
 
 clientRouter.set('views','./views/client')
@@ -32,6 +33,7 @@ clientRouter.get('/eachproduct',authantication.login,productController.eachprodu
 clientRouter.get('/profile',authantication.login,clientController.profile)
 clientRouter.get('/resendOtp',authantication.logout,clientController.resendOtp)
 clientRouter.get('/forgotPassword',authantication.logout,clientController.forgotPassword)
+clientRouter.get('/addToCart',authantication.login,cartController.addToCart)
 clientRouter.post('/forgotPassword',clientController.forgotPasswordSubmit)
 clientRouter.post('/otpSubmitForgot',clientController.otpSubmitForgot)
 clientRouter.post('/passwordUpdate',clientController.passwordUpdate)

@@ -53,5 +53,6 @@ adminRouter.post('/delectTheImage',authantication.isadminlogin,adminProductContr
 adminRouter.post('/delete',adminProductController.deleteProduct)
 adminRouter.post('/updateClient',adminController.updateClient)
 adminRouter.post('/deleteClient',adminController.deleteClient)
+adminRouter.put('/editCategory',adminCategoryController.editCategorySubmit)
 
 module.exports=adminRouter;
