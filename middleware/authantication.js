@@ -1,12 +1,24 @@
 //
 
+const clientDb = require("../model/clientDb")
+
 const login =async (req,res,next)=>{
     try {
+        
         if(!req.session.user_id){
             res.redirect('/')
         }
         else{
-            next()
+            const checkStatus = await clientDb.findOne({_id:req.session.user_id,is_block:false})
+            console.log("hjjjjjjjjjjjjjjjju")
+            console.log(checkStatus)
+            checkStatus?  next():req.session.destroy() 
+            if(!req.session){
+
+                res.redirect('/')
+            }
+            
+           
         }
         
     } catch (error) {
@@ -19,15 +31,8 @@ const login =async (req,res,next)=>{
 //
 const logout =async (req,res,next)=>{
     try {
-        if(req.session.admin_id){
-            
-            res.redirect('/admin/adminWelcome')
-        }else if(req.session.user_id){
-            res.redirect('/dashboard')
-        }
-        else{
-            next()
-        }
+        req.session.admin_id ? res.redirect('/admin/adminWelcome'): req.session.user_id ?  res.redirect('/dashboard') :next()
+
         
     } catch (error) {
         console.log(error.message)
@@ -39,14 +44,9 @@ const logout =async (req,res,next)=>{
 //
 const isadminlogin =async (req,res,next)=>{
     try {
+        req.session.admin_id ? next():res.redirect('/')
       
-        if(!req.session.admin_id){
-            console.log(req.session.admin_id)
-            console.log("fhdj")
-            res.redirect('/')
-        }else{
-            next()
-        }
+        
         
     } catch (error) {
         console.log(error.message)

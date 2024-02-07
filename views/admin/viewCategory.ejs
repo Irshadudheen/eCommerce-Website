@@ -9,6 +9,9 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:400,700"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- https://fonts.google.com/specimen/Roboto -->
     <link rel="stylesheet" href="css/fontawesome.min.css" />
     <!-- https://fontawesome.com/ -->
@@ -27,6 +30,9 @@
         <a class="navbar-brand" href="/">
           <h1 class="tm-site-title mb-0">Category Admin</h1>
         </a>
+        <div>
+          
+        </div>
         <button
           class="navbar-toggler ml-auto mr-0"
           type="button"
@@ -140,9 +146,9 @@
                       
                     <td>
                      
-                       <a href="/admin/deleteCategory?id=<%=data._id%>">
-                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
-                        </a>
+                       
+                        <span onclick="statusBlock('<%=data.name%>')" class="material-symbols-outlined">block</span>
+                        
                      
                       </a>
                     </td>
@@ -166,9 +172,50 @@
 
 
                <script>
-                function toeditCategory(){
+                function statusBlock(name){
 
-                }
+                  console.log(name)
+                  fetch('/admin/statusCategory',{
+                    method:'PATCH',
+                    headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({name})
+              
+
+                  }).then(res => res.json()).then(data => {
+                    if(data.status==true){
+
+                      console.log(data,"sufsdjk")
+                      Swal.fire({
+                    icon: 'success',
+                   title: 'unblock',
+                   customClass: {
+                   popup: "custom-popup-class",
+                    header: 'custom-header-class',
+                    content: 'custom-content-class', // Corrected typo here
+                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                  }
+                });
+              }else{
+                Swal.fire({
+                    icon: 'error',
+                   title: 'block',
+                   customClass: {
+                   popup: "custom-popup-class",
+                    header: 'custom-header-class',
+                    content: 'custom-content-class', // Corrected typo here
+                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                  }
+                });
+
+              }
+                    
+                }).catch(error => {
+                  console.error('Error deleting record:', error);
+                });
+              }
+                
                 
                 
                 </script>

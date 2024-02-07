@@ -1,5 +1,6 @@
 
 const categoryDb = require('../model/categoryDb')
+const clientDb = require('../model/clientDb')
 
 
 //LOAD THE PAGE ADDCATEGORY
@@ -16,21 +17,19 @@ const addCategory = async (req,res)=>{
 const addCategorySumbit = async (req,res)=>{
     try {
         
+        const {name,description}=req.body
 
-        const name= req.body.name
         const checkCatogery = await categoryDb.findOne({name:{$regex:new RegExp("^" + name +"$","i")}})
         if(!checkCatogery){
 
-            const description = req.body.description
             
-            const status =req.body.status
             
             
             
             const category= await categoryDb({
-                name:name,
-                description:description,
-                status:status,
+                name,
+                description,
+                status:true,
                 
             })
             const result = await category.save()
@@ -111,13 +110,41 @@ const editCategorySubmit =async (req,res)=>{
     }
 }
 
+//STATUS CATEGORY
+const statusCategory = async (req,res)=>{
+    try {
+        const {name}=req.body
+        console.log(name)
+        const checkCatogery = await categoryDb.findOne({name})
+        if(checkCatogery.status==true){
+            const statusCategory= await categoryDb.updateOne({name},{$set:{status:false}})
+            if(statusCategory){
+                res.send({status:false})
+
+
+            }
+
+        }else{
+            const statusCategory= await categoryDb.updateOne({name},{$set:{status:true}})
+            if(statusCategory){
+                res.send({status:true})
+            }
+
+        }
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+
 module.exports={
     addCategory,
     addCategorySumbit,
     ViewCategory,
     deleteCategory,
     editCategory,
-    editCategorySubmit
+    editCategorySubmit,
+    statusCategory
     
     
 

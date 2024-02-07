@@ -50,6 +50,7 @@ adminRouter.get('/logoutadmin',authantication.isadminlogin,adminController.logou
 adminRouter.get('/clientview',authantication.isadminlogin,adminController.clientview)
 adminRouter.get('/editUser',authantication.isadminlogin,adminController.editUser)
 adminRouter.post('/delectTheImage',authantication.isadminlogin,adminProductController.delectTheImage)
+adminRouter.patch('/statusCategory',adminCategoryController.statusCategory)
 adminRouter.post('/delete',adminProductController.deleteProduct)
 adminRouter.post('/updateClient',adminController.updateClient)
 adminRouter.post('/deleteClient',adminController.deleteClient)

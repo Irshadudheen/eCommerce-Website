@@ -25,7 +25,7 @@ const logoutadmin =async (req,res)=>{
 const clientview = async (req,res)=>{
     try {
         const data = await clientDb.find({is_admin:0})
-        res.render('clientview',{data:data})
+        res.render('clientview',{data})
         
     } catch (error) {
         console.log(error.message)
@@ -56,7 +56,7 @@ const editUser = async (req,res)=>{
 //EDIT SUBMIT OF CLIENT
 const updateClient = async (req,res)=>{
     try {
-        const client = req.body.id
+        const {client} = req.body
         const clientemailCheck = await clientDb.findOne({_id:client})
         if(!clientemailCheck){
 

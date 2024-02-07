@@ -5,7 +5,7 @@ const addToCart = async (req,res)=>{
     try {
         console.log(req.query)
         const {id}=req.body
-        const checkProduct = await productDb.findOne({_id:id})
+        const checkProduct = await cartDb.findOne({productsId:id})
         if(!checkProduct){
 
             

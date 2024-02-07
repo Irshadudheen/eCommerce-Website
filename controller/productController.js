@@ -4,7 +4,7 @@ const categoryDb=require('../model/categoryDb')
 //TOTAL VIEW OF PRODUCT IN CLIENT
 const Clientproduct = async (req,res)=>{
     try {
-        const product= await productDb.find({})
+        const product= await productDb.find({status:true})
         res.render('product',{productData:product})
         
     } catch (error) {
@@ -27,7 +27,7 @@ const eachproduct = async (req,res)=>{
 //PRODUCT VIEW
 const productAdmin= async (req,res)=>{
     try {
-        const Allproduct = await productDb.find({status:"true"}).populate("categoryid")
+        const Allproduct = await productDb.find({status:true}).populate("categoryid")
         console.log(Allproduct.categoryid,"category");
         console.log(Allproduct)
         
@@ -111,7 +111,6 @@ const Updateproduct = async (req,res)=>{
             const product = await productDb.findByIdAndUpdate({_id:req.body.id},
                 {name,
                     price,
-                    status,
                     quantity,
                     categoryid:category,
                     productDescription:description,
@@ -121,7 +120,7 @@ const Updateproduct = async (req,res)=>{
             return   res.redirect('/admin/productAdmin')
 
         }
-        const product = await productDb.findByIdAndUpdate({_id:req.body.id},
+        const product = await productDb.findByIdAndUpdate({_id:req.body.id}, 
             {name,
                 price,
                 status,
