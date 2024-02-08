@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const addressSchema = mongoose.Schema({
+const addressSchema = new mongoose.Schema({
     fname:{type:String,required:true},
     lname:{type:String,required:true},
     companyName:{type:String,required:true},

@@ -12,6 +12,8 @@
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
     <!-- Favicon -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
@@ -645,6 +647,34 @@
                            'Content-Type': 'application/json'
                              },
                              body: JSON.stringify({id})
+                            }).then(res => res.json()).then(data => {
+                                console.log(data.status)
+                                if(data.status==true){
+                                    Swal.fire({
+                                    icon: 'success',
+                                    title: 'the product is added your cart',
+                                    customClass: {
+                                    popup: "custom-popup-class",
+                                    header: 'custom-header-class',
+                                    content: 'custom-content-class', // Corrected typo here
+                                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                                    }
+                                    });
+
+
+                                }else{
+                                    Swal.fire({
+                                    icon: 'warning',
+                                    title: 'the product is already added ',
+                                    customClass: {
+                                    popup: "custom-popup-class",
+                                    header: 'custom-header-class',
+                                    content: 'custom-content-class', // Corrected typo here
+                                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                                    }
+                                    });
+
+                                }
                             })
                         
                         

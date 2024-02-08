@@ -10,9 +10,8 @@ const login =async (req,res,next)=>{
         }
         else{
             const checkStatus = await clientDb.findOne({_id:req.session.user_id,is_block:false})
-            console.log("hjjjjjjjjjjjjjjjju")
-            console.log(checkStatus)
             checkStatus?  next():req.session.destroy() 
+            
             if(!req.session){
 
                 res.redirect('/')
@@ -31,6 +30,7 @@ const login =async (req,res,next)=>{
 //
 const logout =async (req,res,next)=>{
     try {
+        
         req.session.admin_id ? res.redirect('/admin/adminWelcome'): req.session.user_id ?  res.redirect('/dashboard') :next()
 
         
@@ -45,8 +45,6 @@ const logout =async (req,res,next)=>{
 const isadminlogin =async (req,res,next)=>{
     try {
         req.session.admin_id ? next():res.redirect('/')
-      
-        
         
     } catch (error) {
         console.log(error.message)

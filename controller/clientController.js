@@ -133,6 +133,7 @@ const signUpPost= async (req,res)=>{
 //LOGIN PAGE
 const login = async (req,res)=>{
     try {
+        console.log("sdjksfxjksjfvnvnvnvnvnvnvnvnv nvnvnvnvnvnvnvnvnvn")
         
         res.render('login')
     } catch (error) {
@@ -144,7 +145,9 @@ const loginPost = async (req,res)=>{
     try {
         const email=req.body.singin_email
         const password=req.body.singin_password
+        console.log(email)
       const clientData= await  client.findOne({email})
+      console.log(clientData)
       if(clientData){
         
         
@@ -208,6 +211,7 @@ const logout=async (req,res)=>{
     try {
         req.session.destroy()
         res.redirect('/')
+        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
     } catch (error) {
         console.log(error.message)
         

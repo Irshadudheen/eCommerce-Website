@@ -38,4 +38,5 @@ clientRouter.post('/addToCart',authantication.login,cartController.addToCart)
 clientRouter.post('/forgotPassword',clientController.forgotPasswordSubmit)
 clientRouter.post('/otpSubmitForgot',clientController.otpSubmitForgot)
 clientRouter.post('/passwordUpdate',clientController.passwordUpdate)
+clientRouter.post('/removeCard',cartController.removeCard)
 module.exports=clientRouter;

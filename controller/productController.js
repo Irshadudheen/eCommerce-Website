@@ -28,6 +28,7 @@ const eachproduct = async (req,res)=>{
 const productAdmin= async (req,res)=>{
     try {
         const Allproduct = await productDb.find({status:true}).populate("categoryid")
+        
         console.log(Allproduct.categoryid,"category");
         console.log(Allproduct)
         

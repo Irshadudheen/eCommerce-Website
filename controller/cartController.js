@@ -27,6 +27,7 @@ const addToCart = async (req,res)=>{
             const cartsave = await cart.save()
             if(cartsave){
                 console.log("cart is save")
+                res.send({status:true})
             }
             
             
@@ -37,6 +38,7 @@ const addToCart = async (req,res)=>{
                 
             }else{
                 console.log("product already added")
+                res.send({status:false})
             }
             } catch (error) {
         console.log(error.message)
@@ -47,9 +49,11 @@ const addToCart = async (req,res)=>{
 const cartView = async (req,res)=>{
     try {
         
-        const cart = await cartDb.findOne({clientId:req.session.user_id}).populate("productsId").populate('clientId')
-        console.log(cart.productsId)
-        console.lo
+        const cart = await cartDb.find({clientId:req.session.user_id}).populate("productsId").populate('clientId')
+        // console.log(cart.productsId)
+        console.log("---------------------------------------------------------",cart.length)
+        
+        
         res.render('cart',{cart})
         
     } catch (error) {
@@ -57,9 +61,23 @@ const cartView = async (req,res)=>{
         
     }
 }
-
+//REMOVE CARD
+const removeCard = async (req,res)=>{
+    try {
+        const {_id}=req.body
+        const removeCard = await cartDb.deleteOne({_id})
+        if(removeCard){
+            res.send({status:true})
+        }
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
 
 module.exports = {
     addToCart,
-    cartView
+    cartView,
+    removeCard
 }
