@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 const nodemailer =require('nodemailer')
 const clientDb = require("../model/clientDb")
 const otpDb = require("../model/otpDb")
+const addressDb = require("../model/addressDb")
 
 
 //PASSWORD CONVERTING TO HASH
@@ -133,7 +134,6 @@ const signUpPost= async (req,res)=>{
 //LOGIN PAGE
 const login = async (req,res)=>{
     try {
-        console.log("sdjksfxjksjfvnvnvnvnvnvnvnvnv nvnvnvnvnvnvnvnvnvn")
         
         res.render('login')
     } catch (error) {
@@ -211,7 +211,6 @@ const logout=async (req,res)=>{
     try {
         req.session.destroy()
         res.redirect('/')
-        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
     } catch (error) {
         console.log(error.message)
         
@@ -254,8 +253,10 @@ const profile =async (req,res)=>{
     try {
         const {user_id}=req.session
         const userData = await clientDb.findOne({_id:user_id})
+        const address = await addressDb.findOne({clientId:user_id}).populate("clientId")
+        console.log(address,"________________________________________________-")
         console.log(userData)
-        res.render('clientProfile',{userData})
+        res.render('clientProfile',{userData,address})
 
     } catch (error) {
         console.log(error.message)

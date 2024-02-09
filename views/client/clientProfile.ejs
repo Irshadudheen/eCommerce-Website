@@ -573,7 +573,7 @@
 								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" href="#">Sign Out</a>
+								        <a class="nav-link" href="/logout">Sign Out</a>
 								    </li>
 								</ul>
 	                		</aside><!-- End .col-lg-3 -->
@@ -621,18 +621,25 @@
 								    				<div class="card-body">
 								    					<h3 class="card-title">Billing Address</h3><!-- End .card-title -->
 
-														<p>User Name<br>
-														User Company<br>
-														John str<br>
-														New York, NY 10001<br>
-														1-234-987-6543<br>
-														yourmail@mail.com<br>
+														<p>User:<%=userData.fname%><br>
+														User<%=userData.lname%> <br>
+														Country:<%=address.country%><br>
+                                                        Street: <%=address.streetAddress%><br>
+                                                        
+                                                        city:<%=address.city %><br>
+                                                        State:<%=address.state%><br>
+                                                        pincode:<%=address.pincode%><br>
+                                                        mobile:<%=userData.mobile%><br>
+                                                        email:<%=userData.email%><br>
+
+														
                                                       
 														<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                                            Edit
                                                           </button>
 								    				</div><!-- End .card-body -->
 								    			</div><!-- End .card-dashboard -->
+                                                
 								    		</div><!-- End .col-lg-6 -->
 <!-- Button trigger modal -->
 
@@ -649,10 +656,16 @@
         </div>
         <div class="modal-body">
         <form action="">
-            <input type="text" placeholder="name" name="">
-            <input type="text" placeholder="add">
-            <input type="text" placeholder="pon">
-            <input type="text" placeholder="name">
+            <input type="text" value="<%=userData.fname%>" placeholder="name" name="">
+            <input type="text" value="<%=userData.lname%>" placeholder="lname">
+            <input type="text" value="<%=address.country%>" placeholder="country">
+            <input type="text" value="<%=address.streetAddress%>" placeholder="streetAddress">
+            <input type="text" value="<%=address.city%>" placeholder="city">
+            <input type="text" value='<%=address.state%>' placeholder="state">
+            <input type="text" value="<%=address.pincode%>" placeholder="pincode">
+            <input type="text" value='<%=userData.mobile %>' placeholder="mobile">
+            <input type="text" value="<%=userData.email  %>"  placeholder="email">
+            
             <button type="submit">edit</button>
         </form>
         </div>
@@ -677,37 +690,40 @@
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-								    	<form action="#">
+								    	<form action="/addnewaddress" method="post">
 			                				<div class="row">
-			                					<div class="col-sm-6">
-			                						<label>First Name *</label>
-			                						<input type="text" class="form-control" required>
-			                					</div><!-- End .col-sm-6 -->
+			                					<div class="row">
+                                                    <div class="col-sm-6">
+                                                        <label>Country *</label>
+                                                        <input type="text" name="country" class="form-control" required>
+                                                    </div><!-- End .col-sm-3 -->
+                                                
+                                                    <div class="col-sm-4">
+                                                        <label>Street Address *</label>
+                                                        <input type="text" name="streetAddress" class="form-control" required>
+                                                    </div><!-- End .col-sm-3 -->
+                                                
+                                                    <div class="col-sm-6">
+                                                        <label>City *</label>
+                                                        <input type="text" name="city" class="form-control" required>
+                                                    </div><!-- End .col-sm-3 -->
+                                                
+                                                    <div class="col-sm-4">
+                                                        <label>State *</label>
+                                                        <input type="text" name="state" class="form-control" required>
+                                                    </div><!-- End .col-sm-3 -->
+                                                </div><!-- End .row -->
 
-			                					<div class="col-sm-6">
-			                						<label>Last Name *</label>
-			                						<input type="text" class="form-control" required>
-			                					</div><!-- End .col-sm-6 -->
-			                				</div><!-- End .row -->
+		            						<label>Pincode *</label>
+		            						<input type="number" name="pincode" class="form-control">
 
-		            						<label>Display Name *</label>
-		            						<input type="text" class="form-control" required>
-		            						<small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+		            						<label>Mobile *</label>
+		            						<input type="number" name="mobile" class="form-control">
 
-		                					<label>Email address *</label>
-		        							<input type="email" class="form-control" required>
-
-		            						<label>Current password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>New password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>Confirm new password</label>
-		            						<input type="password" class="form-control mb-2">
+		            						
 
 		                					<button type="submit" class="btn btn-outline-primary-2">
-			                					<span>SAVE CHANGES</span>
+			                					<span>Add Address</span>
 			            						<i class="icon-long-arrow-right"></i>
 			                				</button>
 			                			</form>
@@ -975,6 +991,11 @@
     </div><!-- End .modal -->
 
     <!-- Plugins JS File -->
+    <script>
+       function toaddnewaddress() {
+        console.log("sdheskdfjhnjnjn")
+       }
+    </script>
    
     <%- include('../layout/footer') -%>
 
