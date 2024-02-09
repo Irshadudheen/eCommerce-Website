@@ -16,6 +16,8 @@ const Clientproduct = async (req,res)=>{
 const eachproduct = async (req,res)=>{
     try {
         const productData =await productDb.findOne({_id:req.query.id})
+        console.log(productData)
+        console.log(productData.quantity)
         res.render('eachproduct',{productData})
         
     } catch (error) {

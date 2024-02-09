@@ -582,23 +582,42 @@
 	                			<div class="tab-content">
 								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
                                         <!-- User Dashboard Content -->
-                                        <div class="card-dashboard col-5">
-                                            <div class="card-body">
-
-                                            
-                                          
-                                            <!-- User Image -->
-                                            
-                                            <!-- User Name -->
-                                            <h3><%=userData.fname%></h3>
-                                            <p>lname:<%=userData.lname%></p>
-                                            <!-- User Email -->
-                                            <p>Email: <%=userData.email%></p>
-                                            
-                                            <!-- Edit Button -->
-                                            <p>mobile:<%=userData.mobile%></p>
-                                            </div>
-                                        </div>
+                                        <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+                                            <form action="#">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <label>First Name *</label>
+                                                        <input type="text" class="form-control" required>
+                                                    </div><!-- End .col-sm-6 -->
+    
+                                                    <div class="col-sm-6">
+                                                        <label>Last Name *</label>
+                                                        <input type="text" class="form-control" required>
+                                                    </div><!-- End .col-sm-6 -->
+                                                </div><!-- End .row -->
+    
+                                                <label>Display Name *</label>
+                                                <input type="text" class="form-control" required>
+                                                <small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+    
+                                                <label>Email address *</label>
+                                                <input type="email" class="form-control" required>
+    
+                                                <label>Current password (leave blank to leave unchanged)</label>
+                                                <input type="password" class="form-control">
+    
+                                                <label>New password (leave blank to leave unchanged)</label>
+                                                <input type="password" class="form-control">
+    
+                                                <label>Confirm new password</label>
+                                                <input type="password" class="form-control mb-2">
+    
+                                                <button type="submit" class="btn btn-outline-primary-2">
+                                                    <span>SAVE CHANGES</span>
+                                                    <i class="icon-long-arrow-right"></i>
+                                                </button>
+                                            </form>
+                                        </div><!-- .End .tab-pane -->
                                     </div>
                                     <!-- .End .tab-pane -->
 
@@ -627,42 +646,11 @@
 														New York, NY 10001<br>
 														1-234-987-6543<br>
 														yourmail@mail.com<br>
-                                                      
-														<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                                           Edit
-                                                          </button>
+														<a href="/editProfile">Edit <i class="icon-edit"></i></a></p>
 								    				</div><!-- End .card-body -->
 								    			</div><!-- End .card-dashboard -->
 								    		</div><!-- End .col-lg-6 -->
-<!-- Button trigger modal -->
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Address</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        <form action="">
-            <input type="text" placeholder="name" name="">
-            <input type="text" placeholder="add">
-            <input type="text" placeholder="pon">
-            <input type="text" placeholder="name">
-            <button type="submit">edit</button>
-        </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-        </div>
-      </div>
-    </div>
-  </div>
 								    		<div class="col-lg-6">
 								    			<div class="card card-dashboard">
 								    				<div class="card-body">

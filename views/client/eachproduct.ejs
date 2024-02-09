@@ -478,8 +478,8 @@
                                     <div class="details-filter-row details-row-size">
                                         <label for="qty">Qty:</label>
                                         <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1" min="1"
-                                                max="10" step="1" data-decimals="0" required>
+                                            <input type="number" id="qty"  class="form-control" oninput="validateQuantity(this)" value="1" min="1"
+                                                max="<%=productData.quantity%>" step="1" data-decimals="0" required>
                                         </div><!-- End .product-details-quantity -->
                                     </div><!-- End .details-filter-row -->
 
@@ -499,7 +499,7 @@
                                         <div class="product-cat">
                                             <span>Category:</span>
                                             <a href="#">
-                                                <%= productData.categoryid%>
+                                                <%= productData.name%>
                                             </a>,
                                             <a href="#">Dresses</a>,
                                             <a href="#">Yellow</a>
@@ -638,7 +638,20 @@
 
                     <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
                     <script>
+                        function validateQuantity(input){
+                            input.value = input.value.replace(/\D/g,'')
+                             
+                            const min = parseInt(input.min)||1;
+                            const max =parseInt(input.max)||1000;
+                            const value = parseInt(input.value)||min;
+                            input.value = Math.min(Math.max(value,min),max);
+
+                        }
+
+                    </script>
+                    <script>
                     function  cartAdd(id){
+                        const quantity =document.getElementById("qty").value
                         console.log(id)
                         console.log("esrdhdjkelcfvdjmcfdajmcd vbzmc vbg")
                         fetch('/addToCart',{
@@ -646,7 +659,7 @@
                             headers: {
                            'Content-Type': 'application/json'
                              },
-                             body: JSON.stringify({id})
+                             body: JSON.stringify({id,quantity})
                             }).then(res => res.json()).then(data => {
                                 console.log(data.status)
                                 if(data.status==true){
