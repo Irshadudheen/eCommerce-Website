@@ -152,8 +152,10 @@ const cartView = async (req,res)=>{
 //REMOVE CARD
 const removeCard = async (req,res)=>{
     try {
-        const {_id}=req.body
-        const removeCard = await cartDb.deleteOne({_id})
+        const {_id,cart_id}=req.body
+        const removeCard = await cartDb.findByIdAndUpdate({_id:cart_id},{$pull:{products:{productId:_id}}})
+        console.log(_id)
+        console.log(cart_id,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         if(removeCard){
             res.send({status:true})
         }
@@ -216,9 +218,24 @@ const totalPrice = async(req,res)=>{
 }
 
 
+//CHECKOUT
+const  checkOut = async (req,res)=>{
+    try {
+        const {totalPrice}= req.query
+        console.log(totalPrice)
+        res.render('checkOut',{totalPrice})
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
+
 module.exports = {
     addToCart,
     cartView,
     removeCard,
-    totalPrice
+    totalPrice,
+    checkOut
 }

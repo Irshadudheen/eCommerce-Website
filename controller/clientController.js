@@ -253,8 +253,10 @@ const profile =async (req,res)=>{
     try {
         const {user_id}=req.session
         const userData = await clientDb.findOne({_id:user_id})
-        const address = await addressDb.findOne({clientId:user_id}).populate("clientId")
+        const address = await addressDb.find({clientId:user_id}).populate("clientId")
         console.log(address,"________________________________________________-")
+        console.log(address,"===================================================================================================")
+        
         console.log(userData)
         res.render('clientProfile',{userData,address})
 
@@ -356,9 +358,7 @@ const otpSubmitForgot = async (req,res)=>{
         const otpVerify= await otpDb.findOne({emailId:email})
         const inputOtp=digit1*1000+digit2*100+digit3*10+digit4*1
         
-        console.log(digit1,digit2)
-        console.log(otpVerify)
-        console.log("sdjksjkncdn")
+    
         console.log(inputOtp)
         if(otpVerify.otp==inputOtp){
             console.log(email,"aklsdo;ksxklmxlkmesxflkmsfxlnmdfvlkmdklfm,")
