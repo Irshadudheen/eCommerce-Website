@@ -4,7 +4,7 @@ const nodemailer =require('nodemailer')
 const clientDb = require("../model/clientDb")
 const otpDb = require("../model/otpDb")
 const addressDb = require("../model/addressDb")
-
+const orderDb = require('../model/orderDb')
 
 //PASSWORD CONVERTING TO HASH
 const securePassword = async (password)=>{
@@ -254,11 +254,10 @@ const profile =async (req,res)=>{
         const {user_id}=req.session
         const userData = await clientDb.findOne({_id:user_id})
         const address = await addressDb.find({clientId:user_id}).populate("clientId")
-        console.log(address,"________________________________________________-")
-        console.log(address,"===================================================================================================")
-        
+        const order = await orderDb.find({clientId:user_id})
+        console.log(order)        
         console.log(userData)
-        res.render('clientProfile',{userData,address})
+        res.render('clientProfile',{userData,address,order})
 
     } catch (error) {
         console.log(error.message)

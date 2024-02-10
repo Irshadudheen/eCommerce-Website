@@ -38,10 +38,6 @@ const addToCart = async (req, res) => {
 
 
 
-
-
-
-
                 console.log(quantity)
 
 
@@ -70,46 +66,6 @@ const addToCart = async (req, res) => {
             res.send({ status: false })
         }
 
-
-
-
-        // const checkProduct = await cartDb.findOne({productsId:id})
-        // if(!checkProduct){
-
-
-        //     const productData = await productDb.findOne({_id:id})
-        // console.log(productData._id)
-        // console.log(req.session)
-        // // const userData = await clientDb.findOne({_id:req.session.user_id})
-        // if(productData){
-        //     const cart = new cartDb({
-        //         clientId:req.session.user_id,
-
-        //         productsId:productData._id,
-        //         quantity:productData.quantity,
-        //         priceTotal:productData.price
-
-
-
-
-
-        //     })
-        //     const cartsave = await cart.save()
-        //     if(cartsave){
-        //         console.log("cart is save")
-        //         res.send({status:true})
-        //     }
-
-
-
-        // }
-
-
-
-        //     }else{
-        //         console.log("product already added")
-        //         res.send({status:false})
-        //     }
     } catch (error) {
         console.log(error.message)
 
@@ -171,8 +127,6 @@ const removeCard = async (req, res) => {
 //TOTALPRICE
 const totalPrice = async (req, res) => {
     try {
-        console.log("sdfhjklsdvjkdxjkmjk")
-        console.log("djsddfjsjfjf")
         const { p_quantity, cart_id, id } = req.body
         const { user_id } = req.session
         console.log(id, "productid")
@@ -201,7 +155,6 @@ const totalPrice = async (req, res) => {
                     return total + product.totalPrice
 
                 }, 0)
-                console.log(totalPrice, '------------------------------------------------------------------------------------------------------------')
 
                 res.send({ totalPrice })
             }
@@ -226,8 +179,6 @@ const checkOut = async (req, res) => {
         const { totalPrice } = req.query
         
         const address = await addressDb.find({clientId:req.session.user_id})
-        console.log(address)
-        console.log(totalPrice)
         res.render('checkOut', { totalPrice,address })
 
     } catch (error) {
@@ -240,14 +191,10 @@ const checkOut = async (req, res) => {
 const placeholder = async (req, res) => {
     try {
         const { user_id } = req.session
-        console.log(user_id)
         const address= await addressDb.findOne({_id:req.body.pincodeId})
         
-        console.log(req.body.pincodeId,"++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
         const { paymentMethod, totalPrice } = req.body
-        console.log(paymentMethod, ":paymentMethod")
-        console.log(totalPrice, ":totalPrice")
         const cart = await cartDb.findOne({ clientId: user_id })
         
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
@@ -279,22 +226,7 @@ const placeholder = async (req, res) => {
         const dataOrder = await orderData.save()
 
         
-        // const orderData = new orderDb({
-        //     clientId: user_id,
-        //     Products: products,
-        //     paymentMode: paymentMethod,
-        //     total: totalPrice,
-        //     date: new Date(),
-
-        // }) 
-        // console.log(orderData)
         
-        // const orderDataSave = await orderData
-
-
-
-
-        // if (orderDataSave) {
 
 
             if (paymentMethod) {
@@ -302,7 +234,6 @@ const placeholder = async (req, res) => {
 
 
                 const deleteCart = await cartDb.deleteOne({ clientId: req.session.user_id })
-                console.log(deleteCart, "JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ")
                 if (deleteCart) {
                     res.send({ status: true })
                 }else{

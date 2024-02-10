@@ -223,19 +223,19 @@
                                
                                 <% order.forEach(data => { %>
                                     <% data.products.forEach(element => { %>
-                                        <tr>
+                                <tr>
                                             <th scope="row"><b><%= data._id %></b></th>
                                             <td>
                                                 <div class="tm-status-circle moving"></div>Moving
                                             </td>
                                             <td><b>  </b></td>
-                                            <td><b><%= element.name %></b></td>
+                                            <td><b><%=element.name %></b></td>
                                             <td><b>485 km</b></td>
                                             <td>16:00, 12 NOV 2018</td>
                                             <td>08:00, 18 NOV 2018</td>
                                         </tr>
-                                    <% }); %>
-                                <% }); %>
+                                        <% }); %>
+                                        <% }); %>
                                 
                             </tbody>
                         </table>
