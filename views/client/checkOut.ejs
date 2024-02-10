@@ -305,7 +305,7 @@
                                                             </ul>
                                                             <div class="menu-title">Shop Pages</div><!-- End .menu-title -->
                                                             <ul>
-                                                                <li><a href="cart.html">Cart</a></li>
+                                                                <li><a href="/cartView">Cart</a></li>
                                                                 <li><a href="checkout.html">Checkout</a></li>
                                                                 <li><a href="wishlist.html">Wishlist</a></li>
                                                                 <li><a href="dashboard.html">My Account</a></li>
@@ -546,7 +546,7 @@
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
-                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
+                                    <a href="/cartView" class="btn btn-primary">View Cart</a>
                                     <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div><!-- End .dropdown-cart-total -->
                             </div><!-- End .dropdown-menu -->
@@ -585,6 +585,15 @@
 		                	<div class="row">
 		                	
                                         <button>add address</button>
+                                    </option>
+                                    <select name=""  id="">
+                                     <%   address.forEach(data=>{%>
+
+                                            <option id="pincodeId" value="<%=data._id%>"><%=data.pincode%>
+                                            <%})%>
+
+                                        </select>
+                                        
 		                		</div><!-- End .col-lg-9 -->
                                 
                             </form>
@@ -768,7 +777,7 @@
 
 	            				<ul class="widget-list">
 	            					<li><a href="#">Sign In</a></li>
-	            					<li><a href="cart.html">View Cart</a></li>
+	            					<li><a href="/cartView">View Cart</a></li>
 	            					<li><a href="#">My Wishlist</a></li>
 	            					<li><a href="#">Track My Order</a></li>
 	            					<li><a href="#">Help</a></li>
@@ -952,7 +961,8 @@
 <script>
    function placeholder(totalPrice){
    const paymentMethod ='Cash on delivery'
-   
+   const pincodeId = document.getElementById('pincodeId').value
+console.log(pincodeId)   
 
     console.log("dsfjuerjsjjeajjn")
          fetch('/placeholder',{
@@ -960,7 +970,7 @@
               headers: {
                     'Content-Type': 'application/json'
                   },
-                  body: JSON.stringify({paymentMethod,totalPrice})
+                  body: JSON.stringify({paymentMethod,totalPrice,pincodeId})
               
 
                   }).then(res => res.json()).then(data => {

@@ -2,6 +2,7 @@ const productDb = require('../model/productDb')
 const cartDb = require('../model/cartDb')
 const clientDb = require('../model/clientDb')
 const orderDb = require('../model/orderDb')
+const addressDb = require('../model/addressDb')
 const addToCart = async (req, res) => {
     try {
         console.log(req.query)
@@ -223,8 +224,11 @@ const totalPrice = async (req, res) => {
 const checkOut = async (req, res) => {
     try {
         const { totalPrice } = req.query
+        
+        const address = await addressDb.find({clientId:req.session.user_id})
+        console.log(address)
         console.log(totalPrice)
-        res.render('checkOut', { totalPrice })
+        res.render('checkOut', { totalPrice,address })
 
     } catch (error) {
         console.log(error.message)
@@ -237,28 +241,44 @@ const placeholder = async (req, res) => {
     try {
         const { user_id } = req.session
         console.log(user_id)
+        const address= await addressDb.findOne({_id:req.body.pincodeId})
+        
+        console.log(req.body.pincodeId,"++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+
         const { paymentMethod, totalPrice } = req.body
         console.log(paymentMethod, ":paymentMethod")
         console.log(totalPrice, ":totalPrice")
         const cart = await cartDb.findOne({ clientId: user_id })
+        
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
 
             const productDetails = await productDb.findById(cartProduct.productId);
-            console.log("==========================================================")
             productDetails.quantity -= cartProduct.quantity;
             const decreserQuantity = await productDetails.save()
 
-            // return {
-            //     products: cartProduct.productId,
-            //     name: productDetails.Name,
-            //     price: productDetails.Price,
-            //     quantity: cartProduct.quantity,
-            //     total: cartProduct.totalPrice,
-            //     orderStatus: cartProduct.status,
-            //     image: cartProduct.image,
+            return {
+                productId: cartProduct.productId,
+                name: productDetails.name,
+                price: productDetails.price,
+                quantity: cartProduct.quantity,
+                
+                total: cartProduct.totalPrice,
+                image: cartProduct.image,
 
-            // };
+            };
         }))
+        console.log(products)
+        const orderData = new orderDb({
+            clientId: user_id,
+            products: products,
+            totalPrice,
+            addressId:req.body.pincodeId,
+            date:Date.now()
+
+        })
+        const dataOrder = await orderData.save()
+
+        
         // const orderData = new orderDb({
         //     clientId: user_id,
         //     Products: products,

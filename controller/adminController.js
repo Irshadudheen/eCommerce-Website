@@ -1,9 +1,15 @@
 const clientDb =require('../model/clientDb');
+const orderDb = require('../model/orderDb')
 
 //ADMIN ADASHBOARD
 const adminDashboard =async (req,res)=>{
     try {
-    res.render('adminDashboard')
+        const order = await orderDb.find().populate("clientId").populate({
+            path: 'products.productId',
+            model: 'product'
+        })
+        console.log(order)
+    res.render('adminDashboard',{order})
     } catch (error) {
         console.log(error.message)
     
@@ -99,7 +105,6 @@ const blockClient =async (req,res)=>{
         if(check.is_block==true){
             const data= await clientDb.findOneAndUpdate({_id:id},{$set:{is_block:false}})
             if(data){
-console.log("rtyuiop[");
                 res.redirect("/admin/clientview")
             }
 
