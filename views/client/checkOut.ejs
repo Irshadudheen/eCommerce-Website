@@ -583,70 +583,11 @@
             			</div><!-- End .checkout-discount -->
             			<form action="#">
 		                	<div class="row">
-		                		<div class="col-lg-9">
-		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
-		                				<div class="row">
-		                					<div class="col-sm-6">
-		                						<label>First Name *</label>
-		                						<input type="text" class="form-control" required>
-		                					</div><!-- End .col-sm-6 -->
-
-		                					<div class="col-sm-6">
-		                						<label>Last Name *</label>
-		                						<input type="text" class="form-control" required>
-		                					</div><!-- End .col-sm-6 -->
-		                				</div><!-- End .row -->
-
-	            						<label>Company Name (Optional)</label>
-	            						<input type="text" class="form-control">
-
-	            						<label>Country *</label>
-	            						<input type="text" class="form-control" required>
-
-	            						<label>Street address *</label>
-	            						<input type="text" class="form-control" placeholder="House number and Street name" required>
-	            						<input type="text" class="form-control" placeholder="Appartments, suite, unit etc ..." required>
-
-	            						<div class="row">
-		                					<div class="col-sm-6">
-		                						<label>Town / City *</label>
-		                						<input type="text" class="form-control" required>
-		                					</div><!-- End .col-sm-6 -->
-
-		                					<div class="col-sm-6">
-		                						<label>State / County *</label>
-		                						<input type="text" class="form-control" required>
-		                					</div><!-- End .col-sm-6 -->
-		                				</div><!-- End .row -->
-
-		                				<div class="row">
-		                					<div class="col-sm-6">
-		                						<label>Postcode / ZIP *</label>
-		                						<input type="text" class="form-control" required>
-		                					</div><!-- End .col-sm-6 -->
-
-		                					<div class="col-sm-6">
-		                						<label>Phone *</label>
-		                						<input type="tel" class="form-control" required>
-		                					</div><!-- End .col-sm-6 -->
-		                				</div><!-- End .row -->
-
-	                					<label>Email address *</label>
-	        							<input type="email" class="form-control" required>
-
-	        							<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="checkout-create-acc">
-											<label class="custom-control-label" for="checkout-create-acc">Create an account?</label>
-										</div><!-- End .custom-checkbox -->
-
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="checkout-diff-address">
-											<label class="custom-control-label" for="checkout-diff-address">Ship to a different address?</label>
-										</div><!-- End .custom-checkbox -->
-
-	                					<label>Order notes (optional)</label>
-	        							<textarea class="form-control" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+		                	
+                                        <button>add address</button>
 		                		</div><!-- End .col-lg-9 -->
+                                
+                            </form>
 		                		<aside class="col-lg-3">
 		                			<div class="summary">
 		                				<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
@@ -760,14 +701,14 @@
 										    </div><!-- End .card -->
 										</div><!-- End .accordion -->
 
-		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+		                				<button type="submit" onclick="placeholder('<%=totalPrice%>')" class="btn btn-outline-primary-2 btn-order btn-block">
 		                					<span class="btn-text">Place Order</span>
 		                					<span class="btn-hover-text">Proceed to Checkout</span>
 		                				</button>
 		                			</div><!-- End .summary -->
 		                		</aside><!-- End .col-lg-3 -->
 		                	</div><!-- End .row -->
-            			</form>
+            			
 	                </div><!-- End .container -->
                 </div><!-- End .checkout -->
             </div><!-- End .page-content -->
@@ -1008,6 +949,39 @@
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
 </body>
+<script>
+   function placeholder(totalPrice){
+   const paymentMethod ='Cash on delivery'
+   
+
+    console.log("dsfjuerjsjjeajjn")
+         fetch('/placeholder',{
+              method:'POST',
+              headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({paymentMethod,totalPrice})
+              
+
+                  }).then(res => res.json()).then(data => {
+                    if(data){
+                        Swal.fire({
+                     icon: 'success',
+                    title: 'place order success',
+                     customClass: {
+                     popup: "custom-popup-class",
+                      header: 'custom-header-class',
+                     content: 'custom-content-class', // Corrected typo here
+                     confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                     }
+                    });
+
+                    }
+
+    })
+   }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <!-- molla/checkout.html  22 Nov 2019 09:55:06 GMT -->

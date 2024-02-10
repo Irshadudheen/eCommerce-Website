@@ -634,7 +634,14 @@
 	                					<tbody>
 	                						<tr class="summary-subtotal">
 	                							<td>Subtotal:</td>
-	                							<td id="Subtotal"><%=totalPrice%></td>
+                                                <% if(typeof totalPrice !== 'undefined') {
+                                                    %>
+                                                    <td id="Subtotal"><%=totalPrice%></td>
+                                                    
+                                                    <%
+                                                 }
+                                                 %>
+                                             
 	                						</tr><!-- End .summary-subtotal -->
 	                						<tr class="summary-shipping">
 	                							<td>Shipping:</td>
@@ -678,12 +685,29 @@
 
 	                						<tr class="summary-total">
 	                							<td>Total:</td>
-	                							<td id="total"><%=totalPrice%></td>
+                                                <% if(typeof totalPrice !== 'undefined') {
+                                                    %>
+                                                    <td id="Subtotal"><%=totalPrice%></td>
+                                                    
+                                                    <%
+                                                 }
+                                                 %>
 	                						</tr><!-- End .summary-total -->
 	                					</tbody>
 	                				</table><!-- End .table table-summary -->
+                                    <% if(typeof totalPrice !== 'undefined') {
+                                                    %>
+                                                    
+                                                    
+                                                    <a href="/checkout?totalPrice=<%=totalPrice%>" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                                    <%
+                                                 }else{%>
+                                                    <a href="/checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
 
-	                				<a href="/checkout?totalPrice=<%=totalPrice%>" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+
+                                                <% }
+                                                 %>
+
 	                			</div><!-- End .summary -->
 
 		            			<a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>

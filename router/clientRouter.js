@@ -44,4 +44,5 @@ clientRouter.post('/passwordUpdate',clientController.passwordUpdate)
 clientRouter.post('/editProfile',addressController.editProfile)
 clientRouter.post('/totalPrice',cartController.totalPrice)
 clientRouter.get('/checkOut',authantication.login,cartController.checkOut)
+clientRouter.post('/placeholder',cartController.placeholder)
 module.exports=clientRouter;

@@ -640,7 +640,38 @@
                                                            Edit
                                                           </button>
                                                           <button  onclick="deleteTheAddress('<%=data._id%>')" class="btn btn-primary">delete</button>
+                                                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                              <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                  <h5 class="modal-title" id="exampleModalLabel">Edit Address</h5>
+                                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                  </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                <form action="/editProfile?id=<%=data._id%>" method="post">
+                                                                    <p id="Messge"></p>
+                                                                    <input type="text" id="country" value="<%=data.country%>" placeholder="country" name="country">
+                                                                    <input type="text" id="streetAddress" value="<%=data.streetAddress%>" placeholder="streetAddress" name="streetAddress">
+                                                                    <input type="text" id="city" value="<%=data.city%>" placeholder="city" name="city">
+                                                                    <input type="text" id="state" value='<%=data.state%>' placeholder="state" name="state">
+                                                                    <input type="text" id="pincode" value="<%=data.pincode%>" placeholder="pincode" name="pincode">
+                                                                    <input type="text" id="mobile" oninput="mobileCheck()" value='<%=data.mobile %>' placeholder="mobile" name="mobile">
+                                                                    
+                                                                    
+                                                                    <button id="edit" type="submit">edit</button>
+                                                                </form>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
 
+                                                          <!-- Modal -->
 								    				</div><!-- End .card-body -->
 
 								    			</div><!-- End .card-dashboard -->
@@ -651,36 +682,6 @@
 <!-- Button trigger modal -->
 
   
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Address</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        <form action="/editProfile?id=<%=address._id%>" method="post">
-            <input type="text" id="country" value="<%=address.country%>" placeholder="country" name="country">
-            <input type="text" id="streetAddress" value="<%=address.streetAddress%>" placeholder="streetAddress" name="streetAddress">
-            <input type="text" id="city" value="<%=address.city%>" placeholder="city" name="city">
-            <input type="text" id="state" value='<%=address.state%>' placeholder="state" name="state">
-            <input type="text" id="pincode" value="<%=address.pincode%>" placeholder="pincode" name="pincode">
-            <input type="text" id="mobile" value='<%=address.mobile %>' placeholder="mobile" name="mobile">
-            
-            
-            <button type="submit">edit</button>
-        </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-        </div>
-      </div>
-    </div>
-  </div>
 								    		
 								    	
 
@@ -1020,6 +1021,43 @@
       }
     </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+//             function pincodeCheck() {
+//     const pincodeNumber = document.getElementById('pincode').value;
+//     const messageElement = document.getElementById('Messge');
+//     console.log(pincodeNumber); 
+    
+//     const button = document.getElementById('edit');
+//     if (pincodeNumber.length === 6) {
+//         button.disabled = true;
+//     } else {
+//         button.disabled = false;
+//     }
+// }
+
+
+
+          function  mobileCheck(){
+            console.log("edjsdjsdsdjn")
+            const mobileNumber = document.getElementById('mobile').value
+            const messageElement = document.getElementById('Messge');
+            console.log(mobileNumber)
+            const button = document.getElementById('edit'); // Replace 'your-button-id' with the actual ID of your button
+    if (mobileNumber.length === 10) {
+        button.disabled = false;
+        //    const mobileMessge= document.getElementById('mobileMessge').value
+        messageElement.innerText = "Mobile number should be 10 digits long.";
+
+        
+        
+        document.getElementById('mobileMessge').innerHTML="the no. should be ten"
+    } else {
+        messageElement.innerText = "Mobile number is valid.";
+        button.disabled = true;
+    }
+            }
+            
+        </script>
 
    
     <%- include('../layout/footer') -%>
