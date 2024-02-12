@@ -99,6 +99,7 @@ const editCategorySubmit =async (req,res)=>{
             console.log(categoryUpdate)
             
         }else{
+            res.render('editCategory',{message:"the catogort is already exists"})
             console.log("the catogory is already exists")
         }
             

@@ -34,6 +34,7 @@ clientRouter.post('/removeCard',authantication.login,cartController.removeCard)
 clientRouter.get('/profile',authantication.login,clientController.profile)
 clientRouter.get('/resendOtp',authantication.logout,clientController.resendOtp)
 clientRouter.get('/forgotPassword',authantication.logout,clientController.forgotPassword)
+clientRouter.get('/register',authantication.logout,clientController.register)
 clientRouter.get('/cartView',authantication.login,cartController.cartView)
 clientRouter.post('/addnewaddress',addressController.addnewaddress)
 clientRouter.post('/addToCart',authantication.login,cartController.addToCart)
@@ -45,4 +46,5 @@ clientRouter.post('/editProfile',addressController.editProfile)
 clientRouter.post('/totalPrice',cartController.totalPrice)
 clientRouter.get('/checkOut',authantication.login,cartController.checkOut)
 clientRouter.post('/placeholder',cartController.placeholder)
+
 module.exports=clientRouter;

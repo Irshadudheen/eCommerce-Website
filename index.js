@@ -1,10 +1,14 @@
 const express = require('express')
-const app = express()
 const mongoose = require('mongoose')
 const nocache = require('nocache')
 const path = require('path')
 const session = require('express-session')
 const config = require('./config/config')
+const adminRouter = require('./router/adminRouter')
+const clientRouter = require('./router/clientRouter')
+const app = express()
+const dotenv = require('dotenv').config()
+const {PORT}= process.env
 
 
 app.use(nocache())
@@ -23,11 +27,9 @@ app.use(session({
 }))
 
 //FOR THE ADMIN ROUTER
-const adminRouter = require('./router/adminRouter')
 app.use('/admin', adminRouter)
 
 //FOR THE CLIENT ROUTE
-const clientRouter = require('./router/clientRouter')
 app.use('/', clientRouter)
 
 
@@ -39,5 +41,4 @@ app.use((req, res) => res.status(404).render('404'))
 // app.get('*',(req,res)=>res.status(404).render('404'))
 
 //CONNETTION OF SERVER
-const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`The server is running ${PORT}`))

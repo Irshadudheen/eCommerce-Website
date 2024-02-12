@@ -28,13 +28,13 @@ const sendOtpMail = async (name,email,otp)=>{
             secure:false,
             requireTLS:true,
             auth:{
-                user:"irshadudheen.p10@gmail.com",
-                pass:'tylm ddnl qpie pjwg'
+                user:process.env.emailId,
+                pass:process.env.password
             }
         })
 
         const mailOption ={
-            from:'irshadudheen.p10@gmail.com',
+            from:process.env.emailId,
             to:email,
             subject:'For your verification the mail',
             html:'<p>Hi '+name+' the '+otp+' </p>'
@@ -394,6 +394,17 @@ const passwordUpdate = async (req,res)=>{
     }
 }
 
+//
+const register = async (req,res)=>{
+    try {
+        res.render('register')
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 //EXPORT
 module.exports={
     clientDashboard,
@@ -408,6 +419,7 @@ module.exports={
     forgotPasswordSubmit,
     otpSubmitForgot,
     passwordUpdate,
+    register
 
   
     
