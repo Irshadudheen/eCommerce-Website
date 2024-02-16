@@ -1,10 +1,11 @@
 <%-include('../layout/adminHeader')-%>
 
-  <body id="reportsPage">
-    <div class="" id="home">
+
+  <body>
+    <div>
       <nav class="navbar navbar-expand-xl">
         <div class="container h-100">
-          <a class="navbar-brand" href="/">
+          <a class="navbar-brand" href="index.html">
             <h1 class="tm-site-title mb-0">Product Admin</h1>
           </a>
           <button
@@ -47,13 +48,13 @@
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/admin/productAdmin">
+                <a class="nav-link" href="/">
                   <i class="fas fa-shopping-cart"></i> Products
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link active" href="accounts.html">
+                <a class="nav-link" href="/">
                   <i class="far fa-user"></i> Accounts
                 </a>
               </li>
@@ -71,90 +72,48 @@
                   <span> Settings <i class="fas fa-angle-down"></i> </span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="/admin/ViewCategory">Category</a>
-
                   <a class="dropdown-item" href="#">Profile</a>
                   <a class="dropdown-item" href="#">Billing</a>
                   <a class="dropdown-item" href="#">Customize</a>
                 </div>
               </li>
             </ul>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link d-block" href="login.html">
-                  Admin, <b>Logout</b>
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       </nav>
-      <div class="container mt-5">
-        <div class="row tm-content-row">
-          <div class="col-12 tm-block-col">
-            
-          </div>
-        </div>
-        <!-- row -->
-        
-          <div class="tm-block-col tm-col-account-settings">
-            <div class="tm-bg-primary-dark tm-block tm-block-settings">
-              <h2 class="tm-block-title">Account Settings</h2>
-              
-              <form action="/admin/updateClient" method="post" class="tm-signup-form row">
-                <div class="form-group col-lg-6">
-                  <label for="name">Account Name</label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value="<%=client.fname%>"
-                    class="form-control validate"
-                  />
-                </div>
-                <div class="form-group col-lg-6">
-                  <label for="email">Account Email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value="<%=client.email%>"
-                    class="form-control validate"
-                  />
-                </div>
+    </div>
+
+    <div class="container tm-mt-big tm-mb-big">
+      <div class="row">
+        <div class="col-12 mx-auto tm-login-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h2 class="tm-block-title mb-4">Welcome to Order </h2>
+              </div>
+            </div>
+            <div class="row mt-2">
+                <p>product image</p>
+                <p><%=orderData.products[0].image%></p>
+                <img src="/productImage/<%=orderData.products[0].image%>" alt="">
+              <div class="col-12">
                 
+                  </div>
+                  <div class="form-group mt-3">
+                   
+                  </div>
+                  <div class="form-group mt-4">
+                   
+                  </div>
+                  
                 
-                <div class="form-group col-lg-6">
-                  <label for="phone">Phone</label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value="<%=client.mobile%>"
-                    class="form-control validate"
-                  />
-                </div>
-                <div class="form-group col-lg-6">
-                  <label class="tm-hide-sm">&nbsp;</label>
-                 
-                </div>
-                <div class="col-12">
-                  <input type="hidden" value="<%=id%>" name="id">
-                  <button
-                    type="submit"
-                    class="btn btn-primary btn-block text-uppercase"
-                  >
-                    update your profile
-                  </button>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <%-include('../layout/adminFooter')-%>
     </div>
-
+    <%-include('../layout/adminFooter')-%>
     <script src="js/jquery-3.3.1.min.js"></script>
     <!-- https://jquery.com/download/ -->
     <script src="js/bootstrap.min.js"></script>

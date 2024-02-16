@@ -38,7 +38,6 @@ const addToCart = async (req, res) => {
 
 
 
-                console.log(quantity)
 
 
 
@@ -56,8 +55,8 @@ const addToCart = async (req, res) => {
 
 
                 })
-                const puthiaCart = await newCart.save()
-                if (puthiaCart) {
+                const newcart = await newCart.save()
+                if (newcart) {
                     res.send({ status: true })
                 }
             }
@@ -138,19 +137,17 @@ const totalPrice = async (req, res) => {
         })
         if (productToUpdate) {
 
-            console.log("existingCart:", existingCart);
-            console.log("productToUpdate:", productToUpdate);
             productToUpdate.quantity = p_quantity
-            console.log(p_quantity)
             productToUpdate.totalPrice = p_quantity * productToUpdate.productPrice
             const updatedCart = await existingCart.save()
             const updatedTotalPrice = productToUpdate.totalPrice;
+            //product total
             const totalPricetotal = existingCart.products.reduce((total, product) => {
                 return total + product.totalPrice
 
             })
-            console.log(totalPricetotal)
             if (totalPricetotal) {
+                //cart total
                 const totalPrice = updatedCart.products.reduce((total, product) => {
                     return total + product.totalPrice
 
@@ -177,9 +174,9 @@ const totalPrice = async (req, res) => {
 const checkOut = async (req, res) => {
     try {
         const { totalPrice } = req.query
-        
-        const address = await addressDb.find({clientId:req.session.user_id})
-        res.render('checkOut', { totalPrice,address })
+
+        const address = await addressDb.find({ clientId: req.session.user_id })
+        res.render('checkOut', { totalPrice, address })
 
     } catch (error) {
         console.log(error.message)
@@ -191,12 +188,13 @@ const checkOut = async (req, res) => {
 const placeholder = async (req, res) => {
     try {
         const { user_id } = req.session
-        const address= await addressDb.findOne({_id:req.body.pincodeId})
-        
+        const address = await addressDb.findOne({ _id: req.body.address })
+        console.log(user_id,address,"address and user_id")
+
 
         const { paymentMethod, totalPrice } = req.body
         const cart = await cartDb.findOne({ clientId: user_id })
-        
+
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
 
             const productDetails = await productDb.findById(cartProduct.productId);
@@ -208,38 +206,46 @@ const placeholder = async (req, res) => {
                 name: productDetails.name,
                 price: productDetails.price,
                 quantity: cartProduct.quantity,
-                
+
                 total: cartProduct.totalPrice,
                 image: cartProduct.image,
 
             };
         }))
         console.log(products)
+        const timestamp = Date.now();
+        const date = new Date(timestamp);
+        const formattedDate = date.toLocaleString();
+
+        console.log(formattedDate);
         const orderData = new orderDb({
             clientId: user_id,
             products: products,
             totalPrice,
-            addressId:req.body.pincodeId,
-            date:Date.now()
+            addressId: req.body.pincodeId,
+            date: formattedDate,
+            payment: totalPrice,
+
+
 
         })
         const dataOrder = await orderData.save()
 
-        
-        
-
-
-            if (paymentMethod) {
 
 
 
-                const deleteCart = await cartDb.deleteOne({ clientId: req.session.user_id })
-                if (deleteCart) {
-                    res.send({ status: true })
-                }else{
-                    res.send({status:false})
-                }
-            
+
+        if (paymentMethod) {
+
+
+
+            const deleteCart = await cartDb.deleteOne({ clientId: req.session.user_id })
+            if (deleteCart) {
+                res.send({ status: true })
+            } else {
+                res.send({ status: false })
+            }
+
         }
     }
 

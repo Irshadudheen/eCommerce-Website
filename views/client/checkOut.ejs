@@ -1,33 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-
-<!-- molla/checkout.html  22 Nov 2019 09:55:06 GMT -->
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Molla - Bootstrap eCommerce Template</title>
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Molla - Bootstrap eCommerce Template">
-    <meta name="author" content="p-themes">
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
-    <link rel="manifest" href="assets/images/icons/site.html">
-    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="Molla">
-    <meta name="application-name" content="Molla">
-    <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!-- Main CSS File -->
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
+<%-include('../layout/clientHeader')-%>
 
 <body>
     <div class="page-wrapper">
@@ -584,15 +555,37 @@
             			<form action="#">
 		                	<div class="row">
 		                	
-                                        <button>add address</button>
-                                    </option>
-                                    <select name=""  id="">
-                                     <%   address.forEach(data=>{%>
+                                
+                                
+                                        <div class="select-container">
+                                            <select name="address" id="addressSelect">
+                                                <% address.forEach(data => { %>
+                                                    <option id="address" value="<%= data._id %>">
+                                                        pincode  <%= data.pincode %> -MOBILE <%= data.mobile %>
+                                                    </option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                        <style>
+                                            .select-container {
+                                             width: 300px; 
+                                                margin: 0 auto;
+                                            }
+                                            
+                                                #addressSelect {
+                                                width: 100%;
+                                                padding: 10px;
+                                                font-size: 16px;
+                                                border-radius: 5px;
+                                                border: 1px solid #ccc;
+                                                    outline: none;
+                                                }
+                                                
+                                                #addressSelect option {
+                                                    padding: 5px;
+                                                }
+                                        </style>
 
-                                            <option id="pincodeId" value="<%=data._id%>"><%=data.pincode%>
-                                            <%})%>
-
-                                        </select>
                                         
 		                		</div><!-- End .col-lg-9 -->
                                 
@@ -628,23 +621,23 @@
 		                							<td>Free shipping</td>
 		                						</tr>
 		                						<tr class="summary-total">
-		                							<td>Total:</td>
+                                                    <td>Total:</td>
 		                							<td><%=totalPrice%></td>
 		                						</tr><!-- End .summary-total -->
 		                					</tbody>
 		                				</table><!-- End .table table-summary -->
-
+                                        
 		                				<div class="accordion-summary" id="accordion-payment">
-										    <div class="card">
-										        <div class="card-header" id="heading-1">
-										            <h2 class="card-title">
-										                <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
-										                    Direct bank transfer
+                                            <div class="card">
+                                                <div class="card-header" id="heading-1">
+                                                    <h2 class="card-title">
+                                                        <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                                                            Direct bank transfer
 										                </a>
 										            </h2>
 										        </div><!-- End .card-header -->
 										        <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-payment">
-										            <div class="card-body">
+                                                    <div class="card-body">
 										                Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
 										            </div><!-- End .card-body -->
 										        </div><!-- End .collapse -->
@@ -664,7 +657,7 @@
 										            </div><!-- End .card-body -->
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
-
+                                            
 										    <div class="card">
 										        <div class="card-header" id="heading-3">
 										            <h2 class="card-title">
@@ -674,7 +667,7 @@
 										            </h2>
 										        </div><!-- End .card-header -->
 										        <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
-										            <div class="card-body">Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. 
+                                                    <div class="card-body">Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. 
 										            </div><!-- End .card-body -->
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
@@ -682,8 +675,8 @@
 										    <div class="card">
 										        <div class="card-header" id="heading-4">
 										            <h2 class="card-title">
-										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
-										                    PayPal <small class="float-right paypal-link">What is PayPal?</small>
+                                                        <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
+                                                            PayPal <small class="float-right paypal-link">What is PayPal?</small>
 										                </a>
 										            </h2>
 										        </div><!-- End .card-header -->
@@ -709,14 +702,44 @@
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
 										</div><!-- End .accordion -->
-
+                                        
 		                				<button type="submit" onclick="placeholder('<%=totalPrice%>')" class="btn btn-outline-primary-2 btn-order btn-block">
 		                					<span class="btn-text">Place Order</span>
 		                					<span class="btn-hover-text">Proceed to Checkout</span>
 		                				</button>
 		                			</div><!-- End .summary -->
 		                		</aside><!-- End .col-lg-3 -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">ADD Adresses</button>
 		                	</div><!-- End .row -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Address</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/addnewaddress" method="post">
+                                                <p id="Messge"></p>
+                                                <input type="text" id="country" value="" placeholder="country" name="country">
+                                                <input type="text" id="streetAddress" value="" placeholder="streetAddress" name="streetAddress">
+                                                <input type="text" id="city" value="" placeholder="city" name="city">
+                                                <input type="text" id="state" value='' placeholder="state" name="state">
+                                                <input type="text" id="pincode" value="" placeholder="pincode" name="pincode">
+                                                <input type="text" id="mobile" oninput="mobileCheck()" value='' placeholder="mobile" name="mobile">
+                                                <button id="edit" type="submit">ADD</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
             			
 	                </div><!-- End .container -->
                 </div><!-- End .checkout -->
@@ -960,9 +983,11 @@
 </body>
 <script>
    function placeholder(totalPrice){
-   const paymentMethod ='Cash on delivery'
-   const pincodeId = document.getElementById('pincodeId').value
-console.log(pincodeId)   
+
+       const paymentMethod ='Cash on delivery'
+       const address = document.getElementById('address').value
+       console.log("placeholder=================================")
+console.log(address)   
 
     console.log("dsfjuerjsjjeajjn")
          fetch('/placeholder',{
@@ -970,7 +995,7 @@ console.log(pincodeId)
               headers: {
                     'Content-Type': 'application/json'
                   },
-                  body: JSON.stringify({paymentMethod,totalPrice,pincodeId})
+                  body: JSON.stringify({paymentMethod,totalPrice,address})
               
 
                   }).then(res => res.json()).then(data => {

@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const nocache = require('nocache')
 const path = require('path')
 const session = require('express-session')
@@ -34,7 +33,6 @@ app.use('/', clientRouter)
 
 
 //MONGODB CONNETTIOIN
-mongoose.connect("mongodb://127.0.0.1:27017/eCommereseDb").then(() => console.log('connected')).catch((err) => console.log(err))
 
 //ERROR
 app.use((req, res) => res.status(404).render('404'))

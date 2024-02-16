@@ -1,34 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-
-<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Molla - Bootstrap eCommerce Template</title>
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Molla - Bootstrap eCommerce Template">
-    <meta name="author" content="p-themes">
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
-    <link rel="manifest" href="assets/images/icons/site.html">
-    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="Molla">
-    <meta name="application-name" content="Molla">
-    <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!-- Main CSS File -->
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-
+<%-include('../layout/clientHeader')-%>
 <body>
     <div class="page-wrapper">
         <header class="header">
@@ -603,8 +573,38 @@
                                     <!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-								    	<p>No order has been made yet.</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+								    	<div class="row">
+                                            <div class="col-lg-11">
+                                                <table class="table table-cart table-mobile">
+                                                <thead>
+                                                    <tr>
+                                                       <th>total</th> 
+                                                       <th>quantity</th> 
+                                                       <th>date</th> 
+                                                       <th>image</th>
+                                                       <th>status</th>
+                                                    </tr>
+                                                </thead>
+                                                <%if(order.length>0){%>
+                                                  <%  order.forEach(ele=>{%>
+                                                    <%ele.products.forEach(data=>{%>
+                                                        <tbody>
+                                                            <tr id="rowOrder<%=data.productId%>">
+                                                        <td><%=ele.totalPrice%></td>
+                                                        
+                                                        <td><%=data.quantity%></td>
+                                                        <td ><%=ele.date.toLocaleDateString()%></td>
+                                                        
+                                                        <td><img src="productImage/<%=data.image%>" width="50" height="50" alt=""></td>
+                                                        <td><%=ele.orderStatus%></td>
+                                                        <td class="remove-col"><button onclick="btnToRemoveOrder('<%=data.productId%>','<%=ele._id%>')" class="btn-remove"><i class="icon-close"></i></button></td>
+                                                        
+                                                    </tr>
+                                                <%})})}%>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        </div>
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
@@ -646,13 +646,13 @@
                                                                             <div class="modal-body">
                                                                                 <form action="/editProfile?id=<%= data._id %>" method="post">
                                                                                     <p id="Messge"></p>
-                                                                                    <input type="text" id="country" value="<%= data.country %>" placeholder="country" name="country">
-                                                                                    <input type="text" id="streetAddress" value="<%= data.streetAddress %>" placeholder="streetAddress" name="streetAddress">
-                                                                                    <input type="text" id="city" value="<%= data.city %>" placeholder="city" name="city">
-                                                                                    <input type="text" id="state" value='<%= data.state %>' placeholder="state" name="state">
-                                                                                    <input type="text" id="pincode" value="<%= data.pincode %>" placeholder="pincode" name="pincode">
-                                                                                    <input type="text" id="mobile" oninput="mobileCheck()" value='<%= data.mobile %>' placeholder="mobile" name="mobile">
-                                                                                    <button id="edit" type="submit">edit</button>
+                                                                                    <input type="text" id="country<%= data.city %>" value="<%= data.country %>" placeholder="country" name="country">
+                                                                                    <input type="text" id="streetAddress<%= data.city %>" value="<%= data.streetAddress %>" placeholder="streetAddress" name="streetAddress">
+                                                                                    <input type="text" id="city<%= data._id %>" value="<%= data.city %>" placeholder="city" name="city">
+                                                                                    <input type="text" id="state<%= data.city %>" value='<%= data.state %>' placeholder="state" name="state">
+                                                                                    <input type="text" id="pincode<%= data.city %>" value="<%= data.pincode %>" placeholder="pincode" name="pincode">
+                                                                                    <input type="text" id="mobile<%=data._id %>" oninput="mobileCheck('<%=data._id%>')" value='<%= data.mobile %>' placeholder="mobile" name="mobile">
+                                                                                    <button id="edit<%= data._id%>" type="submit">edit</button>
                                                                                 </form>
                                                                             </div>
                                                                             <div class="modal-footer">
@@ -1012,6 +1012,35 @@
     </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
+         function   btnToRemoveOrder(product_id,order_id){
+            const rowOrder = document.getElementById(`rowOrder${product_id}`)
+            console.log(product_id)
+            console.log(order_id)
+            fetch('/delteTheOrder',{
+                method:'POST', 
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ product_id,order_id })
+                }).then(res => res.json()).then(data => {
+        if (data.status == true) {
+            rowOrder.remove()
+
+            Swal.fire({
+                     icon: 'error',
+                    title: 'order is delete success',
+                     customClass: {
+                     popup: "custom-popup-class",
+                      header: 'custom-header-class',
+                     content: 'custom-content-class', // Corrected typo here
+                     confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                     }
+                    });
+
+            }})
+         }
+        </script>
+        <script>
 //             function pincodeCheck() {
 //     const pincodeNumber = document.getElementById('pincode').value;
 //     const messageElement = document.getElementById('Messge');
@@ -1027,12 +1056,13 @@
 
 
 
-          function  mobileCheck(){
-            console.log("edjsdjsdsdjn")
-            const mobileNumber = document.getElementById('mobile').value
+          function  mobileCheck(id){
+        
+            const mobileNumber = document.getElementById(`mobile${id}`).value
             const messageElement = document.getElementById('Messge');
-            console.log(mobileNumber)
-            const button = document.getElementById('edit'); // Replace 'your-button-id' with the actual ID of your button
+            
+            const button = document.getElementById(`edit${id}`); 
+            
     if (mobileNumber.length === 10) {
         button.disabled = false;
         //    const mobileMessge= document.getElementById('mobileMessge').value

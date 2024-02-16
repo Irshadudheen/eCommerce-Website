@@ -1,28 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Category Page - Admin HTML Template</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <!-- https://fonts.google.com/specimen/Roboto -->
-    <link rel="stylesheet" href="css/fontawesome.min.css" />
-    <!-- https://fontawesome.com/ -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <!-- https://getbootstrap.com/ -->
-    <link rel="stylesheet" href="css/templatemo-style.css">
-    <!--
-	Product Admin CSS Template
-	https://templatemo.com/tm-524-product-admin
-	-->
-  </head>
+<%-include('../layout/adminHeader')-%>
 
   <body id="reportsPage">
     <nav class="navbar navbar-expand-xl">
@@ -72,8 +48,8 @@
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="products.html">
-                <i class="fas fa-shopping-cart"></i> Products
+              <a class="nav-link active" href="/admin/viewCategory">
+                <i class="fas fa-shopping-cart"></i> Category
               </a>
             </li>
 
@@ -95,7 +71,7 @@
                 <span> Settings <i class="fas fa-angle-down"></i> </span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/admin/ViewCategory">Category</a>
+                <a class="dropdown-item" href="/admin/productAdmin">Products</a>
 
                 <a class="dropdown-item" href="#">Profile</a>
                 <a class="dropdown-item" href="#">Billing</a>
@@ -147,7 +123,7 @@
                     <td>
                      
                        
-                        <span onclick="statusBlock('<%=data.name%>')" class="material-symbols-outlined">block</span>
+                        <span id="softDelete"  onclick="statusBlock('<%=data.name%>','<%=data._id%>')" class="material-symbols-outlined ">block</span>
                         
                      
                       </a>
@@ -172,58 +148,68 @@
 
 
                <script>
-                function statusBlock(name){
-
-                  console.log(name)
-                  fetch('/admin/statusCategory',{
-                    method:'PATCH',
-                    headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({name})
-              
-
-                  }).then(res => res.json()).then(data => {
-                    if(data.status==true){
-
-                      console.log(data,"sufsdjk")
-                      Swal.fire({
-                    icon: 'success',
-                   title: 'unblock',
-                   customClass: {
-                   popup: "custom-popup-class",
+               
+                function statusBlock(name, id) {
+                   icone = document.getElementById('softDelete');
+                  console.log(icone)
+    console.log(id);
+    console.log(name);
+    fetch('/admin/statusCategory', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name })
+      }).then(res => res.json()).then(data => {
+        if (data.status == true) {
+            const icon = document.getElementById('softDelete');
+            icon.style.color = "#dee2e6"; // Set color to #dee2e6
+            localStorage.setItem('softDeleteColor', '#dee2e6'); // Store color in localStorage
+            Swal.fire({
+                icon: 'success',
+                title: 'unblock',
+                customClass: {
+                    popup: "custom-popup-class",
                     header: 'custom-header-class',
-                    content: 'custom-content-class', // Corrected typo here
-                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
-                  }
-                });
-              }else{
-                Swal.fire({
-                    icon: 'error',
-                   title: 'block',
-                   customClass: {
-                   popup: "custom-popup-class",
+                    content: 'custom-content-class',
+                    confirmButton: 'custom-confirm-button-class'
+                }
+            });
+        } else {
+            const icon = document.getElementById('softDelete');
+            icon.style.color = "red";
+            localStorage.setItem('softDeleteColor', 'red'); // Store color in localStorage
+            Swal.fire({
+                icon: 'error',
+                title: 'block',
+                customClass: {
+                    popup: "custom-popup-class",
                     header: 'custom-header-class',
-                    content: 'custom-content-class', // Corrected typo here
-                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
-                  }
-                });
-
-              }
-                    
-                }).catch(error => {
-                  console.error('Error deleting record:', error);
-                });
-              }
-                
-                
-                
+                    content: 'custom-content-class',
+                    confirmButton: 'custom-confirm-button-class'
+                }
+            });
+        }
+    }).catch(error => {
+        console.error('Error deleting record:', error);
+    });
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    // Retrieve the stored color from localStorage
+    const storedColor = localStorage.getItem('softDeleteColor'); // Adjusted to use the same id
+    const icon = document.getElementById('softDelete')
+    // Check if there's a stored color
+    if (storedColor) {
+      // Set the color of the element based on the stored color
+    icon.style.color = storedColor;
+}
+});
                 </script>
             </div>
             <!-- table container -->
             
               <a href="/admin/addCategory">
-              <button class="btn btn-primary btn-block text-uppercase mb-3">
+              <button  class="btn btn-primary btn-block text-uppercase mb-3">
                 Add new category
                 </button>
                
@@ -233,15 +219,7 @@
         
         </div>
     </div>
-    <footer class="tm-footer row tm-mt-small">
-      <div class="col-12 font-weight-light">
-        <p class="text-center text-white mb-0 px-4 small">
-          Copyright &copy; <b>2018</b> All rights reserved. 
-          
-          Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
-        </p>
-      </div>
-    </footer>
+    <%-include('../layout/adminFooter')-%>
 
     <script src="js/jquery-3.3.1.min.js"></script>
     <!-- https://jquery.com/download/ -->
