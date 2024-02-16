@@ -123,8 +123,23 @@
                     <td>
                      
                        
-                        <span id="softDelete"  onclick="statusBlock('<%=data.name%>','<%=data._id%>')" class="material-symbols-outlined ">block</span>
-                        
+                        <span id="softDelete<%=data._id%>"  onclick="statusBlock('<%=data.name%>','<%=data._id%>')" class="material-symbols-outlined ">block</span>
+                        <script>
+                          document.addEventListener('DOMContentLoaded', () => {
+    
+    // const storedColor = localStorage.getItem('softDeleteColor'); 
+    const icon = document.getElementById("softDelete<%=data._id%>")
+                            document.querySelectorAll('[id^="softDelete<%= data._id %>"]').forEach((icon)=>{
+                            console.log(icon.dataset.id)
+                              const storedColor =localStorage.getItem(`softDeleteColor_${icon.dataset.id}`)
+                              if (storedColor) {
+                               
+                              icon.style.color = storedColor;
+                          }
+                            })
+});
+                          
+                          </script>
                      
                       </a>
                     </td>
@@ -150,7 +165,8 @@
                <script>
                
                 function statusBlock(name, id) {
-                   icone = document.getElementById('softDelete');
+
+                   icone = document.getElementById(`softDelete${id}`);
                   console.log(icone)
     console.log(id);
     console.log(name);
@@ -162,9 +178,10 @@
         body: JSON.stringify({ name })
       }).then(res => res.json()).then(data => {
         if (data.status == true) {
-            const icon = document.getElementById('softDelete');
+          
+          const icon = document.getElementById(`softDelete${id}`)
             icon.style.color = "#dee2e6"; // Set color to #dee2e6
-            localStorage.setItem('softDeleteColor', '#dee2e6'); // Store color in localStorage
+            localStorage.setItem(`softDeleteColor_${id}`, '#dee2e6'); // Store color in localStorage
             Swal.fire({
                 icon: 'success',
                 title: 'unblock',
@@ -176,9 +193,9 @@
                 }
             });
         } else {
-            const icon = document.getElementById('softDelete');
+          const icon = document.getElementById(`softDelete${id}`)
             icon.style.color = "red";
-            localStorage.setItem('softDeleteColor', 'red'); // Store color in localStorage
+            localStorage.setItem(`softDeleteColor_${id}`, 'red'); // Store color in localStorage
             Swal.fire({
                 icon: 'error',
                 title: 'block',
@@ -194,16 +211,7 @@
         console.error('Error deleting record:', error);
     });
   }
-  document.addEventListener('DOMContentLoaded', () => {
-    // Retrieve the stored color from localStorage
-    const storedColor = localStorage.getItem('softDeleteColor'); // Adjusted to use the same id
-    const icon = document.getElementById('softDelete')
-    // Check if there's a stored color
-    if (storedColor) {
-      // Set the color of the element based on the stored color
-    icon.style.color = storedColor;
-}
-});
+  
                 </script>
             </div>
             <!-- table container -->

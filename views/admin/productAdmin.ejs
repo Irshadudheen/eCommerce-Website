@@ -102,7 +102,7 @@
                         </a></td>
 
                       <td>
-                        <%=product[i].price%>
+                        $<%=product[i].price%>
                       </td>
                       <td>
                         <%=product[i].status%>
@@ -158,16 +158,37 @@
                 console.log(row);
                 console.log(id);
 
-                fetch('/admin/delete', {
+                fetch('/admin/block', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
                   },
-                  body: JSON.stringify({ ida: id })
+                  body: JSON.stringify({ id})
                 }).then(res => res.json()).then(data => {
-                  // Remove the corresponding table row
-                  if (row) {
-                    row.remove();
+                  if (data.status==true) {
+                    Swal.fire({
+                icon: 'success',
+                title: 'unblock',
+                customClass: {
+                    popup: "custom-popup-class",
+                    header: 'custom-header-class',
+                    content: 'custom-content-class',
+                    confirmButton: 'custom-confirm-button-class'
+                }
+            });
+                    
+                  }else{
+                    Swal.fire({
+                icon: 'error',
+                title: 'block',
+                customClass: {
+                    popup: "custom-popup-class",
+                    header: 'custom-header-class',
+                    content: 'custom-content-class',
+                    confirmButton: 'custom-confirm-button-class'
+                }
+            });
+                    
                   }
                 }).catch(error => {
                   console.error('Error deleting record:', error);

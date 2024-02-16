@@ -52,10 +52,11 @@ adminRouter.get('/clientview', authantication.isadminlogin, adminController.clie
 adminRouter.get('/editUser', authantication.isadminlogin, adminController.editUser)
 adminRouter.post('/delectTheImage', authantication.isadminlogin, adminProductController.delectTheImage)
 adminRouter.patch('/statusCategory', adminCategoryController.statusCategory)
-adminRouter.post('/delete', adminProductController.deleteProduct)
+adminRouter.post('/block', adminProductController.blockProduct)
 adminRouter.post('/updateClient', adminController.updateClient)
 adminRouter.post('/deleteClient', adminController.deleteClient)
 adminRouter.put('/editCategory', adminCategoryController.editCategorySubmit)
 adminRouter.get('/orderlist',authantication.isadminlogin,adminOrderController.orderlist)
+adminRouter.post('/updateSatus',adminOrderController.updateSatus)
 
 module.exports = adminRouter;

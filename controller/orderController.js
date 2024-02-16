@@ -32,7 +32,23 @@ const orderlist = async (req,res)=>{
         
     }
 }
+
+const updateSatus = async (req,res)=>{
+    try {
+        const {option,order_id}=req.body
+        const update = await orderDb.findByIdAndUpdate({_id:order_id},{$set:{orderStatus:option}})
+        if(update){
+            res.send({status:true})
+        }
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports={
     delteTheOrder,
-    orderlist
+    orderlist,
+    updateSatus
 }

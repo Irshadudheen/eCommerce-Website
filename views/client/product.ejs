@@ -193,7 +193,7 @@
                             <form action="#" method="get">
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                                    <input type="search" class="form-control" name="q" id="myInput" onkeyup="searchProduct()" placeholder="Search in..." required>
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
@@ -222,7 +222,7 @@
                         </div><!-- End .compare-dropdown -->
 
                         <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <a href="/cartView" class="dropdown-toggle"  aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
                                 <span class="cart-count">2</span>
                             </a>
@@ -241,11 +241,7 @@
                                             </span>
                                         </div><!-- End .product-cart-details -->
 
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="/assets/images/products/cart/product-1.jp" alt="product">
-                                            </a>
-                                        </figure>
+                                        
                                         <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
 
@@ -305,10 +301,10 @@
             <div class="page-content">
                 <div class="container">
 
-                	<div class="row">
+                	<div class="row" id="rowData">
                         <% if(productData.length>0) {%>
                             <% productData.forEach(data=>{ %>
-                		<div class="col-6 col-md-4 col-lg-4">
+                		<div class="col-6 col-md-4 col-lg-4" id="dataProduct" >
                 			<div class="product text-center">
                 				<figure class="product-media">
                 					<span class="product-label label-sale">30% off</span>
@@ -329,8 +325,7 @@
                 					</div><!-- End .product-cat -->
                 					<h3 class="product-title"><a href="/eachproduct?id=<%=data._id %>"><%=data.name%></a></h3><!-- End .product-title -->
                 					<div class="product-price">
-                						<span class="new-price"><%=data.price%></span>
-                						<span class="old-price">$84.00</span>
+                						<span class="new-price">$<%=data.price%></span>
                 					</div><!-- End .product-price -->
                                     <div class="product-size">
                                         <a href="#" class="disabled" title="Small">S</a>
@@ -340,23 +335,11 @@
                                     </div><!-- End .product-size -->
                 					<div class="ratings-container">
                 						<div class="ratings">
-                							<div class="ratings-val" style="width: 40%;"></div><!-- End .ratings-val -->
                 						</div><!-- End .ratings -->
-                						<span class="ratings-text">( 4 Reviews )</span>
+                						
                 					</div><!-- End .rating-container -->
 
-                					<div class="product-nav product-nav-thumbs">
-                                        <a href="#" class="active">
-                                            <img src="assets/images/products/elements/product-1-thumb.jpg" alt="product desc">
-                                        </a>
-                                        <a href="#">
-                                            <img src="assets/images/products/elements/product-1-2-thumb.jpg" alt="product desc">
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="assets/images/products/elements/product-1-3-thumb.jpg" alt="product desc">
-                                        </a>
-                					</div><!-- End .product-nav -->
+                					
                 				</div><!-- End .product-body -->
                 			</div><!-- End .product -->
                 		</div><!-- End .col-sm-6 col-lg-4 -->
@@ -468,7 +451,7 @@
 
             <form action="#" method="get" class="mobile-search">
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <input type="search" class="form-control" onkeyup="searchProduct()" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
             
@@ -719,7 +702,40 @@
     <!-- Main JS File -->
     <script src="/assets/js/main.js"></script>
 </body>
+<script>
+    function searchProduct(){
 
+        console.log("qwert asf;jklkjpui.nm;lj")
+        var input, filter, products, h3, a, i, txtValue;
+    input = document.getElementById("myInput");
+    console.log(input)
+    filter = input.value.toUpperCase();
+    products = document.getElementById("rowData");
+    h3 = products.getElementsByTagName('h3')
+    div =products.getElementsByTagName('div')
+    
+    
+    
+    
+    for(i=0;i<h3.length;i++){
+        a = h3[i].getElementsByTagName("a")[0];
+        console.log(a.innerText)
+        if(a){
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                div[i].style.display = "";
+            } else {
+                div[i].style.display = "none";
+            }
+            
+            
+        }
+    }
+    
+    
+    
+}
+</script>
 
 <!-- molla/elements-products.html  22 Nov 2019 10:05:00 GMT -->
 </html>

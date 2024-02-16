@@ -145,18 +145,27 @@ const Updateproduct = async (req, res) => {
     }
 }
 
-//TO DELETE THE PRODUCT
-const deleteProduct = async (req, res) => {
+//TO BLOCK THE PRODUCT
+const blockProduct = async (req, res) => {
     try {
         // req.body.id
-        console.log(req.body.ida)
+        const {id}= req.body
+        console.log(req.body.id)
+        const checkProductStatus = await productDb.findOne({_id:id})
+        if(checkProductStatus.status==false){
 
-        const deleteProduct = await productDb.deleteOne({ _id: req.body.ida })
-
-        if (deleteProduct) {
-            res.send({ status: true })
+            const deleteProduct = await productDb.findByIdAndUpdate({ _id:id },{$set:{status:true}})
+            if (deleteProduct) {
+                res.send({ status: true })
+            }
+        }else{
+            const deleteProduct = await productDb.findByIdAndUpdate({ _id:id },{$set:{status:false}})
+            if (deleteProduct) {
+                res.send({ status: false })
+            }
         }
 
+        
 
     } catch (error) {
         console.log(error.message)
@@ -194,6 +203,6 @@ module.exports = {
     addProductsubmit,
     Updateproduct,
     Clientproduct,
-    deleteProduct,
+    blockProduct,
     delectTheImage
 }

@@ -16,6 +16,7 @@ const addToCart = async (req, res) => {
             const checkTheCart = await cartDb.findOne({ clientId })
             if (checkTheCart) {
                 const initialLength = checkTheCart.products.length;
+                
 
                 checkTheCart.products.push({
                     productId: id,
@@ -196,6 +197,7 @@ const placeholder = async (req, res) => {
         const cart = await cartDb.findOne({ clientId: user_id })
 
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
+            console.log(cartProduct.totalPrice,"_______________________________________++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
             const productDetails = await productDb.findById(cartProduct.productId);
             productDetails.quantity -= cartProduct.quantity;
@@ -207,7 +209,7 @@ const placeholder = async (req, res) => {
                 price: productDetails.price,
                 quantity: cartProduct.quantity,
 
-                total: cartProduct.totalPrice,
+                totalPrice: cartProduct.totalPrice,
                 image: cartProduct.image,
 
             };

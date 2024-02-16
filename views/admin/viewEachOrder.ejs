@@ -85,31 +85,54 @@
 
     <div class="container tm-mt-big tm-mb-big">
       <div class="row">
-        <div class="col-12 mx-auto tm-login-col">
-          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
-            <div class="row">
-              <div class="col-12 text-center">
-                <h2 class="tm-block-title mb-4">Welcome to Order </h2>
-              </div>
-            </div>
-            <div class="row mt-2">
-                <p>product image</p>
-                <p><%=orderData.products[0].image%></p>
-                <img src="/productImage/<%=orderData.products[0].image%>" alt="">
-              <div class="col-12">
-                
-                  </div>
-                  <div class="form-group mt-3">
-                   
-                  </div>
-                  <div class="form-group mt-4">
-                   
-                  </div>
-                  
-                
-              </div>
-            </div>
+        <div class="col-12 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+              <h2 class="tm-block-title">ORDER DATA</h2>
+              
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th scope="col">ORDER NO.</th>
+                          <th scope="col">CUSTOMER</th>
+                          <th scope="col">PRODUCT NAME</th>
+                          <th scope="col">IMAGE</th>
+                          <th scope="col">STATUS</th>
+                          <th scope="col">PRICE</th>
+                          <th scope="col">QUANTITY</th>
+                          <th scope="col">ACTION</th>
+
+
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <%orderData.products.forEach(ele=>{%>
+                      <tr>
+                          <th scope="row"><b>#122349</b></th>
+                          <td>
+                              <b><%=orderData.clientId.fname%></b>
+                          </td>
+                          <td><b><%=ele.productId.name%></b></td>
+                          <td><img src="productImage/<%=ele.image%>" width="50" height="50" alt=""></td>
+                          <td><b id="statusView"><%=orderData.orderStatus%></b></td>
+                          <td><%=ele.totalPrice%></td>
+                          <td><%=ele.quantity%></td>
+                          <td><select onchange="statusChange('<%=orderData._id%>')" name="status" id="status">
+
+                            <option value="Pending">Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Shipped">Shipped</option>
+                              <option value="Delivered">Delivered</option>
+                          </select>
+                            
+                        </td>
+                      </tr>
+                      <% }) %>
+                      
+                         
+                  </tbody>
+              </table>
           </div>
+      </div>
         </div>
       </div>
     </div>
@@ -118,5 +141,26 @@
     <!-- https://jquery.com/download/ -->
     <script src="js/bootstrap.min.js"></script>
     <!-- https://getbootstrap.com/ -->
+    <script>
+      function statusChange(order_id){
+        console.log(order_id)
+        
+        console.log(status)
+        const option = document.getElementById("status").value
+        console.log(option)
+        fetch('/admin/updateSatus',{
+      method:"POST",
+      headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ option,order_id})
+      }).then(res => res.json()).then(data => {
+       if(data){
+         const status = document.getElementById('statusView').innerText=option
+       }
+
+    })
+      }
+    </script>
   </body>
-</html>
+  </html>
