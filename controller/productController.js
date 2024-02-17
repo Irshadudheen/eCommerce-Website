@@ -96,7 +96,7 @@ const addProductsubmit = async (req, res) => {
         console.log(stock)
         // const checkName =await find({name:{$regex: new RegExp("^"+name+"$","i")}})
         // console.log(checkName);
-
+        const image= req.files.map(file => file.filename);
 
         console.log(name)
         const product = new productDb({
@@ -106,11 +106,12 @@ const addProductsubmit = async (req, res) => {
             quantity: stock,
             categoryid: category,
             createdate: Date.now(),
-            image: req.files.map(file => file.filename),
+            image,
             productDescription: description
         })
         const result = await product.save()
         if (result) {
+            
             res.redirect('/admin/productAdmin')
         }
         console.log(result)

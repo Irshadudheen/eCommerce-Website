@@ -369,10 +369,27 @@
 
                                     <div class="col-6 col-md-4 col-lg-4" id="dataProduct">
                                         <div class="product text-center">
+                                            <style>
+                                                .product-media{
+                                                    height: 450px;
+                                                    overflow: hidden;
+
+                                                }
+                                                .product-image{
+                                                    width: 100%;
+                                                    height: auto;
+                                                }
+                                                @media(max-width:767px){
+                                                    .product-media{
+                                                        height: 200px;
+                                                        
+                                                    }
+                                                }
+                                            </style>
                                             <figure class="product-media">
                                                 <span class="product-label label-sale">30% off</span>
                                                 <a href="/eachproduct?id=<%=data._id %>">
-                                                    <img src="productImage/<%=data.image[0]%>" alt="Product image"
+                                                    <img src="productImage/<%=data.image[0]%>"  alt="Product image"
                                                         class="product-image">
                                                 </a>
 

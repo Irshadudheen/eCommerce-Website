@@ -460,6 +460,7 @@
                                                     <table class="table table-cart table-mobile">
                                                         <thead>
                                                             <tr>
+                                                                <th>address</th>
                                                                 <th>total</th>
                                                                 <th>quantity</th>
                                                                 <th>date</th>
@@ -468,10 +469,13 @@
                                                             </tr>
                                                         </thead>
                                                         <%if(order.length>0){%>
+                                                            
                                                             <% order.forEach(ele=>{%>
+                                                                <% address.forEach(address=>{ %>
                                                                 <%ele.products.forEach(data=>{%>
                                                                     <tbody>
                                                                         <tr id="rowOrder<%=data.productId%>">
+                                                                            <td><%=address.country%> <%=address.state%> <%=address.city%> <%=address.streetAddress%> <%=address.pincode%></td>
                                                                             <td>
                                                                                 <%=ele.totalPrice%>
                                                                             </td>
@@ -495,6 +499,7 @@
                                                                             </td>
 
                                                                         </tr>
+                                                                        <%})%>
                                                                         <%})})}%>
                                                                     </tbody>
                                                     </table>

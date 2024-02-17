@@ -189,6 +189,7 @@ const checkOut = async (req, res) => {
 const placeholder = async (req, res) => {
     try {
         const { user_id } = req.session
+        
         const address = await addressDb.findOne({ _id: req.body.address_id })
         console.log(user_id, address, "address and user_id")
 
@@ -218,13 +219,15 @@ const placeholder = async (req, res) => {
         const timestamp = Date.now();
         const date = new Date(timestamp);
         const formattedDate = date.toLocaleString();
+        console.log(address._id,"+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+")
 
         console.log(formattedDate);
         const orderData = new orderDb({
             clientId: user_id,
+            addressId:address._id,
             products: products,
             totalPrice,
-            addressId: req.body.pincodeId,
+            
             date: formattedDate,
             payment: totalPrice,
 

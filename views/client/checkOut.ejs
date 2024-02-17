@@ -1108,7 +1108,7 @@
         function placeholder(totalPrice) {
 
             const paymentMethod = 'Cash on delivery'
-            const address = document.getElementById('address').value
+            const address_id = document.getElementById('addressSelect').value
             console.log("placeholder=================================")
             console.log(address)
 
@@ -1118,7 +1118,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ paymentMethod, totalPrice, address })
+                body: JSON.stringify({ paymentMethod, totalPrice, address_id })
 
 
             }).then(res => res.json()).then(data => {

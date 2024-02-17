@@ -214,37 +214,39 @@
                                 </thead>
 
                                 <tbody>
+                                    <%if(order >0){%>
 
-                                    <% order.forEach(data=> { %>
-                                        <% data.products.forEach(element=> { %>
-                                            <tr>
+                                        <% order.forEach(data=> { %>
+                                            <% data.products.forEach(element=> { %>
+                                                <tr>
                                                 <th scope="row"><b>
                                                         <%=element._id%>
                                                     </b></th>
-                                                <td>
-
-                                                    <b>
-                                                        <%=data.clientId.fname%>
-                                                    </b>
-
-                                                </td>
-                                                <td><b>
+                                                    <td>
+                                                        
+                                                        <b>
+                                                            <%=data.clientId.fname%>
+                                                        </b>
+                                                        
+                                                    </td>
+                                                    <td><b>
                                                         <%=element.productId.name%>
                                                     </b></td>
-                                                <td><img src="productImage/<%=element.image%>" width="50" height="50"
+                                                    <td><img src="productImage/<%=element.image%>" width="50" height="50"
                                                         alt=""></td>
                                                 <td><b>
-                                                        <%=data.orderStatus%>
-                                                    </b></td>
+                                                    <%=data.orderStatus%>
+                                                </b></td>
                                                 <td>
                                                     <%=data.date.toLocaleDateString()%>
                                                 </td>
                                                 <td><a
-                                                        href="/admin/orderlist?productId=<%=element.productId._id%>&orderId=<%=data._id%>"><b>
-                                                            VIEW</b></a></td>
-                                            </tr>
-                                            <% }); %>
-                                                <% }); %>
+                                                    href="/admin/orderlist?productId=<%=element.productId._id%>&orderId=<%=data._id%>"><b>
+                                                        VIEW</b></a></td>
+                                                    </tr>
+                                                    <% }); %>
+                                                    <% }); %>
+                                    <%}%>
 
                                 </tbody>
                             </table>

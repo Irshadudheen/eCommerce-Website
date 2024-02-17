@@ -254,7 +254,8 @@ const profile = async (req, res) => {
         const { user_id } = req.session
         const userData = await clientDb.findOne({ _id: user_id })
         const address = await addressDb.find({ clientId: user_id }).populate("clientId")
-        const order = await orderDb.find({ clientId: user_id }).populate('products')
+        const order = await orderDb.find({ clientId: user_id }).populate('addressId')
+       
 
         
         
