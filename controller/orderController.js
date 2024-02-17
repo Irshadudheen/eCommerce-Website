@@ -22,7 +22,7 @@ const orderlist = async (req, res) => {
             path: 'products.productId',
             model: 'product'
 
-        })
+        }).populate("addressId")
 
         console.log(orderData.products)
         res.render('viewEachOrder', { orderData })

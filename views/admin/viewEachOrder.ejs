@@ -72,7 +72,7 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">ORDER NO.</th>
+                  <th scope="col">ADDRESS</th>
                   <th scope="col">CUSTOMER</th>
                   <th scope="col">PRODUCT NAME</th>
                   <th scope="col">IMAGE</th>
@@ -87,7 +87,7 @@
               <tbody>
                 <%orderData.products.forEach(ele=>{%>
                   <tr>
-                    <th scope="row"><b>#122349</b></th>
+                    <th scope="row"><b><%=orderData.addressId.country%> <%=orderData.addressId.state%> <%=orderData.addressId.city%> <%=orderData.addressId.streetAddress%> <%=orderData.addressId.pincode%></b></th>
                     <td>
                       <b>
                         <%=orderData.clientId.fname%>

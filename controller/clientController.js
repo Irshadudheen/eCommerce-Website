@@ -255,6 +255,7 @@ const profile = async (req, res) => {
         const userData = await clientDb.findOne({ _id: user_id })
         const address = await addressDb.find({ clientId: user_id }).populate("clientId")
         const order = await orderDb.find({ clientId: user_id }).populate('addressId')
+        console.log(order,"___________________________________________________________")
        
 
         

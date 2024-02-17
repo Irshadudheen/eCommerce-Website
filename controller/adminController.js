@@ -8,6 +8,7 @@ const adminDashboard = async (req, res) => {
             path: 'products.productId',
             model: 'product'
         })
+        console.log(order)
 
         res.render('adminDashboard', { order })
     } catch (error) {

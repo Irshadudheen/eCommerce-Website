@@ -471,11 +471,11 @@
                                                         <%if(order.length>0){%>
                                                             
                                                             <% order.forEach(ele=>{%>
-                                                                <% address.forEach(address=>{ %>
+                                                                
                                                                 <%ele.products.forEach(data=>{%>
                                                                     <tbody>
                                                                         <tr id="rowOrder<%=data.productId%>">
-                                                                            <td><%=address.country%> <%=address.state%> <%=address.city%> <%=address.streetAddress%> <%=address.pincode%></td>
+                                                                            <td><%=ele.addressId.country%> <%=ele.addressId.state%> <%=ele.addressId.city%> <%=ele.addressId.streetAddress%> <%=ele.addressId.pincode%></td>
                                                                             <td>
                                                                                 <%=ele.totalPrice%>
                                                                             </td>
@@ -499,7 +499,7 @@
                                                                             </td>
 
                                                                         </tr>
-                                                                        <%})%>
+                                                                       
                                                                         <%})})}%>
                                                                     </tbody>
                                                     </table>
