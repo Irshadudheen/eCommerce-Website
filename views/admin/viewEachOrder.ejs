@@ -8,15 +8,9 @@
           <a class="navbar-brand" href="index.html">
             <h1 class="tm-site-title mb-0">Product Admin</h1>
           </a>
-          <button
-            class="navbar-toggler ml-auto mr-0"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
+          <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
             <i class="fas fa-bars tm-nav-icon"></i>
           </button>
 
@@ -29,15 +23,8 @@
                 </a>
               </li>
               <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
                   <i class="far fa-file-alt"></i>
                   <span> Reports <i class="fas fa-angle-down"></i> </span>
                 </a>
@@ -59,15 +46,8 @@
                 </a>
               </li>
               <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-cog"></i>
                   <span> Settings <i class="fas fa-angle-down"></i> </span>
                 </a>
@@ -87,80 +67,91 @@
       <div class="row">
         <div class="col-12 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-              <h2 class="tm-block-title">ORDER DATA</h2>
-              
-              <table class="table">
-                  <thead>
-                      <tr>
-                          <th scope="col">ORDER NO.</th>
-                          <th scope="col">CUSTOMER</th>
-                          <th scope="col">PRODUCT NAME</th>
-                          <th scope="col">IMAGE</th>
-                          <th scope="col">STATUS</th>
-                          <th scope="col">PRICE</th>
-                          <th scope="col">QUANTITY</th>
-                          <th scope="col">ACTION</th>
+            <h2 class="tm-block-title">ORDER DATA</h2>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ORDER NO.</th>
+                  <th scope="col">CUSTOMER</th>
+                  <th scope="col">PRODUCT NAME</th>
+                  <th scope="col">IMAGE</th>
+                  <th scope="col">STATUS</th>
+                  <th scope="col">PRICE</th>
+                  <th scope="col">QUANTITY</th>
+                  <th scope="col">ACTION</th>
 
 
-                      </tr>
-                  </thead>
-                  <tbody>
-                    <%orderData.products.forEach(ele=>{%>
-                      <tr>
-                          <th scope="row"><b>#122349</b></th>
-                          <td>
-                              <b><%=orderData.clientId.fname%></b>
-                          </td>
-                          <td><b><%=ele.productId.name%></b></td>
-                          <td><img src="productImage/<%=ele.image%>" width="50" height="50" alt=""></td>
-                          <td><b id="statusView"><%=orderData.orderStatus%></b></td>
-                          <td><%=ele.totalPrice%></td>
-                          <td><%=ele.quantity%></td>
-                          <td><select onchange="statusChange('<%=orderData._id%>')" name="status" id="status">
+                </tr>
+              </thead>
+              <tbody>
+                <%orderData.products.forEach(ele=>{%>
+                  <tr>
+                    <th scope="row"><b>#122349</b></th>
+                    <td>
+                      <b>
+                        <%=orderData.clientId.fname%>
+                      </b>
+                    </td>
+                    <td><b>
+                        <%=ele.productId.name%>
+                      </b></td>
+                    <td><img src="productImage/<%=ele.image%>" width="50" height="50" alt=""></td>
+                    <td><b id="statusView">
+                        <%=orderData.orderStatus%>
+                      </b></td>
+                    <td>
+                      <%=ele.totalPrice%>
+                    </td>
+                    <td>
+                      <%=ele.quantity%>
+                    </td>
+                    <td><select onchange="statusChange('<%=orderData._id%>')" name="status" id="status">
 
-                            <option value="Pending">Pending</option>
-                            <option value="Processing">Processing</option>
-                            <option value="Shipped">Shipped</option>
-                              <option value="Delivered">Delivered</option>
-                          </select>
-                            
-                        </td>
-                      </tr>
-                      <% }) %>
-                      
-                         
-                  </tbody>
-              </table>
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                      </select>
+
+                    </td>
+                  </tr>
+                  <% }) %>
+
+
+              </tbody>
+            </table>
           </div>
-      </div>
         </div>
       </div>
     </div>
+    </div>
     <%-include('../layout/adminFooter')-%>
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <!-- https://jquery.com/download/ -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- https://getbootstrap.com/ -->
-    <script>
-      function statusChange(order_id){
-        console.log(order_id)
-        
-        console.log(status)
-        const option = document.getElementById("status").value
-        console.log(option)
-        fetch('/admin/updateSatus',{
-      method:"POST",
-      headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ option,order_id})
-      }).then(res => res.json()).then(data => {
-       if(data){
-         const status = document.getElementById('statusView').innerText=option
-       }
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <!-- https://jquery.com/download/ -->
+      <script src="js/bootstrap.min.js"></script>
+      <!-- https://getbootstrap.com/ -->
+      <script>
+        function statusChange(order_id) {
+          console.log(order_id)
 
-    })
-      }
-    </script>
+          console.log(status)
+          const option = document.getElementById("status").value
+          console.log(option)
+          fetch('/admin/updateSatus', {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ option, order_id })
+          }).then(res => res.json()).then(data => {
+            if (data) {
+              const status = document.getElementById('statusView').innerText = option
+            }
+
+          })
+        }
+      </script>
   </body>
+
   </html>

@@ -3,7 +3,7 @@ const adminRouter = express()
 const adminController = require('../controller/adminController')
 const adminProductController = require('../controller/productController')
 const adminCategoryController = require('../controller/categoryController')
-const adminOrderController =require('../controller/orderController')
+const adminOrderController = require('../controller/orderController')
 const authantication = require('../middleware/authantication')
 
 const multer = require('multer')
@@ -56,7 +56,7 @@ adminRouter.post('/block', adminProductController.blockProduct)
 adminRouter.post('/updateClient', adminController.updateClient)
 adminRouter.post('/deleteClient', adminController.deleteClient)
 adminRouter.put('/editCategory', adminCategoryController.editCategorySubmit)
-adminRouter.get('/orderlist',authantication.isadminlogin,adminOrderController.orderlist)
-adminRouter.post('/updateSatus',adminOrderController.updateSatus)
+adminRouter.get('/orderlist', authantication.isadminlogin, adminOrderController.orderlist)
+adminRouter.post('/updateSatus', adminOrderController.updateSatus)
 
 module.exports = adminRouter;

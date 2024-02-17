@@ -7,15 +7,9 @@
           <a class="navbar-brand" href="/">
             <h1 class="tm-site-title mb-0">Product Admin</h1>
           </a>
-          <button
-            class="navbar-toggler ml-auto mr-0"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
+          <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
             <i class="fas fa-bars tm-nav-icon"></i>
           </button>
 
@@ -28,15 +22,8 @@
                 </a>
               </li>
               <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
                   <i class="far fa-file-alt"></i>
                   <span> Reports <i class="fas fa-angle-down"></i> </span>
                 </a>
@@ -58,20 +45,13 @@
                 </a>
               </li>
               <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-cog"></i>
                   <span> Settings <i class="fas fa-angle-down"></i> </span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  
+
                   <a class="dropdown-item" href="/admin/ViewCategory">Category</a>
                   <a class="dropdown-item" href="#">Profile</a>
                   <a class="dropdown-item" href="#">Billing</a>
@@ -94,10 +74,11 @@
           <div class="col-12 tm-block-col">
             <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
               <h2 class="tm-block-title">List of Users</h2>
-              
+
               <!-- Search Bar -->
               <div class="input-group mb-3">
-                <input type="text" class="form-control" id="myInput" placeholder="Search for users..." onkeyup="myFunction()">
+                <input type="text" class="form-control" id="myInput" placeholder="Search for users..."
+                  onkeyup="myFunction()">
               </div>
               <input type="hidden" name="data" id="data" value="<%=data%>">
               <table class="table table-striped" id="myTable">
@@ -111,35 +92,38 @@
                 </thead>
                 <tbody id="userTableBody">
                   <!-- Example user data, replace this with your actual user data -->
-                  <% 
-                  if(data.length >0){
-                      for(let i=0;i<data.length;i++){
-                          %>
-                  <tr>
+                  <% if(data.length>0){
+                    for(let i=0;i<data.length;i++){ %>
+                      <tr>
 
-                    <td><%=i+1%></td>
-                    <td><%=data[i].fname%></td>
-                    <td><%=data[i].email%></td>
-                    <td>
-                     
-                     <a href="/admin/editUser?id=<%=data[i]._id%>"><button class="btn btn-info btn-sm" >Edit</button></a>
-                     <form style="display:inline-block ;" action="/admin/deleteClient" method="post"> <button onclick="delet()" name="delet" id="delete" value="<%=data[i]._id%>" class="btn btn-danger btn-sm" >Delete</button></form>
-                     <a href="/admin/blockClient?id=<%=data[i]._id%>"><button class="btn btn-warning btn-sm" >Block</button></a>
-                   </td>
-                  </tr>
-                  <%
-            }
-        }else{
-            %>
-            <tr>
-                <td colspan="5">users not found</td>
-                </tr>
-                <%
-            }
-            %>
-                  </tbody>
-                
-                </table>
+                        <td>
+                          <%=i+1%>
+                        </td>
+                        <td>
+                          <%=data[i].fname%>
+                        </td>
+                        <td>
+                          <%=data[i].email%>
+                        </td>
+                        <td>
+
+                          <a href="/admin/editUser?id=<%=data[i]._id%>"><button
+                              class="btn btn-info btn-sm">Edit</button></a>
+                          <form style="display:inline-block ;" action="/admin/deleteClient" method="post"> <button
+                              onclick="delet()" name="delet" id="delete" value="<%=data[i]._id%>"
+                              class="btn btn-danger btn-sm">Delete</button></form>
+                          <a href="/admin/blockClient?id=<%=data[i]._id%>"><button
+                              class="btn btn-warning btn-sm">Block</button></a>
+                        </td>
+                      </tr>
+                      <% } }else{ %>
+                        <tr>
+                          <td colspan="5">users not found</td>
+                        </tr>
+                        <% } %>
+                </tbody>
+
+              </table>
 
               </table>
             </div>
@@ -147,30 +131,30 @@
         </div>
         <script>
           function myFunction() {
-          var input, filter, table, tr, td, i, txtValue;
-          input = document.getElementById("myInput");
-          filter = input.value.toUpperCase();
-          table = document.getElementById("myTable");
-          tr = table.getElementsByTagName("tr");
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1];
-            if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-              } else {
-                tr[i].style.display = "none";
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+              td = tr[i].getElementsByTagName("td")[1];
+              if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
               }
-            }       
+            }
           }
-        }
 
-           
-        
-          
-          </script>
-        
-        
+
+
+
+        </script>
+
+
         <!-- <div class="row tm-content-row">
           <div class="col-12 tm-block-col">
             <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
@@ -187,7 +171,7 @@
           </div>
         </div> -->
         <!-- row -->
-        
+
       </div>
       <%-include('../layout/adminFooter')-%>
     </div>
@@ -198,30 +182,5 @@
     <!-- https://getbootstrap.com/ -->
 
   </body>
-</html>
- 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  </html>

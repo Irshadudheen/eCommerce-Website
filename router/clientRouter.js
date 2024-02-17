@@ -47,5 +47,5 @@ clientRouter.post('/editProfile', addressController.editProfile)
 clientRouter.post('/totalPrice', cartController.totalPrice)
 clientRouter.get('/checkOut', authantication.login, cartController.checkOut)
 clientRouter.post('/placeholder', cartController.placeholder)
-clientRouter.post('/delteTheOrder',orderController.delteTheOrder)
+clientRouter.post('/delteTheOrder', orderController.delteTheOrder)
 module.exports = clientRouter;

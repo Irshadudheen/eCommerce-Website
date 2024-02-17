@@ -6,15 +6,9 @@
         <a class="navbar-brand" href="/">
           <h1 class="tm-site-title mb-0">Product Admin</h1>
         </a>
-        <button
-          class="navbar-toggler ml-auto mr-0"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
           <i class="fas fa-bars tm-nav-icon"></i>
         </button>
 
@@ -27,15 +21,8 @@
               </a>
             </li>
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <i class="far fa-file-alt"></i>
                 <span> Reports <i class="fas fa-angle-down"></i> </span>
               </a>
@@ -57,15 +44,8 @@
               </a>
             </li>
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-cog"></i>
                 <span> Settings <i class="fas fa-angle-down"></i> </span>
               </a>
@@ -99,156 +79,131 @@
             </div>
             <div class="row tm-edit-product-row">
               <div class="col-xl-6 col-lg-6 col-md-12">
-                <form action="/admin/Updateproduct" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
+                <form action="/admin/Updateproduct" method="post" class="tm-edit-product-form"
+                  enctype="multipart/form-data">
                   <input type="hidden" value="<%=id%>" name="id">
                   <div class="form-group mb-3">
-                    <label
-                      for="name"
-                      >Product Name
+                    <label for="name">Product Name
                     </label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      value="<%=productData.name %>"
-                      class="form-control validate"
-                      required
-                    />
+                    <input id="name" name="name" type="text" value="<%=productData.name %>"
+                      class="form-control validate" required />
                   </div>
                   <div class="form-group mb-3">
-                    <label
-                      for="description"
-                      >Description</label
-                    >
-                    <textarea                    
-                      class="form-control validate tm-small"
-                      rows="5"
-                      name="description"
-                      value=""
-                      required
-                    ><%=productData.productDescription %></textarea>
+                    <label for="description">Description</label>
+                    <textarea class="form-control validate tm-small" rows="5" name="description" value=""
+                      required><%=productData.productDescription %></textarea>
                   </div>
                   <div class="form-group mb-3">
-                    <label
-                      for="category"
-                      >Category</label
-                    >
-                    <select
-                      class="custom-select tm-select-accounts"
-                      id="category"
-                      name="category"
-                    >
-                    
-                   <% if(category.length){%>
-                  <%  category.forEach(data=> {%>
+                    <label for="category">Category</label>
+                    <select class="custom-select tm-select-accounts" id="category" name="category">
 
-                      <option value="<%=data._id%>" selected><%=data.name%></option>
-                   <%})%>
-                   <%}else{%>
-                    <option value="" disabled selected>N/A</option>
-                    <%}%>
+                      <% if(category.length){%>
+                        <% category.forEach(data=> {%>
+
+                          <option value="<%=data._id%>" selected>
+                            <%=data.name%>
+                          </option>
+                          <%})%>
+                            <%}else{%>
+                              <option value="" disabled selected>N/A</option>
+                              <%}%>
                     </select>
                   </div>
                   <div class="row">
                     <div class="form-group mb-3 col-xs-12 col-sm-6">
-                      <label
-                        for="stock"
-                        >Units In Stock
+                      <label for="stock">Units In Stock
                       </label>
-                      <input
-                        id="stock"
-                        name="quantity"
-                        type="number"
-                        value="<%=productData.quantity %>"
-                        class="form-control validate"
-                      />
+                      <input id="stock" name="quantity" type="number" value="<%=productData.quantity %>"
+                        class="form-control validate" />
                     </div>
-                        <div class="form-group mb-3 col-xs-12 col-sm-6">
-                        </div>
-                      </div>
-                      
+                    <div class="form-group mb-3 col-xs-12 col-sm-6">
                     </div>
-                  <script>
-                    function delectTheImage(image,id,i){
-                      console.log(i)
-                      const rowImage = document.getElementById(`row${i}`)
-                      console.log(image,id,rowImage)
-                      fetch('/admin/delectTheImage', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({ image,id})
-                }).then(res => res.json()).then(data =>{
-                  if(rowImage){
-                    rowImage.remove()
-                  }
+                  </div>
 
-                })
-                
-                
-                
+              </div>
+              <script>
+                function delectTheImage(image, id, i) {
+                  console.log(i)
+                  const rowImage = document.getElementById(`row${i}`)
+                  console.log(image, id, rowImage)
+                  fetch('/admin/delectTheImage', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image, id })
+                  }).then(res => res.json()).then(data => {
+                    if (rowImage) {
+                      rowImage.remove()
                     }
-                    </script>
-                
-                <div class="custom-file mt-3 mb-3">
-                  
-                  <input id="fileInput" type="file" name="image" multiple />
-                  
-                </div>
+
+                  })
+
+
+
+                }
+              </script>
+
+              <div class="custom-file mt-3 mb-3">
+
+                <input id="fileInput" type="file" name="image" multiple />
+
               </div>
-              <div class="col-6">
-                <button type="submit" class="btn btn-primary btn-block text-uppercase">Update Now</button>
-              </div>
+            </div>
+            <div class="col-6">
+              <button type="submit" class="btn btn-primary btn-block text-uppercase">Update Now</button>
+            </div>
             </form>
             <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4 ">
-              
-              
-                <% if (productData.image.length > 0) { %>
-                  <% for (let i = 0; i < productData.image.length; i++) { %>
-                    <div  id="row<%=i%>">
-                      <div class="image-button-wrapper">
-                        <div class="image-container">
-                          <img src="/productImage/<%= productData.image[i] %>" width="150" height="150" alt="">
-                        </div>
-                        <div class="button-container">
-                          <input type="submit" value="delete" onclick="delectTheImage('<%=productData.image[i]%>','<%=productData._id%>','<%=i%>')">
-                        </div>
+
+
+              <% if (productData.image.length> 0) { %>
+                <% for (let i=0; i < productData.image.length; i++) { %>
+                  <div id="row<%=i%>">
+                    <div class="image-button-wrapper">
+                      <div class="image-container">
+                        <img src="/productImage/<%= productData.image[i] %>" width="150" height="150" alt="">
+                      </div>
+                      <div class="button-container">
+                        <input type="submit" value="delete"
+                          onclick="delectTheImage('<%=productData.image[i]%>','<%=productData._id%>','<%=i%>')">
                       </div>
                     </div>
+                  </div>
+                  <% } %>
                     <% } %>
-                    <% } %>
-                    <style>
-                    .row {
-                     display: flex;
-                     align-items: flex-start; 
-                      }
-
-                      .image-container,
-                      .button-container {
-                       display: block; 
-                       margin-right: 10px; 
+                      <style>
+                        .row {
+                          display: flex;
+                          align-items: flex-start;
                         }
-                  </style>
+
+                        .image-container,
+                        .button-container {
+                          display: block;
+                          margin-right: 10px;
+                        }
+                      </style>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <%-include('../layout/adminFooter')-%> 
+    <%-include('../layout/adminFooter')-%>
 
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <!-- https://jquery.com/download/ -->
-    <script src="jquery-ui-datepicker/jquery-ui.min.js"></script>
-    <!-- https://jqueryui.com/download/ -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- https://getbootstrap.com/ -->
-    <script>
-      $(function() {
-        $("#expire_date").datepicker({
-          defaultDate: "10/22/2020"
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <!-- https://jquery.com/download/ -->
+      <script src="jquery-ui-datepicker/jquery-ui.min.js"></script>
+      <!-- https://jqueryui.com/download/ -->
+      <script src="js/bootstrap.min.js"></script>
+      <!-- https://getbootstrap.com/ -->
+      <script>
+        $(function () {
+          $("#expire_date").datepicker({
+            defaultDate: "10/22/2020"
+          });
         });
-      });
-    </script>
+      </script>
   </body>
-</html>
+
+  </html>

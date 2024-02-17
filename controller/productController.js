@@ -4,8 +4,24 @@ const categoryDb = require('../model/categoryDb')
 //TOTAL VIEW OF PRODUCT IN CLIENT
 const Clientproduct = async (req, res) => {
     try {
-        const product = await productDb.find({ status: true })
-        res.render('product', { productData: product })
+        const sortOption= req.query.sort
+        console.log(sortOption)
+        let sort = {};
+        if (sortOption === 'default') {
+            sort = { createdate: -1 };
+        } else if (sortOption === 'priceLowToHigh') {
+            sort = { price: 1 };
+            
+        } else if (sortOption === 'priceHighToLow') {
+            sort = { price: -1  };
+        } else if (sortOption === 'name') {
+            sort = { name: 1 };
+        }
+        console.log("sort",sort);
+        
+        const product = await productDb.find({ status: true }).sort(sort)
+        res.render('product', { productData: product,sortOption });
+
 
     } catch (error) {
         console.log(error.message)
@@ -149,23 +165,23 @@ const Updateproduct = async (req, res) => {
 const blockProduct = async (req, res) => {
     try {
         // req.body.id
-        const {id}= req.body
+        const { id } = req.body
         console.log(req.body.id)
-        const checkProductStatus = await productDb.findOne({_id:id})
-        if(checkProductStatus.status==false){
+        const checkProductStatus = await productDb.findOne({ _id: id })
+        if (checkProductStatus.status == false) {
 
-            const deleteProduct = await productDb.findByIdAndUpdate({ _id:id },{$set:{status:true}})
+            const deleteProduct = await productDb.findByIdAndUpdate({ _id: id }, { $set: { status: true } })
             if (deleteProduct) {
                 res.send({ status: true })
             }
-        }else{
-            const deleteProduct = await productDb.findByIdAndUpdate({ _id:id },{$set:{status:false}})
+        } else {
+            const deleteProduct = await productDb.findByIdAndUpdate({ _id: id }, { $set: { status: false } })
             if (deleteProduct) {
                 res.send({ status: false })
             }
         }
 
-        
+
 
     } catch (error) {
         console.log(error.message)

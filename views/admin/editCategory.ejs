@@ -6,15 +6,9 @@
         <a class="navbar-brand" href="/">
           <h1 class="tm-site-title mb-0">Category Admin</h1>
         </a>
-        <button
-          class="navbar-toggler ml-auto mr-0"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
           <i class="fas fa-bars tm-nav-icon"></i>
         </button>
 
@@ -27,15 +21,8 @@
               </a>
             </li>
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <i class="far fa-file-alt"></i>
                 <span> Reports <i class="fas fa-angle-down"></i> </span>
               </a>
@@ -57,15 +44,8 @@
               </a>
             </li>
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-cog"></i>
                 <span> Settings <i class="fas fa-angle-down"></i> </span>
               </a>
@@ -99,134 +79,118 @@
             </div>
             <div class="row tm-edit-product-row">
               <div class="col-xl-12 col-lg-12 col-md-12">
-                <form   class="tm-edit-product-form" >
+                <form class="tm-edit-product-form">
                   <input type="hidden" name="id" id="id" value="<%=dataCatogory._id %>">
                   <div class="form-group mb-3">
-                    <label
-                      for="name"
-                      >Category Name
+                    <label for="name">Category Name
                     </label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text",
-                      value="<%=dataCatogory.name %>"
-                      class="form-control validate"
-                      required
-                    />
+                    <input id="name" name="name" type="text" , value="<%=dataCatogory.name %>"
+                      class="form-control validate" required />
                   </div>
                   <div class="form-group mb-3">
-                    <label
-                      for="description"
-                      >Description</label
-                    >
-                    <textarea
-                     class="form-control validate"
-                     rows="3"
-                     name="description"
-                     id="description"
-                     
-                     required
-                    ><%=dataCatogory.description%></textarea>
+                    <label for="description">Description</label>
+                    <textarea class="form-control validate" rows="3" name="description" id="description"
+                      required><%=dataCatogory.description%></textarea>
 
                   </div>
-                  
+
                   <div class="row">
                     <div class="custom-file mt-3 mb-3">
-                      <% if(typeof message !== 'undefined') {
-                        %>
-                        <p><%= message %></p>
-                        <%
-                     }
-                     %>
-                        
-                      
-    
-                    </div> 
-                    
-                       
+                      <% if(typeof message !=='undefined' ) { %>
+                        <p>
+                          <%= message %>
+                        </p>
+                        <% } %>
+
+
+
+                    </div>
+
+
                   </div>
-                  
+
               </div>
               <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                 <!-- <div class="tm-product-img-dummy mx-auto"> -->
-                   
-                    <!-- <input type="file" name="image" required multiple placeholder="image"> -->
-                  <!-- <i
+
+                <!-- <input type="file" name="image" required multiple placeholder="image"> -->
+                <!-- <i
                     class="fas fa-cloud-upload-alt tm-upload-icon"
                     onclick="document.getElementById('fileInput').click();"
                   ></i> -->
                 <!-- </div> -->
                 <div class="custom-file mt-3 mb-3">
-                  <% if(typeof message !== 'undefined') {
-                    %>
-                    <p><%= message %></p>
-                    <%
-                 }
-                 %>
-                    
-                  
+                  <% if(typeof message !=='undefined' ) { %>
+                    <p>
+                      <%= message %>
+                    </p>
+                    <% } %>
+
+
 
                 </div>
               </div>
               <div class="col-12">
-                <button type="submit"  onclick="updateTheData()" class="btn btn-primary btn-block text-uppercase">Edit Category Now</button>
+                <button type="submit" onclick="updateTheData()" class="btn btn-primary btn-block text-uppercase">Edit
+                  Category Now</button>
               </div>
-            </form>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
     <script>
-      function updateTheData(){
+      function updateTheData() {
         const id = document.getElementById('id').value
         console.log('jdfmdfj')
-        const name =document.getElementById('name').value
+        const name = document.getElementById('name').value
         const description = document.getElementById('description').value
-        console.log(name,description)
-        fetch('/admin/editCategory',{
-                  method: 'PUT',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({ name,description,id})
-                }).then(res => res.json()).then(data => {
-        if (data.status==true) {
-          window.location='/admin/ViewCategory'
+        console.log(name, description)
+        fetch('/admin/editCategory', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, description, id })
+        }).then(res => res.json()).then(data => {
+          if (data.status == true) {
+            window.location = '/admin/ViewCategory'
 
-            }else{
-              Swal.fire({
-                icon: 'warning',
-                title: 'the category is already exist',
-                customClass: {
-                    popup: "custom-popup-class",
-                    header: 'custom-header-class',
-                    content: 'custom-content-class',
-                    confirmButton: 'custom-confirm-button-class'
-                }
+          } else {
+            Swal.fire({
+              icon: 'warning',
+              title: 'the category is already exist',
+              customClass: {
+                popup: "custom-popup-class",
+                header: 'custom-header-class',
+                content: 'custom-content-class',
+                confirmButton: 'custom-confirm-button-class'
+              }
             });
-            }})
-        
+          }
+        })
+
 
       }
-      </script>
-    
-      <%-include('../layout/adminFooter')-%>
+    </script>
+
+    <%-include('../layout/adminFooter')-%>
 
       script src="js/jquery-3.3.1.min.js"></script>
-    <!-- https://jquery.com/download/ -->
-    <script src="jquery-ui-datepicker/jquery-ui.min.js"></script>
-    <!-- https://jqueryui.com/download/ -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- https://getbootstrap.com/ -->
-    <script>
+      <!-- https://jquery.com/download/ -->
+      <script src="jquery-ui-datepicker/jquery-ui.min.js"></script>
+      <!-- https://jqueryui.com/download/ -->
+      <script src="js/bootstrap.min.js"></script>
+      <!-- https://getbootstrap.com/ -->
+      <script>
 
-      $(function() {
-        $("#expire_date").datepicker();
-      });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        $(function () {
+          $("#expire_date").datepicker();
+        });
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   </body>
-</html>
+
+  </html>

@@ -7,17 +7,11 @@
           <h1 class="tm-site-title mb-0">Category Admin</h1>
         </a>
         <div>
-          
+
         </div>
-        <button
-          class="navbar-toggler ml-auto mr-0"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
           <i class="fas fa-bars tm-nav-icon"></i>
         </button>
 
@@ -30,14 +24,8 @@
               </a>
             </li>
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <i class="far fa-file-alt"></i>
                 <span> Reports <i class="fas fa-angle-down"></i> </span>
               </a>
@@ -59,14 +47,8 @@
               </a>
             </li>
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-cog"></i>
                 <span> Settings <i class="fas fa-angle-down"></i> </span>
               </a>
@@ -93,7 +75,7 @@
       <div class="row justify-content-center ">
         <div class="col-sm-12 col-md-12 col-lg-8 col-12 col-xl-8 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-products">
-            <div id="#load" class="tm-product-table-container" >
+            <div id="#load" class="tm-product-table-container">
               <input type="hidden" value="<%=category%>">
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>
@@ -108,137 +90,140 @@
                     <th scope="col">&nbsp;</th>
                   </tr>
                 </thead>
-              
-                <tbody>
-                  <% if(category.length >0){
-                    
-                    category.forEach(data=> {%>
-                  <tr  id="row">
-                    <th scope="row"><input type="checkbox" /></th>
-                    <td class="tm-product-name"><a href="/admin/editCategory?id=<%=data._id%>" style="color: #dee2e6;"><%=data.name%></a></td>
-                    
-                    <td><%=data.description%></td>
 
-                      
-                    <td>
-                     
-                       
-                        <span id="softDelete<%=data._id%>"  onclick="statusBlock('<%=data.name%>','<%=data._id%>')" class="material-symbols-outlined ">block</span>
+                <tbody>
+                  <% if(category.length>0){
+
+                    category.forEach(data=> {%>
+                    <tr id="row">
+                      <th scope="row"><input type="checkbox" /></th>
+                      <td class="tm-product-name"><a href="/admin/editCategory?id=<%=data._id%>"
+                          style="color: #dee2e6;">
+                          <%=data.name%>
+                        </a></td>
+
+                      <td>
+                        <%=data.description%>
+                      </td>
+
+
+                      <td>
+
+
+                        <span id="softDelete<%=data._id%>" onclick="statusBlock('<%=data.name%>','<%=data._id%>')"
+                          class="material-symbols-outlined ">block</span>
                         <script>
                           document.addEventListener('DOMContentLoaded', () => {
-    
-    // const storedColor = localStorage.getItem('softDeleteColor'); 
-    const icon = document.getElementById("softDelete<%=data._id%>")
-                            document.querySelectorAll('[id^="softDelete<%= data._id %>"]').forEach((icon)=>{
-                            console.log(icon.dataset.id)
-                              const storedColor =localStorage.getItem(`softDeleteColor_${icon.dataset.id}`)
+
+                            // const storedColor = localStorage.getItem('softDeleteColor'); 
+                            const icon = document.getElementById("softDelete<%=data._id%>")
+                            document.querySelectorAll('[id^="softDelete<%= data._id %>"]').forEach((icon) => {
+                              console.log(icon.dataset.id)
+                              const storedColor = localStorage.getItem(`softDeleteColor_${icon.dataset.id}`)
                               if (storedColor) {
-                               
-                              icon.style.color = storedColor;
-                          }
+
+                                icon.style.color = storedColor;
+                              }
                             })
-});
-                          
-                          </script>
-                     
-                      </a>
-                    </td>
-                      
-                      
-                  </tr>
-                  
-                  <%
-            })
-        }else{
-            %>
-            <tr>
-                <td colspan="5">users not found</td>
-                </tr>
-                <%
-            }
-            %>
+                          });
 
-                  </tbody>
-                </table>
+                        </script>
+
+                        </a>
+                      </td>
 
 
-               <script>
-               
+                    </tr>
+
+                    <% }) }else{ %>
+                      <tr>
+                        <td colspan="5">users not found</td>
+                      </tr>
+                      <% } %>
+
+                </tbody>
+              </table>
+
+
+              <script>
+
                 function statusBlock(name, id) {
 
-                   icone = document.getElementById(`softDelete${id}`);
+                  icone = document.getElementById(`softDelete${id}`);
                   console.log(icone)
-    console.log(id);
-    console.log(name);
-    fetch('/admin/statusCategory', {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name })
-      }).then(res => res.json()).then(data => {
-        if (data.status == true) {
-          
-          const icon = document.getElementById(`softDelete${id}`)
-            icon.style.color = "#dee2e6"; // Set color to #dee2e6
-            localStorage.setItem(`softDeleteColor_${id}`, '#dee2e6'); // Store color in localStorage
-            Swal.fire({
-                icon: 'success',
-                title: 'unblock',
-                customClass: {
-                    popup: "custom-popup-class",
-                    header: 'custom-header-class',
-                    content: 'custom-content-class',
-                    confirmButton: 'custom-confirm-button-class'
+                  console.log(id);
+                  console.log(name);
+                  fetch('/admin/statusCategory', {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name })
+                  }).then(res => res.json()).then(data => {
+                    if (data.status == true) {
+
+                      const icon = document.getElementById(`softDelete${id}`)
+                      icon.style.color = "#dee2e6"; // Set color to #dee2e6
+                      localStorage.setItem(`softDeleteColor_${id}`, '#dee2e6'); // Store color in localStorage
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'unblock',
+                        customClass: {
+                          popup: "custom-popup-class",
+                          header: 'custom-header-class',
+                          content: 'custom-content-class',
+                          confirmButton: 'custom-confirm-button-class'
+                        }
+                      });
+                    } else {
+                      const icon = document.getElementById(`softDelete${id}`)
+                      icon.style.color = "red";
+                      localStorage.setItem(`softDeleteColor_${id}`, 'red'); // Store color in localStorage
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'block',
+                        customClass: {
+                          popup: "custom-popup-class",
+                          header: 'custom-header-class',
+                          content: 'custom-content-class',
+                          confirmButton: 'custom-confirm-button-class'
+                        }
+                      });
+                    }
+                  }).catch(error => {
+                    console.error('Error deleting record:', error);
+                  });
                 }
-            });
-        } else {
-          const icon = document.getElementById(`softDelete${id}`)
-            icon.style.color = "red";
-            localStorage.setItem(`softDeleteColor_${id}`, 'red'); // Store color in localStorage
-            Swal.fire({
-                icon: 'error',
-                title: 'block',
-                customClass: {
-                    popup: "custom-popup-class",
-                    header: 'custom-header-class',
-                    content: 'custom-content-class',
-                    confirmButton: 'custom-confirm-button-class'
-                }
-            });
-        }
-    }).catch(error => {
-        console.error('Error deleting record:', error);
-    });
-  }
-  
-                </script>
+
+              </script>
             </div>
             <!-- table container -->
-            
-              <a href="/admin/addCategory">
-              <button  class="btn btn-primary btn-block text-uppercase mb-3">
+
+            <a href="/admin/addCategory">
+              <button class="btn btn-primary btn-block text-uppercase mb-3">
                 Add new category
-                </button>
-               
+              </button>
+
           </div>
-        
-      </div>
-        
+
         </div>
+
+      </div>
     </div>
     <%-include('../layout/adminFooter')-%>
 
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <!-- https://jquery.com/download/ -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- https://getbootstrap.com/ -->
-    // <script>
-    //   $(function() {
-    //     $(".tm-product-name").on("click", function() {
-    //       window.location.href = "/admin/editProduct";
-    //     });
-    //   });
-    // </script>
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <!-- https://jquery.com/download/ -->
+      <script src="js/bootstrap.min.js"></script>
+      <!-- https://getbootstrap.com/ -->
+      //
+      <script>
+        //   $(function() {
+        //     $(".tm-product-name").on("click", function() {
+        //       window.location.href = "/admin/editProduct";
+        //     });
+        //   });
+        // </script>
   </body>
-</html>
+
+  </html>

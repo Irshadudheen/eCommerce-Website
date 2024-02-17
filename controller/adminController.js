@@ -5,9 +5,10 @@ const orderDb = require('../model/orderDb')
 const adminDashboard = async (req, res) => {
     try {
         const order = await orderDb.find().populate("clientId").populate({
-             path: 'products.productId',
-        model: 'product'})
-        
+            path: 'products.productId',
+            model: 'product'
+        })
+
         res.render('adminDashboard', { order })
     } catch (error) {
         console.log(error.message)

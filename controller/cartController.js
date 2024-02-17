@@ -16,7 +16,7 @@ const addToCart = async (req, res) => {
             const checkTheCart = await cartDb.findOne({ clientId })
             if (checkTheCart) {
                 const initialLength = checkTheCart.products.length;
-                
+
 
                 checkTheCart.products.push({
                     productId: id,
@@ -176,7 +176,7 @@ const checkOut = async (req, res) => {
     try {
         const { totalPrice } = req.query
 
-        const address = await addressDb.find({ clientId: req.session.user_id })
+        const address = await addressDb.find({ clientId: req.session.user_id }).populate('clientId')
         res.render('checkOut', { totalPrice, address })
 
     } catch (error) {
@@ -189,15 +189,15 @@ const checkOut = async (req, res) => {
 const placeholder = async (req, res) => {
     try {
         const { user_id } = req.session
-        const address = await addressDb.findOne({ _id: req.body.address })
-        console.log(user_id,address,"address and user_id")
+        const address = await addressDb.findOne({ _id: req.body.address_id })
+        console.log(user_id, address, "address and user_id")
 
 
         const { paymentMethod, totalPrice } = req.body
         const cart = await cartDb.findOne({ clientId: user_id })
 
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
-            console.log(cartProduct.totalPrice,"_______________________________________++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+            console.log(cartProduct.totalPrice, "_______________________________________++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
             const productDetails = await productDb.findById(cartProduct.productId);
             productDetails.quantity -= cartProduct.quantity;

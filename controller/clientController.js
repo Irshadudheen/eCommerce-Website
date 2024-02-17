@@ -256,13 +256,8 @@ const profile = async (req, res) => {
         const address = await addressDb.find({ clientId: user_id }).populate("clientId")
         const order = await orderDb.find({ clientId: user_id }).populate('products')
 
-        console.log(order[0].products, ":order")
-        order.forEach(ele => {
-            const dateWithoutTime = ele.date.toLocaleDateString();
-            console.log(dateWithoutTime);
-
-        })
-        console.log(userData)
+        
+        
         res.render('clientProfile', { userData, address, order })
 
     } catch (error) {
