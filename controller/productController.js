@@ -1,10 +1,12 @@
 const productDb = require('../model/productDb')
 const categoryDb = require('../model/categoryDb')
+const wishlistDb = require('../model/wishlistDb')
 
 //TOTAL VIEW OF PRODUCT IN CLIENT
 const Clientproduct = async (req, res) => {
     try {
         const sortOption= req.query.sort
+        const {user_id}=req.session
         console.log(sortOption)
         let sort = {};
         if (sortOption === 'default') {
@@ -19,8 +21,14 @@ const Clientproduct = async (req, res) => {
         }
         console.log("sort",sort);
         
-        const product = await productDb.find({ status: true }).sort(sort)
-        res.render('product', { productData: product,sortOption });
+        const product = await productDb.find({ status: true }).sort(sort).populate({
+            path: "categoryid",
+            match: { status: true }
+        }).exec()
+        const wishlist = await wishlistDb.findOne({clientId:user_id})
+        const filteredProduct = product.filter(product => product.categoryid !== null)
+
+        res.render('product', { productData: filteredProduct,sortOption ,wishlist});
 
 
     } catch (error) {

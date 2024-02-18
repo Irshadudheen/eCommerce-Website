@@ -63,18 +63,22 @@ const editUser = async (req, res) => {
 //EDIT SUBMIT OF CLIENT
 const updateClient = async (req, res) => {
     try {
-        const { client } = req.body
-        const clientemailCheck = await clientDb.findOne({ _id: client })
-        if (!clientemailCheck) {
+        const { id } = req.body
+        
+        
+        const clientemailCheck = await clientDb.findOne({ email:req.body.email })
+        console.log("dlkfjmfjdvf")
+        console.log(clientemailCheck._id,"djsdkdjsmkfjmcfmcfcfn",id,"sdjcszdjfcszdjfksdjmkfjmdkjmfkcdjxmfkcdjxmfckdxmfkcdnxmjfcmndxjcndjfcndmxfncdjxfncdjxnfcdjxfncdjfnjfcndjn")
+        if (clientemailCheck._id==id) {
 
-            const ClientData = await clientDb.findByIdAndUpdate({ _id: client }, { $set: { fname: req.body.name, email: req.body.email, mobile: req.body.mobile } }, { new: true })
+            const ClientData = await clientDb.findByIdAndUpdate({ _id: id }, { $set: { fname: req.body.name, email: req.body.email, mobile: req.body.mobile } }, { new: true })
             if (ClientData) {
                 res.redirect('/admin/clientview')
             } else {
-                res.redirect("/admin/editUser", { message: 'there data not update' })
+                res.render("editClient", { message: 'there data not update' })
             }
         } else {
-            res.redirect("/admin/clientview")
+            res.render("editClient",{message:'the email is already exists',id:req.body.id,client:req.body.client})
             console.log("the email is already exists")
         }
     } catch (error) {

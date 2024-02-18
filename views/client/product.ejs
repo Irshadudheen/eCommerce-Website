@@ -1,5 +1,5 @@
 <%-include('../layout/clientHeader')-%>
-
+<script src="https://kit.fontawesome.com/2ff8cd4e1a.js" crossorigin="anonymous"></script>
     <body>
         <div class="page-wrapper">
             <header class="header">
@@ -386,13 +386,66 @@
                                                     }
                                                 }
                                             </style>
+                                           
                                             <figure class="product-media">
                                                 <span class="product-label label-sale">30% off</span>
                                                 <a href="/eachproduct?id=<%=data._id %>">
                                                     <img src="productImage/<%=data.image[0]%>"  alt="Product image"
                                                         class="product-image">
                                                 </a>
+                                                <div class="product-action-vertical">
+                                                    <a  id="holeHeart<%=data._id%>" class=" btn-product-icon btn-wishlist btn-expandable" onclick="AddTowislist('<%=data._id%>')" style="color: red;"><span >add to
+                                                        wishlist</span></a>
+                                                        <% wishlist.products.forEach(ele=>{%>
+                                                            <%   if(ele.productId==data._id){%>
+                                                                <p>sjhjsfjjsfkdnuj</p>
 
+                                                                <i id="solidheart<%=data._id%>"  style=" color: red;" class="fa-solid fa-heart">dd</i>
+                                                           <% }%>
+                                                      <%  })%>
+                                                        <script>
+                                                             
+                                                          function  AddTowislist(productId){
+
+                                                            console.log("sdrhejdsmkfnhd")
+                                                            const holeHeart = document.getElementById(`holeHeart${productId}`)
+                                                            holeHeart.style.display='none'
+                                                            document.getElementById(`solidheart${productId}`).style.display = "inline-block";
+                                                            fetch('/addToWishlist',{
+                                                                method:'POST', 
+                                                                headers: {
+                                                                'Content-Type': 'application/json'
+                                                                },
+                                                                body: JSON.stringify({productId })
+                                                            }).then(res => res.json()).then(data => {
+                                                                if (data.status == true) {
+                                                                    Swal.fire({
+                                                                    icon: 'success',
+                                                                    title: 'added to wishlist',
+                                                                    customClass: {
+                                                                    popup: "custom-popup-class",
+                                                                    header: 'custom-header-class',
+                                                                    content: 'custom-content-class',
+                                                                    confirmButton: 'custom-confirm-button-class'
+                                                                    }
+                                                                });
+
+                                                           }else{
+                                                            Swal.fire({
+                                                                    icon: 'warning',
+                                                                    title: 'already added to wishlist',
+                                                                    customClass: {
+                                                                    popup: "custom-popup-class",
+                                                                    header: 'custom-header-class',
+                                                                    content: 'custom-content-class',
+                                                                    confirmButton: 'custom-confirm-button-class'
+                                                                    }
+                                                                });
+
+                                                           } })
+                                                            }
+                                                        </script>
+                                                    </div>
                                                 <div class="product-action">
                                                     <a href="#" class="btn-product btn-cart"><span>add to
                                                             cart</span></a>
