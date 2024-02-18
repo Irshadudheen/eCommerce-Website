@@ -1,8 +1,8 @@
 const orderDb = require("../model/orderDb")
-
+const productDb = require('../model/productDb')
 const delteTheOrder = async (req, res) => {
     try {
-        const { product_id, order_id } = req.body
+        const { product_id, order_id} = req.body
         console.log(product_id, order_id)
         const removeTheOrder = await orderDb.findByIdAndUpdate({ _id: order_id }, { $pull: { products: { productId: product_id } } })
         console.log(removeTheOrder, "____________________________________________________________________-")

@@ -70,7 +70,7 @@
     </nav>
     <div class="container tm-mt-big tm-mb-big">
       <div class="row">
-        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+        <div class=" col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
             <div class="row">
               <div class="col-12">
@@ -84,7 +84,31 @@
                   <div class="form-group mb-3">
                     <label for="name">Product Name
                     </label>
-                    <input id="name" name="name" type="text" class="form-control validate" required />
+                    <input id="name" name="name" type="text" oninput="checkProductName()" class="form-control validate" required />
+                    <script>
+                      function checkProductName(){
+                        console.log("alkajskjkjkjfkdjmkfjj")
+                        const input = document.getElementById("name").value
+                        console.log(input)
+                        const filter = input.toString().trim()
+                        const addProductButton = document.getElementById("addProduct")
+
+                        if(filter.length>20){
+                          alert("the product name should be char less than 20")
+                          addProductButton.disabled=true
+
+
+                        }else if(filter.length ==0){
+                          
+
+                          addProductButton.disabled=true
+
+                        }else{
+                          addProductButton.disabled=false
+                        }
+                      }
+
+                    </script>
                   </div>
                   <div class="form-group mb-3">
                     <label for="description">Description</label>
@@ -107,7 +131,28 @@
                     <div class="form-group mb-3 col-xs-12 col-sm-6">
                       <label for="price">price
                       </label>
-                      <input id="price" name="price" type="number" class="form-control validate" required />
+                      <input  name="price" type="number" id="productPrice" oninput="checkPrice()" class="form-control validate" required />
+                      <script>
+                        function checkPrice(){
+                         console.log("ajlsadkjsdkjalkjs")
+                         const input = document.getElementById('productPrice').value
+                         console.log(input)
+                        const filter = input.toString()
+                        console.log(filter.charAt(0))
+                        const addProductButton = document.getElementById("addProduct")
+                        if(filter.charAt(0)=="-"){
+                          // alert("negative is not alowed in product price")
+                          console.log(addProductButton)
+                          addProductButton.disabled = true;
+                        }else{
+
+                          addProductButton.disabled = false;
+
+                        }
+
+                 
+                         }
+                       </script>
                     </div>
                     <div class="form-group mb-3 col-xs-12 col-sm-6">
                       <label for="stock">Units In Stock
@@ -133,7 +178,7 @@
                 </div>
               </div>
               <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+                <button type="submit" id="addProduct" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
               </div>
               </form>
             </div>
@@ -155,6 +200,7 @@
           $("#expire_date").datepicker();
         });
       </script>
+      
   </body>
 
   </html>

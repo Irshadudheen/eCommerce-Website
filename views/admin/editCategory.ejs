@@ -84,13 +84,49 @@
                   <div class="form-group mb-3">
                     <label for="name">Category Name
                     </label>
-                    <input id="name" name="name" type="text" , value="<%=dataCatogory.name %>"
+                    <input id="name" name="name" type="text" oninput="checkCatogoryName()" value="<%=dataCatogory.name %>"
                       class="form-control validate" required />
+                      <script>
+                        function checkCatogoryName(){
+                          console.log("sdohdfj,")
+                          const input = document.getElementById('name').value
+                          const filter = input.trim()
+                          if(filter.length ==0){
+                            const submitButton = document.getElementById('submit')
+                            submitButton.disabled =true
+                          }else if(filter.length>20){
+                            const submitButton = document.getElementById('submit')
+                            submitButton.disabled =true
+  
+  
+                          }
+                          else{
+                            const submitButton = document.getElementById('submit')
+                            submitButton.disabled =false
+  
+                          }
+                        }
+                      </script>
                   </div>
                   <div class="form-group mb-3">
                     <label for="description">Description</label>
-                    <textarea class="form-control validate" rows="3" name="description" id="description"
+                    <textarea class="form-control validate" rows="3" id="description" oninput="checkCatogoryDescription()" name="description" id="description"
                       required><%=dataCatogory.description%></textarea>
+                      <script>
+                        function checkCatogoryDescription(){
+                          console.log("sdohdfj,")
+                          const input = document.getElementById('description').value
+                          const filter = input.trim()
+                          if(filter.length ==0){
+                            const submitButton = document.getElementById('submit')
+                            submitButton.disabled =true
+                          }else{
+                            const submitButton = document.getElementById('submit')
+                            submitButton.disabled =false
+  
+                          }
+                        }
+                      </script>
 
                   </div>
 
@@ -131,7 +167,7 @@
                 </div>
               </div>
               <div class="col-12">
-                <button type="submit" onclick="updateTheData()" class="btn btn-primary btn-block text-uppercase">Edit
+                <button type="submit" onclick="updateTheData()" id="submit" class="btn btn-primary btn-block text-uppercase">Edit
                   Category Now</button>
               </div>
               </form>

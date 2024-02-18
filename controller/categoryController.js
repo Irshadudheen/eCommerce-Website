@@ -91,7 +91,7 @@ const editCategorySubmit = async (req, res) => {
         console.log("fetch the data ")
         const { id, name, description } = req.body
         const checkdata = await categoryDb.findOne({ name: { $regex: new RegExp('^' + name + "$", "i") } })
-        if (!checkdata) {
+        if (checkdata._id==id) {
 
 
 
