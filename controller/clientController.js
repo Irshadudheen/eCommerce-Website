@@ -322,7 +322,7 @@ const forgotPasswordSubmit = async (req, res) => {
 
         const checkmail = await clientDb.findOne({ email })
         console.log(checkmail)
-        const otp = Math.floor((Math.random() * 1000)) + 1000
+        const otp = Math.floor(Math.random() + 1000 *9000)
         console.log(otp)
 
 

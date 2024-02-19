@@ -3,46 +3,7 @@
     <body>
         <div class="page-wrapper">
             <header class="header">
-                <div class="header-top">
-                    <div class="container">
-                        <div class="header-left">
-                            <div class="header-dropdown">
-                                <a href="#">Usd</a>
-                                <div class="header-menu">
-                                    <ul>
-                                        <li><a href="#">Eur</a></li>
-                                        <li><a href="#">Usd</a></li>
-                                    </ul>
-                                </div><!-- End .header-menu -->
-                            </div><!-- End .header-dropdown -->
-
-                            <div class="header-dropdown">
-                                <a href="#">Eng</a>
-                                <div class="header-menu">
-                                    <ul>
-                                        <li><a href="#">English</a></li>
-                                        <li><a href="#">French</a></li>
-                                        <li><a href="#">Spanish</a></li>
-                                    </ul>
-                                </div><!-- End .header-menu -->
-                            </div><!-- End .header-dropdown -->
-                        </div><!-- End .header-left -->
-
-                        <div class="header-right">
-                            <ul class="top-menu">
-                                <li>
-                                    <a href="#">Links</a>
-                                    <ul>
-                                        <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist
-                                                <span>(3)</span></a></li>
-                                        <li><a href="about.html">About Us</a></li>
-                                        <li><a href="contact.html">Contact Us</a></li>
-                                    </ul>
-                                </li>
-                            </ul><!-- End .top-menu -->
-                        </div><!-- End .header-right -->
-                    </div><!-- End .container -->
-                </div><!-- End .header-top -->
+               
 
                 <div class="header-middle sticky-header">
                     <div class="container">
@@ -396,13 +357,10 @@
                                                 <div class="product-action-vertical">
                                                     <a  id="holeHeart<%=data._id%>" class=" btn-product-icon btn-wishlist btn-expandable" onclick="AddTowislist('<%=data._id%>')" style="color: red;"><span >add to
                                                         wishlist</span></a>
-                                                        <% wishlist.products.forEach(ele=>{%>
-                                                            <%   if(ele.productId==data._id){%>
-                                                                <p>sjhjsfjjsfkdnuj</p>
+                                                        
 
-                                                                <i id="solidheart<%=data._id%>"  style=" color: red;" class="fa-solid fa-heart">dd</i>
-                                                           <% }%>
-                                                      <%  })%>
+                                                                <i id="solidheart<%=data._id%>"  style="display: none; color: red;" class="fa-solid fa-heart"></i>
+                                                           
                                                         <script>
                                                              
                                                           function  AddTowislist(productId){

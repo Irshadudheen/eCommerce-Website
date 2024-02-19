@@ -9,7 +9,7 @@ const orderController = require('../controller/orderController')
 const wishlistController =require('../controller/wishlistController')
 const path = require('path')
 
-clientRouter.set('views', './views/client')
+clientRouter.set('views','./views/client')
 
 
 clientRouter.use(express.static(path.join(__dirname, '../public')))

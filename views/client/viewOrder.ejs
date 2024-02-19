@@ -1,9 +1,39 @@
-<%-include('../layout/clientHeader')-%>
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/wishlist.html  22 Nov 2019 09:55:05 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
 
 <body>
     <div class="page-wrapper">
         <header class="header">
            
+
             <div class="header-middle sticky-header">
                 <div class="container">
                     <div class="header-left">
@@ -24,7 +54,7 @@
                                    
                                 </li>
                                 <li>
-                                    <a href="category.html" class="sf-with-ul">Shop</a>
+                                    <a href="category.html" >Shop</a>
 
                                     <div class="megamenu megamenu-md">
                                         <div class="row no-gutters">
@@ -56,9 +86,9 @@
                                                             </ul>
                                                             <div class="menu-title">Shop Pages</div><!-- End .menu-title -->
                                                             <ul>
-                                                                <li><a href="/cartView">Cart</a></li>
-                                                                <li><a href="/checkOut">Checkout</a></li>
-                                                                <li><a href="/wishlist">Wishlist</a></li>
+                                                                <li><a href="cart.html">Cart</a></li>
+                                                                <li><a href="checkout.html">Checkout</a></li>
+                                                                <li><a href="wishlist.html">Wishlist</a></li>
                                                                 <li><a href="dashboard.html">My Account</a></li>
                                                                 <li><a href="#">Lookbook</a></li>
                                                             </ul>
@@ -82,43 +112,12 @@
                                     </div><!-- End .megamenu megamenu-md -->
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                    <a href="product.html" >Product</a>
 
-                                    <div class="megamenu megamenu-sm">
-                                        <div class="row no-gutters">
-                                            <div class="col-md-6">
-                                                <div class="menu-col">
-                                                    <div class="menu-title">Product Details</div><!-- End .menu-title -->
-                                                    <ul>
-                                                        <li><a href="product.html">Default</a></li>
-                                                        <li><a href="product-centered.html">Centered</a></li>
-                                                        <li><a href="product-extended.html"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
-                                                        <li><a href="product-gallery.html">Gallery</a></li>
-                                                        <li><a href="product-sticky.html">Sticky Info</a></li>
-                                                        <li><a href="product-sidebar.html">Boxed With Sidebar</a></li>
-                                                        <li><a href="product-fullwidth.html">Full Width</a></li>
-                                                        <li><a href="product-masonry.html">Masonry Sticky Info</a></li>
-                                                    </ul>
-                                                </div><!-- End .menu-col -->
-                                            </div><!-- End .col-md-6 -->
-
-                                            <div class="col-md-6">
-                                                <div class="banner banner-overlay">
-                                                    <a href="category.html">
-                                                        <img src="assets/images/menu/banner-2.jpg" alt="Banner">
-
-                                                        <div class="banner-content banner-content-bottom">
-                                                            <div class="banner-title text-white">New Trends<br><span><strong>spring 2019</strong></span></div><!-- End .banner-title -->
-                                                        </div><!-- End .banner-content -->
-                                                    </a>
-                                                </div><!-- End .banner -->
-                                            </div><!-- End .col-md-6 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .megamenu megamenu-sm -->
+                                 
                                 </li>
                                
-                              
-                                
+                            
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
@@ -129,7 +128,7 @@
                             <form action="#" method="get">
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." >
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
@@ -213,8 +212,8 @@
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
-                                    <a href="/cartView" class="btn btn-primary">View Cart</a>
-                                    <a href="/checkOut" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
+                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div><!-- End .dropdown-cart-total -->
                             </div><!-- End .dropdown-menu -->
                         </div><!-- End .cart-dropdown -->
@@ -226,170 +225,33 @@
         <main class="main">
         	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
         		<div class="container">
-        			<h1 class="page-title">Shopping Cart<span>Shop</span></h1>
+        			<h1 class="page-title">Wishlist<span>Shop</span></h1>
         		</div><!-- End .container -->
         	</div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
                 <div class="container">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                        <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
 
             <div class="page-content">
-            	<div class="cart">
-	                <div class="container">
-	                	<div class="row">
-	                		<div class="col-lg-9">
-                                <table class="table table-cart table-mobile">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                        <%if(cart){%>
-                                            <% if(cart.products.length > 0) {%>
-                                            <% cart.products.forEach(product =>{ %>
-
-                                         
-
-    
-                                                
-                                                <tr id="row<%=product.productId._id%>">
-                                                    <td class="product-col">
-                                                        <div class="product">
-                                                            <figure class="product-media">
-                                                                <a href="#">
-                                                                    
-                                                                    <img src="/productImage/<%=product.image%>" alt="Product image">
-                                                                </a>
-                                                            </figure>
-                                                            
-                                                            <h3 class="product-title">
-                                                                <a href="/eachProduct?<%=product.productId._id%>"><%=product.productId.name %></a>
-                                                            </h3><!-- End .product-title -->
-                                                        </div><!-- End .product -->
-                                                    </td>
-                                                    <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price %></td>
-                                                    <td class="quantity-col">
-                                                        <div class="cart-product-quantity">
-                                                            <input type="number" class="form-control"   value="<%=product.quantity%>" id="p_quantity<%=product.productId._id%>" min="1" onchange="increase('<%= product.productId._id %>','<%=cart._id%>')" max="<%=product.productId.quantity%>" step="1" data-decimals="0" required>
-                                                        </div><!-- End .cart-product-quantity -->
-                                                    </td>
-                                                    <td class="total-col"  id="p_total<%=product.productId._id%>">$<%= product.totalPrice %></td>
-                                   
-                                                    <td class="remove-col"><button onclick="btnToDelete('<%=product.productId._id%>','<%=cart._id%>')" class="btn-remove"><i class="icon-close"></i></button></td>
-                                                </tr>
-                                          <%  })}%>
-                                          <%}%>
-                                    
-                                       
-                                    </tbody>
-                                </table><!-- End .table table-wishlist -->
-                                
-
-	                			<div class="cart-bottom">
-			            			<div class="cart-discount">
-			            				<form action="#">
-			            					<div class="input-group">
-				        						<input type="text" class="form-control" required placeholder="coupon code">
-				        						<div class="input-group-append">
-													<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-												</div><!-- .End .input-group-append -->
-			        						</div><!-- End .input-group -->
-			            				</form>
-			            			</div><!-- End .cart-discount -->
-
-			            			<a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a>
-		            			</div><!-- End .cart-bottom -->
-	                		</div><!-- End .col-lg-9 -->
-	                		<aside class="col-lg-3">
-	                			<div class="summary summary-cart">
-	                				<h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
-
-	                				<table class="table table-summary">
-	                					<tbody>
-	                						<tr class="summary-subtotal">
-	                							<td>Subtotal:</td>
-                                                <% if(typeof totalPrice !== 'undefined') {
-                                                    %>
-                                                    <td id="Subtotal">$<%=totalPrice%></td>
-                                                    
-                                                    <%
-                                                 }
-                                                 %>
-                                             
-	                						</tr><!-- End .summary-subtotal -->
-	                						<tr class="summary-shipping">
-	                							<td>Shipping:</td>
-	                							<td>&nbsp;</td>
-	                						</tr>
-
-	                						<tr class="summary-shipping-row">
-	                							<td>
-													<div class="custom-control custom-radio">
-                                                        <form action="/checkout">
-														<input type="radio" id="free-shipping" name="shipping" class="custom-control-input" required>
-                                                       <% if (typeof totalPrice !="undefined") {%>
-                                                        <input type="hidden" name="totalPrice"
-                                                            
-                                                         value="<%=totalPrice%>"
-                                                         >
-                                                        <%}%>
-														<label class="custom-control-label" for="free-shipping">Free Shipping</label>
-													</div><!-- End .custom-control -->
-	                							</td>
-	                							<td>$0.00</td>
-	                						</tr><!-- End .summary-shipping-row -->
-
-	                						
-
-	                						
-
-	                						
-
-	                						<tr class="summary-total">
-	                							<td>Total:</td>
-                                                <% if(typeof totalPrice !== 'undefined') {
-                                                    %>
-                                                    <td id="total">$<%=totalPrice%></td>
-                                                    
-                                                    <%
-                                                 }
-                                                 %>
-	                						</tr><!-- End .summary-total -->
-	                					</tbody>
-	                				</table><!-- End .table table-summary -->
-                                    <% if(typeof totalPrice !== 'undefined') {
-                                                    %>
-                                                    
-                                                    
-                                                    <button class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</button>
-                                                        </form>
-                                                    <%
-                                                 }else{%>
-                                                    <button   class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</button >
-
-
-                                                <% }
-                                                 %>
-
-	                			</div><!-- End .summary -->
-
-		            			<a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
-	                		</aside><!-- End .col-lg-3 -->
-	                	</div><!-- End .row -->
-	                </div><!-- End .container -->
-                </div><!-- End .cart -->
+            	<div class="container">
+				
+	            	<div class="wishlist-share">
+	            		<div class="social-icons social-icons-sm mb-2">
+	            			<label class="social-label">Share on:</label>
+	    					<a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+	    					<a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+	    					<a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+	    					<a href="#" class="social-icon" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+	    					<a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+	    				</div><!-- End .soial-icons -->
+	            	</div><!-- End .wishlist-share -->
+            	</div><!-- End .container -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
@@ -402,7 +264,13 @@
 	            				<img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
 	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
-	            				
+	            				<div class="social-icons">
+	            					<a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+	            				</div><!-- End .soial-icons -->
 	            			</div><!-- End .widget about-widget -->
 	            		</div><!-- End .col-sm-6 col-lg-3 -->
 
@@ -414,6 +282,8 @@
 	            					<li><a href="about.html">About Molla</a></li>
 	            					<li><a href="#">How to shop on Molla</a></li>
 	            					<li><a href="#">FAQ</a></li>
+	            					<li><a href="contact.html">Contact us</a></li>
+	            					<li><a href="login.html">Log in</a></li>
 	            				</ul><!-- End .widget-list -->
 	            			</div><!-- End .widget -->
 	            		</div><!-- End .col-sm-6 col-lg-3 -->
@@ -439,8 +309,8 @@
 
 	            				<ul class="widget-list">
 	            					<li><a href="#">Sign In</a></li>
-	            					<li><a href="/cartView">View Cart</a></li>
-	            					<li><a href="/wishlist">My Wishlist</a></li>
+	            					<li><a href="cart.html">View Cart</a></li>
+	            					<li><a href="#">My Wishlist</a></li>
 	            					<li><a href="#">Track My Order</a></li>
 	            					<li><a href="#">Help</a></li>
 	            				</ul><!-- End .widget-list -->
@@ -471,7 +341,7 @@
 
             <form action="#" method="get" class="mobile-search">
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in...">
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
             
@@ -480,15 +350,48 @@
                     <li class="active">
                         <a href="index.html">Home</a>
 
-                       
+                        <ul>
+                            <li><a href="index-1.html">01 - furniture store</a></li>
+                            <li><a href="index-2.html">02 - furniture store</a></li>
+                            <li><a href="index-3.html">03 - electronic store</a></li>
+                            <li><a href="index-4.html">04 - electronic store</a></li>
+                            <li><a href="index-5.html">05 - fashion store</a></li>
+                            <li><a href="index-6.html">06 - fashion store</a></li>
+                            <li><a href="index-7.html">07 - fashion store</a></li>
+                            <li><a href="index-8.html">08 - fashion store</a></li>
+                            <li><a href="index-9.html">09 - fashion store</a></li>
+                            <li><a href="index-10.html">10 - shoes store</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="category.html">Shop</a>
-                       
+                        <ul>
+                            <li><a href="category-list.html">Shop List</a></li>
+                            <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
+                            <li><a href="category.html">Shop Grid 3 Columns</a></li>
+                            <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
+                            <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>
+                            <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
+                            <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
+                            <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="wishlist.html">Wishlist</a></li>
+                            <li><a href="#">Lookbook</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="product.html" class="sf-with-ul">Product</a>
-                       
+                        <ul>
+                            <li><a href="product.html">Default</a></li>
+                            <li><a href="product-centered.html">Centered</a></li>
+                            <li><a href="product-extended.html"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
+                            <li><a href="product-gallery.html">Gallery</a></li>
+                            <li><a href="product-sticky.html">Sticky Info</a></li>
+                            <li><a href="product-sidebar.html">Boxed With Sidebar</a></li>
+                            <li><a href="product-fullwidth.html">Full Width</a></li>
+                            <li><a href="product-masonry.html">Masonry Sticky Info</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#">Pages</a>
@@ -496,32 +399,89 @@
                             <li>
                                 <a href="about.html">About</a>
 
-                               
+                                <ul>
+                                    <li><a href="about.html">About 01</a></li>
+                                    <li><a href="about-2.html">About 02</a></li>
+                                </ul>
                             </li>
                             <li>
                                 <a href="contact.html">Contact</a>
 
-                                
-                            
+                                <ul>
+                                    <li><a href="contact.html">Contact 01</a></li>
+                                    <li><a href="contact-2.html">Contact 02</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="404.html">Error 404</a></li>
+                            <li><a href="coming-soon.html">Coming Soon</a></li>
                         </ul>
                     </li>
-                    <li>
+                 <li>
                         <a href="blog.html">Blog</a>
 
                         <ul>
                             <li><a href="blog.html">Classic</a></li>
                             <li><a href="blog-listing.html">Listing</a></li>
                             <li>
-                               
-                               
-                                              
-                                            </div><!-- End .col-6 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .form-choice -->
-                                </div><!-- .End .tab-pane -->
-                            </div><!-- End .tab-content -->
-                        </div><!-- End .form-tab -->
-                    </div><!-- End .form-box -->
+                                <a href="#">Grid</a>
+                                <ul>
+                                    <li><a href="blog-grid-2cols.html">Grid 2 columns</a></li>
+                                    <li><a href="blog-grid-3cols.html">Grid 3 columns</a></li>
+                                    <li><a href="blog-grid-4cols.html">Grid 4 columns</a></li>
+                                    <li><a href="blog-grid-sidebar.html">Grid sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Masonry</a>
+                                <ul>
+                                    <li><a href="blog-masonry-2cols.html">Masonry 2 columns</a></li>
+                                    <li><a href="blog-masonry-3cols.html">Masonry 3 columns</a></li>
+                                    <li><a href="blog-masonry-4cols.html">Masonry 4 columns</a></li>
+                                    <li><a href="blog-masonry-sidebar.html">Masonry sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Mask</a>
+                                <ul>
+                                    <li><a href="blog-mask-grid.html">Blog mask grid</a></li>
+                                    <li><a href="blog-mask-masonry.html">Blog mask masonry</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Single Post</a>
+                                <ul>
+                                    <li><a href="single.html">Default with sidebar</a></li>
+                                    <li><a href="single-fullwidth.html">Fullwidth no sidebar</a></li>
+                                    <li><a href="single-fullwidth-sidebar.html">Fullwidth with sidebar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                  
+                </ul>
+            </nav><!-- End .mobile-nav -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+    <!-- Sign in / Register Modal -->
+    <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button>
+
+                   
                 </div><!-- End .modal-body -->
             </div><!-- End .modal-content -->
         </div><!-- End .modal-dialog -->
@@ -534,93 +494,10 @@
     <script src="assets/js/jquery.waypoints.min.js"></script>
     <script src="assets/js/superfish.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
 </body>
-<script>
-                                    
-    function btnToDelete(_id,cart_id){
-        const row =document.getElementById(`row${_id}`)
-        console.log(row)
-        console.log(cart_id)
-       
-        fetch('/removeCard',{
-            method:'POST',
-            headers: {
-            'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({_id,cart_id})
-            }).then(res => res.json()).then(data => {
-                if(data){
-                    row.remove()
-                    Swal.fire({
-                     icon: 'error',
-                    title: 'cart remove success',
-                     customClass: {
-                     popup: "custom-popup-class",
-                      header: 'custom-header-class',
-                     content: 'custom-content-class', // Corrected typo here
-                     confirmButton: 'custom-confirm-button-class' // Corrected class name here
-                     }
-                    });
 
 
-                }
-
-
-             }).catch(error => {
-              console.error('Error deleting record:', error);
-            });
-
-        }
-
-    
-</script>
-<script>
-                                      
-
-    
-    
-    
-    
-    
-    function increase(id,cart_id){
-            var p_price = document.getElementById(`p_price${id}`).innerText
-            console.log(p_price)
-            console.log(cart_id)
-          
-        //     var p_price = document.getElementById(`p_price${i}`).innerText;
-        var p_quantity =document.getElementById(`p_quantity${id}`).value;
-        console.log(p_quantity)
-
-
-        // console.log(p_quantity)
-        var p_totol =document.getElementById(`p_total${id}`).innerHTML=`$${p_price*p_quantity}`
-        console.log(p_totol)
-        fetch('/totalPrice',{
-            method:'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({p_quantity,cart_id,id})
-
-
-            }).then(res => res.json()).then(data => {
-                    if(data){
-                        console.log(data.totalPrice)
-                        const Subtotal =document.getElementById('Subtotal').innerText=`$${data.totalPrice}`
-                        console.log(data.totalPrice)
-                        const Total = document.getElementById('total').innerText=`$${data.totalPrice}`
-                        console.log(Totol)
-
-
-                    }})
-        
-                
-
-        }
-    </script>
-
-<!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
+<!-- molla/wishlist.html  22 Nov 2019 09:55:06 GMT -->
 </html>

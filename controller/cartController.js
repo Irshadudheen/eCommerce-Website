@@ -3,6 +3,14 @@ const cartDb = require('../model/cartDb')
 const clientDb = require('../model/clientDb')
 const orderDb = require('../model/orderDb')
 const addressDb = require('../model/addressDb')
+const Razorpay = require('razorpay')
+
+//RAZORPAY PAYMENT METHOD
+const instance = new Razorpay({
+    key_id:'rzp_test_E5WE0z0SgB6EwW',
+    key_secret:'c3iGASVIf1rPEuNXLvIZjOQX'
+})
+
 const addToCart = async (req, res) => {
     try {
         console.log(req.query)
@@ -113,7 +121,6 @@ const removeCard = async (req, res) => {
         const { _id, cart_id } = req.body
         const removeCard = await cartDb.findByIdAndUpdate({ _id: cart_id }, { $pull: { products: { productId: _id } } })
         console.log(_id)
-        console.log(cart_id, "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         if (removeCard) {
             res.send({ status: true })
         }
@@ -175,9 +182,12 @@ const totalPrice = async (req, res) => {
 const checkOut = async (req, res) => {
     try {
         const { totalPrice } = req.query
-
-        const address = await addressDb.find({ clientId: req.session.user_id }).populate('clientId')
-        res.render('checkOut', { totalPrice, address })
+        const {user_id}=req.session
+        const address = await addressDb.find({ clientId:user_id}).populate('clientId')
+        const cart = await cartDb.findOne({clientId:user_id}).populate({path:'products.productId',model:'product'})
+        
+        console.log(cart)
+        res.render('checkOut', { totalPrice, address,cart})
 
     } catch (error) {
         console.log(error.message)
@@ -227,6 +237,7 @@ const placeholder = async (req, res) => {
             addressId:address._id,
             products: products,
             totalPrice,
+            paymentMethod,
             
             date: formattedDate,
             payment: totalPrice,
@@ -240,7 +251,8 @@ const placeholder = async (req, res) => {
 
 
 
-        if (paymentMethod) {
+        console.log(paymentMethod,"erkedmk,dmk,dm")
+        if (paymentMethod =="COD") {
 
 
 
@@ -251,7 +263,21 @@ const placeholder = async (req, res) => {
                 res.send({ status: false })
             }
 
-        }
+        }else if(paymentMethod =="Razorpay"){
+            const deleteCart = await cartDb.deleteOne({ clientId: req.session.user_id })
+if(deleteCart){
+
+    const razorpayOrder = await instance.orders.create({
+        amount:totalPrice ,
+        currency:'INR',
+        receipt:dataOrder._id.toString()
+    })
+    if(razorpayOrder){
+        res.send({status:"razorpayOrder",razorpayOrder})
+    }
+    
+}
+}
     }
 
 
