@@ -1,6 +1,10 @@
 const productDb = require('../model/productDb')
 const categoryDb = require('../model/categoryDb')
 const wishlistDb = require('../model/wishlistDb')
+const cartDb = require('../model/cartDb')
+const sharp = require('sharp')
+const path = require('path')
+const fs = require('fs')
 
 //TOTAL VIEW OF PRODUCT IN CLIENT
 const Clientproduct = async (req, res) => {
@@ -27,8 +31,9 @@ const Clientproduct = async (req, res) => {
         }).exec()
         const wishlist = await wishlistDb.findOne({clientId:user_id})
         const filteredProduct = product.filter(product => product.categoryid !== null)
-
-        res.render('product', { productData: filteredProduct,sortOption ,wishlist});
+        const cart = await cartDb.findOne({clientId:user_id})
+        const cartCount = cart?.products.length
+        res.render('product', { productData: filteredProduct,sortOption ,wishlist,cartCount});
 
 
     } catch (error) {
@@ -204,10 +209,17 @@ const delectTheImage = async (req, res) => {
         console.log(req.body)
         const { image, id } = req.body
 
-
+        const imagePath= path.join(__dirname, '../public/productImage', image);
         const deleteTheImage = await productDb.updateOne({ _id: id }, { $pull: { image } })
         if (delectTheImage) {
             res.send({ status: true })
+            fs.unlink(imagePath, (err) => {
+                if (err) {
+                    console.error('Error deleting file:', err);
+                    return;
+                }
+                console.log('File deleted successfully.');
+            });
             console.log(delectTheImage)
             console.log("sduifxjkwaefyuhijedfvyuhdjwdfhjcdfvhffddddddd")
 
@@ -220,6 +232,56 @@ const delectTheImage = async (req, res) => {
     }
 }
 
+//CROP PRODUCT IMAGE
+const cropImage = async (req,res)=>{
+    try {
+        const {binaryImage,productId }= req.body
+        console.log(req.file,1111111111111111111111111111)
+
+        const imagePath=  path.join(__dirname, '../public/productImage',"jkljk.jpg")
+
+        const base64Image = binaryImage.replace(/^data:image\/\w+;base64,/, '');
+        const buffer = Buffer.from(base64Image, 'base64');
+        fs.writeFile(imagePath, buffer, (err) => {
+            if (err) {
+                console.error('Error writing image:', err);
+            } else {
+                console.log('Image saved successfully.');
+            }
+        });
+        
+       
+
+            res.send({ status: true });
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
+// const convertImageDataIntoImage= async (binaryImage)=>{
+// try {
+//    const imagePath=  path.join(__dirname, '../public/productImage',)
+//    console.log("jfdssdjkmkfjsdmkdsfjmfkdjsdjk")
+    
+//     const base64Image = binaryImage.replace(/^data:image\/\w+;base64,/, '');
+//     const buffer = Buffer.from(base64Image, 'base64');
+//     fs.writeFile(imagePath, buffer, (err) => {
+//         if (err) {
+//             console.error('Error writing image:', err);
+//         } else {
+//             console.log('Image saved successfully.');
+//         }
+//     });
+    
+    
+
+// } catch (error) {
+    
+// }
+// }
+
 module.exports = {
     eachproduct,
     productAdmin,
@@ -229,5 +291,6 @@ module.exports = {
     Updateproduct,
     Clientproduct,
     blockProduct,
-    delectTheImage
+    delectTheImage,
+    cropImage
 }

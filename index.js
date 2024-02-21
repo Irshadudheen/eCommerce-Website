@@ -1,12 +1,12 @@
 const express = require('express')
 const nocache = require('nocache')
+const dotenv = require('dotenv').config()
 const path = require('path')
 const session = require('express-session')
 const config = require('./config/config')
 const adminRouter = require('./router/adminRouter')
 const clientRouter = require('./router/clientRouter')
 const app = express()
-const dotenv = require('dotenv').config()
 const {PORT}= process.env
 
 

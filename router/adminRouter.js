@@ -4,8 +4,8 @@ const adminController = require('../controller/adminController')
 const adminProductController = require('../controller/productController')
 const adminCategoryController = require('../controller/categoryController')
 const adminOrderController = require('../controller/orderController')
+const adminCouponController = require('../controller/couponController')
 const authantication = require('../middleware/authantication')
-
 const multer = require('multer')
 const path = require('path')
 
@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 
 })
 
-const upload = multer({ storage: storage })
+const upload = multer({  storage })
 
 
 // adminRouter.set('views','./views/client')
@@ -58,5 +58,8 @@ adminRouter.post('/deleteClient', adminController.deleteClient)
 adminRouter.put('/editCategory', adminCategoryController.editCategorySubmit)
 adminRouter.get('/orderlist', authantication.isadminlogin, adminOrderController.orderlist)
 adminRouter.post('/updateSatus', adminOrderController.updateSatus)
-
+adminRouter.get('/couponAdmin',authantication.isadminlogin,adminCouponController.couponAdmin)
+adminRouter.post('/cropImage',upload.single('image'),adminProductController.cropImage)
+adminRouter.post('/adminAddCoupon',authantication.isadminlogin,adminCouponController.adminAddCoupon)
+adminRouter.post('/deleteTheCoupon',adminCouponController.deleteTheCoupon)
 module.exports = adminRouter;

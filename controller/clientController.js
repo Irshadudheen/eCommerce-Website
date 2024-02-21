@@ -5,6 +5,8 @@ const clientDb = require("../model/clientDb")
 const otpDb = require("../model/otpDb")
 const addressDb = require("../model/addressDb")
 const orderDb = require('../model/orderDb')
+const cartDb = require("../model/cartDb")
+const wishlistDb = require("../model/wishlistDb")
 
 //PASSWORD CONVERTING TO HASH
 const securePassword = async (password) => {
@@ -198,8 +200,20 @@ const loginPost = async (req, res) => {
 //SHOW THE CLIENT DASHBOARD
 const clientDashboard = async (req, res) => {
     try {
+        const {user_id}=req.session
+        const cart = await cartDb.findOne({clientId:user_id})
+        const cartCount = cart?.products.length
+        
+            const totalPriceCart = cart?.products.reduce((total, product) => {
+                return total + product.totalPrice
 
-        res.render('index')
+            }, 0)
+            
+        const wishlist = await wishlistDb.findOne({clientId:user_id})
+        const wishlistCount = wishlist?.products.length
+        console.log(cartCount,"dfujiolefjksdiorekljsdfioerklsdfjoerilsdfjkioerkldfj")
+        
+        res.render('index',{cartCount,totalPriceCart,wishlistCount})
     } catch (error) {
         console.log(error.massege)
 

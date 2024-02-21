@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Login Page - Product Admin Template</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
+    />
+    <!-- https://fonts.google.com/specimen/Open+Sans -->
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
+    <!-- https://fontawesome.com/ -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- https://getbootstrap.com/ -->
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <!--
+	Product Admin CSS Template
+	https://templatemo.com/tm-524-product-admin
+	-->
+  </head>
+
+  <body>
+    <div>
+      <nav class="navbar navbar-expand-xl">
+        <div class="container h-100">
+          <a class="navbar-brand" href="index.html">
+            <h1 class="tm-site-title mb-0">Product Admin</h1>
+          </a>
+          <button
+            class="navbar-toggler ml-auto mr-0"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="fas fa-bars tm-nav-icon"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto h-100">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                  <i class="fas fa-tachometer-alt"></i> Dashboard
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="far fa-file-alt"></i>
+                  <span> Reports <i class="fas fa-angle-down"></i> </span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Daily Report</a>
+                  <a class="dropdown-item" href="#">Weekly Report</a>
+                  <a class="dropdown-item" href="#">Yearly Report</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="products.html">
+                  <i class="fas fa-shopping-cart"></i> Products
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="accounts.html">
+                  <i class="far fa-user"></i> Accounts
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-cog"></i>
+                  <span> Settings <i class="fas fa-angle-down"></i> </span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="#">Billing</a>
+                  <a class="dropdown-item" href="#">Customize</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="container mt-5">
+      <div class="row tm-content-row">
+        <div class="col-12 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+            <h2 class="tm-block-title">List of Coupon</h2>
+
+            <!-- Search Bar -->
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="myInput" placeholder="Search for Coupon..."
+                onkeyup="myFunction()">
+            </div>
+            <input type="hidden" name="data" id="data" value="">
+            <table class="table table-striped" id="myTable">
+              <thead>
+                <tr>
+                  <th>COUPON ID</th>
+                  <th>Name</th>
+                  <th>AMOUNT</th>
+                  <th>METHOD</th>
+                  <th>EXPR DATE</th>
+                  <th>ACTION</th>
+                  <th scope="col">&nbsp;</th>
+
+                </tr>
+              </thead>
+              <tbody id="userTableBody">
+               <% if(couponData !='undefined'){%>
+               <% couponData.forEach(data=>{%>
+                <tr id="row<%=data._id%>">
+                  <td><%=data.couponId%></td>
+                  <td><%=data.name%></td>
+                  <td><%=data.amount%></td> 
+                  <td><%=data.method%></td>
+                  <td><%=data.exprDate.toLocaleDateString()%></td>
+                  <td><span style="cursor: pointer;" onclick="delteTheCoupon('<%=data._id%>')" class="material-symbols-outlined">
+                    delete
+                    </span></td>
+                  <td> 
+                    <span class="material-symbols-outlined"  style="cursor: pointer;" data-toggle="modal" data-target="#editModalCenter<%=data._id%>">
+                      edit
+                      </span>
+                 <!-- Modal -->
+<div class="modal fade" id="editModalCenter<%=data._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="background-color: #435c70;">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">EDIT COUPON</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/adminAddCoupon" method="post">
+
+          <input type="text"
+           placeholder="COUPON"
+            name="name"
+            value="<%=data.name%>"
+             required>
+          <input type="number" value="<%=data.amount%>" placeholder="amount" name="amount" required>
+          <select name="method" id=""  style="width:190px; height: 30px"  required>
+            <option value="fixed amount">fixed amount</option>
+            <option value="persent">persent</option>
+          </select>
+          
+          <input type="date" onchange="checkdate()" value="<%=data.exprDAta%>" name="exprDate" id="exprDate" style="width: 190px; height: 30px;" required>
+
+        </div>
+        <div class="modal-footer">
+         
+          <button type="submit" id="submit" class="btn btn-primary">ADD NEW</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+                   
+                  </td>
+                    </tr>
+                 <% })}else{%>
+                      <tr>
+                        <td colspan="5">coupon is not found</td>
+                      </tr>
+                      <%}%>
+                    
+              </tbody>
+
+            </table>
+            <!-- <a href="/admin/addCategory">
+              <button class="btn btn-primary btn-block text-uppercase mb-3">
+                Add new category
+              </button> -->
+                <button type="button" class="btn btn-primary btn-block text-uppercase mb-3 " data-toggle="modal" data-target="#exampleModalCenter">
+                  ADD NEW COUPON
+                </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Button trigger modal -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="background-color: #435c70;">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">ADD COUPON</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/adminAddCoupon" method="post">
+
+          <input type="text"
+           placeholder="COUPON"
+            name="name"
+             required>
+          <input type="number" placeholder="amount" name="amount" required>
+          <select name="method" id="" style="width:190px; height: 30px"  required>
+            <option value="fixed amount">fixed amount</option>
+            <option value="persent">persent</option>
+          </select>
+          
+          <input type="date" onchange="checkdate()" name="exprDate" id="exprDate" style="width: 190px; height: 30px;" required>
+
+        </div>
+        <div class="modal-footer">
+         
+          <button type="submit" id="submit" class="btn btn-primary">ADD NEW</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function checkdate(){
+    const submitBtn= document.getElementById('submit')
+      console.log(submitBtn)
+      submitBtn.disabled=false
+    const exprDate = document.getElementById('exprDate').value
+    console.log(exprDate)
+    const nowDate = Date.now()
+    exprDate1= new Date(exprDate)
+    if(nowDate<exprDate1){
+      console.log(true)
+    }else{
+      const submitBtn= document.getElementById('submit')
+      console.log(submitBtn)
+      submitBtn.disabled=true
+      Swal.fire({
+                        icon: 'error',
+                        title: 'the date is incorrect',
+                        customClass: {
+                          popup: "custom-popup-class",
+                          header: 'custom-header-class',
+                          content: 'custom-content-class',
+                          confirmButton: 'custom-confirm-button-class'
+                        }
+                      });
+    }
+  }
+</script>
+<script>
+  function delteTheCoupon(coupoonId){
+    const row= document.getElementById(`row${coupoonId}`)
+                  fetch('/admin/deleteTheCoupon',{
+                    method:'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ coupoonId })
+                  }).then(res => res.json()).then(data => {
+                    if (data.status == true) {
+                      row.remove()
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'the coupon is remove',
+                        customClass: {
+                          popup: "custom-popup-class",
+                          header: 'custom-header-class',
+                          content: 'custom-content-class',
+                          confirmButton: 'custom-confirm-button-class'
+                        }
+                      });
+                    }})
+                  }
+
+  
+</script>
+    <footer class="tm-footer row tm-mt-small">
+      <div class="col-12 font-weight-light">
+        <p class="text-center text-white mb-0 px-4 small">
+          Copyright &copy; <b>2018</b> All rights reserved. 
+          
+          Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+        </p>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- https://jquery.com/download/ -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- https://getbootstrap.com/ -->
+  </body>
+</html>

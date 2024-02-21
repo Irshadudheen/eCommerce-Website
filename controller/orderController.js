@@ -1,5 +1,7 @@
 const orderDb = require("../model/orderDb")
 const productDb = require('../model/productDb')
+
+//DELETE THE ORDER
 const delteTheOrder = async (req, res) => {
     try {
         const { product_id, order_id} = req.body
@@ -14,6 +16,8 @@ const delteTheOrder = async (req, res) => {
         console.log(error.message)
     }
 }
+
+
 const orderlist = async (req, res) => {
     try {
         console.log(req.query)

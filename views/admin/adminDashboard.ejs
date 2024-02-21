@@ -6,7 +6,7 @@
             <nav class="navbar navbar-expand-xl">
                 <div class="container h-100">
                     <a class="navbar-brand" href="/">
-                        <h1 class="tm-site-title mb-0">Product Admin</h1>
+                        <h1 class="tm-site-title mb-0">Admin</h1>
                     </a>
                     <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -44,6 +44,20 @@
                                     Products
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/couponAdmin">
+                                    <i class="fa-solid fa-ticket"></i>
+                                    Coupon
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link " href="/admin/ViewCategory">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    Category
+                                </a>
+                            </li>
+
 
                             <li class="nav-item">
                                 <a class="nav-link" href="/admin/clientview">
@@ -60,7 +74,6 @@
                                     </span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/admin/ViewCategory">Category</a>
 
                                     <a class="dropdown-item" href="#">Profile</a>
                                     <a class="dropdown-item" href="#">Billing</a>
@@ -220,7 +233,7 @@
                                             <% data.products.forEach(element=> { %>
                                                 <tr>
                                                 <th scope="row"><b>
-                                                        <%=element._id%>
+                                                        <%=data.paymentMethod%>
                                                     </b></th>
                                                     <td>
                                                         

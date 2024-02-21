@@ -7,8 +7,8 @@ const Razorpay = require('razorpay')
 
 //RAZORPAY PAYMENT METHOD
 const instance = new Razorpay({
-    key_id:'rzp_test_E5WE0z0SgB6EwW',
-    key_secret:'c3iGASVIf1rPEuNXLvIZjOQX'
+    key_id:process.env.key_id,
+    key_secret:process.env.key_secret
 })
 
 const addToCart = async (req, res) => {
@@ -268,7 +268,7 @@ const placeholder = async (req, res) => {
 if(deleteCart){
 
     const razorpayOrder = await instance.orders.create({
-        amount:totalPrice ,
+        amount:totalPrice*100 ,
         currency:'INR',
         receipt:dataOrder._id.toString()
     })

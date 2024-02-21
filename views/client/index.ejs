@@ -38,15 +38,30 @@
 
                             <a href="/wishlist" class="wishlist-link">
                                 <i class="icon-heart-o"></i>
-                                <span class="wishlist-count">3</span>
+                               <% if(wishlistCount !='undefined'){%>
+
+                                    <span class="wishlist-count"><%=wishlistCount%></span>
+                               <% }else{%>
+                                    <span class="wishlist-count">0</span>
+
+                               <% }%>
                                 <span class="wishlist-txt">My Wishlist</span>
                             </a>
 
                             <div class=" cart-dropdown">
                                 <a href="/cartView" class="dropdown-toggle" role="button" data-display="static">
                                     <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">2</span>
-                                    <span class="cart-txt">$ 164,00</span>
+                                  <%  if(cartCount !='undefined'){%>
+
+                                        <span class="cart-count"><%=cartCount%></span>
+                                  <% }else{%>
+                                        <span class="cart-count">0</span>
+                                    <%}%>
+                                    <%  if(totalPriceCart !='undefined'){%>
+                                    <span class="cart-txt">$<%=totalPriceCart%></span>
+                                    <%}else{%>
+                                        <span class="cart-txt">$0</span>
+                                        <%}%>
                                 </a>
 
 

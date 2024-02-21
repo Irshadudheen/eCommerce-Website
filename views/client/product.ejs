@@ -223,7 +223,12 @@
                                 <a href="/cartView" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"
                                     data-display="static">
                                     <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">2</span>
+                                    <%if(cartCount !="undefined"){%>
+
+                                        <span class="cart-count"><%=cartCount%></span>
+                                    <%}else{%>
+                                        <span class="cart-count">0</span>
+                                   <% }%>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right">
