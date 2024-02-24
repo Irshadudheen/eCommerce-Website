@@ -67,4 +67,5 @@ adminRouter.post('/deleteTheCoupon',adminCouponController.deleteTheCoupon)
 adminRouter.post('/admimEditCoupon',adminCouponController.admimEditCoupon)
 adminRouter.get('/ViewCategoryOffer',authantication.isadminlogin,adminOfferController.ViewCategoryOffer)
 adminRouter.post('/adminaddOfferCatogory',upload.single('image'),adminOfferController.addCategoryOffer)
+adminRouter.post('/editCategoryOffer',adminOfferController.editCategoryOffer)
 module.exports = adminRouter;

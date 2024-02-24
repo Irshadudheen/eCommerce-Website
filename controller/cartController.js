@@ -4,6 +4,7 @@ const clientDb = require('../model/clientDb')
 const orderDb = require('../model/orderDb')
 const addressDb = require('../model/addressDb')
 const Razorpay = require('razorpay')
+const couponDb = require('../model/couponDb')
 
 //RAZORPAY PAYMENT METHOD
 const instance = new Razorpay({
@@ -17,11 +18,12 @@ const addToCart = async (req, res) => {
         const { id, quantity } = req.body
         const clientId = req.session.user_id
         const checkTheProduct = await cartDb.findOne({ clientId})
-        const checkTheCartProduct = checkTheProduct.products.some(product=>product.productId==id)
+        const checkTheCartProduct = checkTheProduct?.products.some(product=>product.productId==id)
         const productToCart = await productDb.findOne({ _id: id }).populate('categoryid')
+        console.log(1)
         console.log(checkTheProduct)
         console.log(checkTheProduct,423)
-        products: { $elemMatch: { productId: id } } 
+        
         if (!checkTheCartProduct) {
             const checkTheCart = await cartDb.findOne({ clientId })
             if (checkTheCart) {
@@ -205,7 +207,11 @@ const checkOut = async (req, res) => {
 const placeholder = async (req, res) => {
     try {
         const { user_id } = req.session
-        
+        const {coupon}=req?.session
+        if(coupon){
+
+            const addUserId = await couponDb.findOneAndUpdate({_id:coupon},{$push:{users:{clientId:user_id}}},{ new: true })
+        }
         const address = await addressDb.findOne({ _id: req.body.address_id })
         console.log(user_id, address, "address and user_id")
 

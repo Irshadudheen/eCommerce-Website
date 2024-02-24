@@ -50,7 +50,7 @@ const adminAddCoupon = async (req,res)=>{
 //RANDOM STRING
 const randomStr=(len, arr)=> {
     try {
-        let ans = '';
+        const ans = '';
     for ( i = len; i > 0; i--) {
         ans +=
             arr[(Math.floor(Math.random() * arr.length))];
@@ -118,8 +118,9 @@ const checkCopon = async (req,res)=>{
             }else{
 
                 // const checkId = await couponDb.findOne({couponId:userTypeID,'users.clientId':user_id})
-                if(userIdSave){
+             
                     console.log(name,amount,exprDate,method)
+                    req.session.coupon=existingCoupon._id
                     if(method=='fixed amount'){
                         const offerPrice = totalPrice-amount
                         console.log(offerPrice)
@@ -132,12 +133,9 @@ const checkCopon = async (req,res)=>{
                         console.log(offerPrice)
                         return  res.send({status:true,name,offerPrice})
                         
-                    }
+                
                        
-                    }else{
-                        console.log("dsijrhsdfmoksdfjmjersdfjumerjdfhsnmreudfjshmredfcjnrdfsjerndfscjerdfnssdfhjndjm")
-                        return  res.send({status:"coupon expried"})
-
+                  
                     }
                     
                 }
