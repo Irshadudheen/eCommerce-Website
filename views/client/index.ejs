@@ -51,7 +51,7 @@
                             <div class=" cart-dropdown">
                                 <a href="/cartView" class="dropdown-toggle" role="button" data-display="static">
                                     <i class="icon-shopping-cart"></i>
-                                  <%  if(cartCount !='undefined'){%>
+                                  <%  if(cartCount !='undefined'||cartCount !='null'){%>
 
                                         <span class="cart-count"><%=cartCount%></span>
                                   <% }else{%>
@@ -201,27 +201,9 @@
                                         </div><!-- End .megamenu megamenu-sm -->
                                     </li>
                                     <li>
-                                        <a href="#" class="sf-with-ul">Pages</a>
-
-                                        <ul>
-                                            <li>
-                                                <a href="about.html" class="sf-with-ul">About</a>
-
-                                                <ul>
-                                                    <li><a href="about.html">About 01</a></li>
-                                                    <li><a href="about-2.html">About 02</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="contact.html" class="sf-with-ul">Contact</a>
-
-                                                <ul>
-
-                                                </ul>
-                                            </li>
-
-                                        </ul>
+                                        <a href="/deal">deal</a>
                                     </li>
+                                   
                                     <li>
 
 
@@ -265,7 +247,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="/profile" class="sf-with-ul">profile</a>
+                                        <a href="/profile">profile</a>
 
 
                                     </li>

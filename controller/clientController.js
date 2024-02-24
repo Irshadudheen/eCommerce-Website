@@ -7,6 +7,7 @@ const addressDb = require("../model/addressDb")
 const orderDb = require('../model/orderDb')
 const cartDb = require("../model/cartDb")
 const wishlistDb = require("../model/wishlistDb")
+const couponDb = require("../model/couponDb")
 
 //PASSWORD CONVERTING TO HASH
 const securePassword = async (password) => {
@@ -203,7 +204,7 @@ const clientDashboard = async (req, res) => {
         const {user_id}=req.session
         const cart = await cartDb.findOne({clientId:user_id})
         const cartCount = cart?.products.length
-        
+        console.log(cartCount,11111111111111111111)
             const totalPriceCart = cart?.products.reduce((total, product) => {
                 return total + product.totalPrice
 
@@ -269,12 +270,13 @@ const profile = async (req, res) => {
         const userData = await clientDb.findOne({ _id: user_id })
         const address = await addressDb.find({ clientId: user_id }).populate("clientId")
         const order = await orderDb.find({ clientId: user_id }).populate('addressId')
+        const coupon = await couponDb.find()
         console.log(order,"___________________________________________________________")
        
 
         
         
-        res.render('clientProfile', { userData, address, order })
+        res.render('clientProfile', { userData, address, order,coupon })
 
     } catch (error) {
         console.log(error.message)
@@ -291,7 +293,7 @@ const resendOtp = async (req, res) => {
         const personData = await client.findOne({ email })
         const deleteOtp = await otpDb.deleteOne({ userId: personData._id })
         console.log(deleteOtp)
-        const otp = Math.floor((Math.random() * 1000)) + 1000
+        const otp = Math.floor(Math.random() * 9000) + 1000;
         console.log(otp)
         const otpUpdate = new otpDb({
             userId: personData._id,
@@ -332,27 +334,35 @@ const forgotPassword = async (req, res) => {
 const forgotPasswordSubmit = async (req, res) => {
     try {
         const { email } = req.body
-        console.log(req.body.email)
+        console.log(req.body)
 
-        const checkmail = await clientDb.findOne({ email })
-        console.log(checkmail)
-        const otp = Math.floor(Math.random() + 1000 *9000)
-        console.log(otp)
-
-
+        const checkmail = await clientDb.findOne({  email })
+        if(!checkmail){
+            res.send({status:false})
+        }
+        console.log(checkmail,111111111111111111111111111111111111111)
+       
+        
+        
         if (checkmail) {
-            const otpUpdate = new otpDb({
-                userId: checkmail._id,
-                emailId: email,
-                otp
-            })
-            const dataOtp = await otpUpdate.save()
+            const otp = Math.floor(Math.random() * 9000) + 1000;
+            const dataOtp = await otpDb.findOneAndUpdate(
+                { emailId: email }, 
+                { userId: checkmail._id, emailId: email, otp },
+                { upsert: true, new: true } 
+            );
             console.log(dataOtp)
 
             sendOtpMail(checkmail.name, email, otp)
             console.log(email)
+            if(dataOtp){
+                res.send({status:true})
+            }else{
+                res.send({status:false})
 
-            res.render('forgetOtp', { email })
+            }
+
+           
 
         }
 
@@ -364,6 +374,17 @@ const forgotPasswordSubmit = async (req, res) => {
     }
 }
 
+//otpPage
+const forgotOtpPage= async (req,res)=>{
+    try {
+        const {email}= req.query
+        console.log(req.query,34782904589302568430583045804589300587)
+        res.render('forgetOtp',{email})
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
 //OTPSUBMITFPRGET 
 const otpSubmitForgot = async (req, res) => {
     try {
@@ -372,11 +393,12 @@ const otpSubmitForgot = async (req, res) => {
         console.log(req.body)
 
         const otpVerify = await otpDb.findOne({ emailId: email })
+        
         const inputOtp = digit1 * 1000 + digit2 * 100 + digit3 * 10 + digit4 * 1
+        console.log(inputOtp,otpVerify.otp)
 
-
-        console.log(inputOtp)
         if (otpVerify.otp == inputOtp) {
+            console.log(inputOtp,233333333333333333333333333333333333333333333)
             console.log(email, "aklsdo;ksxklmxlkmesxflkmsfxlnmdfvlkmdklfm,")
             res.render('toSetNewPassword', { email })
 
@@ -436,7 +458,8 @@ module.exports = {
     forgotPasswordSubmit,
     otpSubmitForgot,
     passwordUpdate,
-    register
+    register,
+    forgotOtpPage
 
 
 

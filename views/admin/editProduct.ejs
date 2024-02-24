@@ -194,28 +194,33 @@
               <button type="submit" class="btn btn-primary btn-block text-uppercase">Update Now</button>
             </div>
             </form>
-            <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4 ">
-
-
-              <% if (productData.image.length> 0) { %>
-                <% for (let i=0; i < productData.image.length; i++) { %>
-                  <div id="row<%=i%>">
-                    <div class="image-button-wrapper">
-                      <div id="draggable" class="image-container" draggable="true" ondrag="abc()" >
-                        <img src="/productImage/<%= productData.image[i] %>"  width="150" height="150" alt="">
-                      </div>
-                      
-                      <div class="button-container">
-                        <input type="submit" value="delete"
-                          onclick="delectTheImage('<%=productData.image[i]%>','<%=productData._id%>','<%=i%>')">
+            <div class="row">
+              <div class="col-xl-6 col-lg-6 col-md-6 mx-auto mb-4"> 
+                <% if (productData.image.length > 0) { %>
+                  <% for (let i = 0; i < productData.image.length; i++) { %>
+                    <% if (i % 2 === 0) { %> 
+                      <div class="row">
+                    <% } %>
+                    <div id="row<%= i %>" class="col-xl-6 col-lg-6 col-md-6">
+                      <div class="image-button-wrapper">
+                        <div id="draggable" class="image-container" draggable="true" ondrag="abc()">
+                          <img src="/productImage/<%= productData.image[i] %>" width="150" height="150" alt="">
+                        </div>
+                        <div class="button-container">
+                          <input type="submit" value="delete" onclick="delectTheImage('<%= productData.image[i] %>','<%= productData._id %>','<%= i %>')">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <% } %>
+                    <% if ((i + 1) % 2 === 0 || i === productData.image.length - 1) { %> 
+                      </div>
                     <% } %>
-                      <style>
-                        .row {
-                          display: flex;
+                  <% } %>
+                <% } %>
+              </div>
+            </div>
+                    <style>
+                      .row {
+                        display: flex;
                           align-items: flex-start;
                         }
 

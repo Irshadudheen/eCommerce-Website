@@ -33,7 +33,6 @@ const addCategorySumbit = async (req, res) => {
 
             })
             const result = await category.save()
-            console.log(result)
             if (result) {
                 res.redirect('/admin/viewCategory')
 
@@ -74,9 +73,7 @@ const deleteCategory = async (req, res) => {
 const editCategory = async (req, res) => {
     try {
         const { id } = req.query
-        console.log(id);
         const dataCatogory = await categoryDb.findOne({ _id: id })
-        console.log(dataCatogory.description)
         res.render('editCategory', { dataCatogory })
 
     } catch (error) {
@@ -88,7 +85,6 @@ const editCategory = async (req, res) => {
 //
 const editCategorySubmit = async (req, res) => {
     try {
-        console.log("fetch the data ")
         const { id, name, description } = req.body
         const checkdata = await categoryDb.findOne({ name: { $regex: new RegExp('^' + name + "$", "i") } })
         if (checkdata._id==id) {
@@ -103,8 +99,7 @@ const editCategorySubmit = async (req, res) => {
 
         } else {
             res.send({ status: false })
-            res.render('editCategory', { message: "the catogort is already exists" })
-            console.log("the catogory is already exists")
+            res.render('editCategory', { message: "the catogory is already exists" })
         }
 
 

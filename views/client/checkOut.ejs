@@ -154,6 +154,7 @@
                         </div><!-- End .header-left -->
 
                         <div class="header-right">
+
                             <div class="header-search">
                                 <a href="#" class="search-toggle" role="button" title="Search"><i
                                         class="icon-search"></i></a>
@@ -278,7 +279,7 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-nav">
                     <div class="container">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Shop</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                         </ol>
@@ -290,12 +291,16 @@
                         <div class="container">
                             <div class="checkout-discount">
                                 <form action="#">
-                                    <input type="text" class="form-control" required id="checkout-discount-input">
+                                    <input type="text" class="form-control" onkeydown="couponId(this,'<%=totalPrice%>')" required id="checkout-discount-input">
                                     <label for="checkout-discount-input" class="text-truncate">Have a coupon?
                                         <span>Click here to enter your code</span></label>
-                                </form>
-                            </div><!-- End .checkout-discount -->
-                            <form action="#">
+                                       
+            
+                                            <p id="error" style="color: red;display: none;"></p>
+
+                                    </form>
+                                </div><!-- End .checkout-discount -->
+                            
                                 <div class="row">
 
 
@@ -308,32 +313,75 @@
                                                 </option>
                                                 <% }) %>
                                         </select>
+                                        <style>
+                                            .select-container {
+                                                width: 300px;
+                                                margin: 0 auto;
+                                            }
+    
+                                            #addressSelect {
+                                                width: 100%;
+                                                padding: 10px;
+                                                font-size: 16px;
+                                                border-radius: 5px;
+                                                border: 1px solid #ccc;
+                                                outline: none;
+                                            }
+    
+                                            #addressSelect option {
+                                                padding: 5px;
+                                            }
+                                        </style>
+    
                                     </div>
-                                    <style>
-                                        .select-container {
-                                            width: 300px;
-                                            margin: 0 auto;
-                                        }
-
-                                        #addressSelect {
-                                            width: 100%;
-                                            padding: 10px;
-                                            font-size: 16px;
-                                            border-radius: 5px;
-                                            border: 1px solid #ccc;
-                                            outline: none;
-                                        }
-
-                                        #addressSelect option {
-                                            padding: 5px;
-                                        }
-                                    </style>
-
+                                    <aside class="col-lg-9 ">
+                                    <div class="container">
+                                        <form action="/addnewaddress" method="post">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label>Country *</label>
+                                                    <input type="text" name="country" class="form-control" required>
+                                                </div><!-- End .col-sm-6 -->
+                                                <div class="col-sm-3">
+                                                    <label>City *</label>
+                                                    <input type="text" name="city" class="form-control" required>
+                                                </div><!-- End .col-sm-6 -->
+                                            </div><!-- End .row -->
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label>Street Address *</label>
+                                                    <input type="text" name="streetAddress" class="form-control" required>
+                                                </div><!-- End .col-sm-8 -->
+                                                <div class="col-sm-4">
+                                                    <label>State *</label>
+                                                    <input type="text" name="state" class="form-control" required>
+                                                </div><!-- End .col-sm-4 -->
+                                            </div><!-- End .row -->
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label>Pincode *</label>
+                                                    <input type="number" name="pincode" class="form-control">
+                                                </div><!-- End .col-sm-4 -->
+                                                <div class="col-sm-4">
+                                                    <label>Mobile *</label>
+                                                    <input type="number" name="mobile" class="form-control">
+                                                    <div class="col-sm-4">
+                                                        <button type="submit" class="btn btn-outline-primary-2">
+                                                            <span>Add Address</span>
+                                                            <i class="icon-long-arrow-right"></i>
+                                                        </button>
+                                                    </div>
+                                                </div><!-- End .col-sm-4 -->
+                                              
+                                            </div><!-- End .row -->
+                                        </form>
+                                    </div><!-- End .container -->
+                                  
 
                                 </div><!-- End .col-lg-9 -->
-
-                            </form>
-                            <aside class="col-lg-3">
+                            </aside>
+                            
+                            <aside class="col-lg-3 ">
                                 <div class="summary">
                                     <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
 
@@ -372,7 +420,7 @@
                                             </tr>
                                             <tr class="summary-total">
                                                 <td>Total:</td>
-                                                <td>
+                                                <td id="totalPrice">
                                                     <%=totalPrice%>
                                                 </td>
                                             </tr><!-- End .summary-total -->
@@ -438,7 +486,7 @@
                                         </div><!-- End .card -->
                                     </div><!-- End .accordion -->
 
-                                    <button type="submit" id="placeOrder" onclick="placeOrder('<%=totalPrice%>')"
+                                    <button type="submit" id="placeOrder" onclick="placeOrder()"
                                         class="btn btn-outline-primary-2 btn-order btn-block">
                                         <span class="btn-text">Place Order</span>
                                         <span class="btn-hover-text">Proceed to Checkout</span>
@@ -737,8 +785,10 @@
     </body>
 
     <script>
-        function placeOrder(totalPrice) {
+        function placeOrder() {
             
+            const totalPrice= document.getElementById('totalPrice').innerText.replace('$','')
+            console.log(totalPrice)
             const placeOrderBtn = document.getElementById('placeOrder')
             placeOrderBtn.addEventListener('click',function(e){
                 e.preventDefault()
@@ -789,7 +839,6 @@
                 })
         }
         function razorpayPayment(order){
-            console.log("sdkmsdmksdjmdsjmsdmsdmk")
             const option = {
                     key:"rzp_test_E5WE0z0SgB6EwW",
                     amount: order.amount*100,
@@ -824,6 +873,57 @@
 
         
         
+    </script>
+    <script>
+       function couponId(id,totalPrice){
+        const userTypeID= id.value.trim()
+        const error = document.getElementById('error')
+        error.style.display='none'
+        console.log(error)
+        if(userTypeID.length>5&&userTypeID.length<7){
+
+            console.log(id.value)
+            fetch('/checkCopon',{
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userTypeID ,totalPrice})
+                
+                
+            }).then(res => res.json()).then(data => {
+                if (data.status==true) {
+                    
+                    const totalPrice= document.getElementById('totalPrice').innerText=`$${data.offerPrice}`;
+                   
+                    console.log(data.offerPrice)
+                    console.log("yes")
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'the offer is succes',
+                        customClass: {
+                            popup: "custom-popup-class",
+                            header: 'custom-header-class',
+                            content: 'custom-content-class', // Corrected typo here
+                            confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                        }
+                    });
+                    
+                    
+                }else if(data.status){
+                    document.getElementById('checkout-discount-input').innerText=''
+                    error.style.display='block'
+                    error.innerHTML=data.status
+
+                    
+                    
+                }
+                
+                
+            })
+            
+        }
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     

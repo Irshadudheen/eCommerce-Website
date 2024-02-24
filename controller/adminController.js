@@ -8,7 +8,6 @@ const adminDashboard = async (req, res) => {
             path: 'products.productId',
             model: 'product'
         })
-        console.log(order)
 
         res.render('adminDashboard', { order })
     } catch (error) {
@@ -67,8 +66,6 @@ const updateClient = async (req, res) => {
         
         
         const clientemailCheck = await clientDb.findOne({ email:req.body.email })
-        console.log("dlkfjmfjdvf")
-        console.log(clientemailCheck._id,"djsdkdjsmkfjmcfmcfcfn",id,"sdjcszdjfcszdjfksdjmkfjmdkjmfkcdjxmfkcdjxmfckdxmfkcdnxmjfcmndxjcndjfcndmxfncdjxfncdjxnfcdjxfncdjfnjfcndjn")
         if (clientemailCheck._id==id) {
 
             const ClientData = await clientDb.findByIdAndUpdate({ _id: id }, { $set: { fname: req.body.name, email: req.body.email, mobile: req.body.mobile } }, { new: true })
@@ -79,7 +76,6 @@ const updateClient = async (req, res) => {
             }
         } else {
             res.render("editClient",{message:'the email is already exists',id:req.body.id,client:req.body.client})
-            console.log("the email is already exists")
         }
     } catch (error) {
         console.log(error.message)
@@ -90,7 +86,6 @@ const updateClient = async (req, res) => {
 const deleteClient = async (req, res) => {
     try {
         const result = await clientDb.deleteOne({ _id: req.body.delet })
-        console.log(result)
         if (result) {
 
             res.redirect("/admin/clientview")

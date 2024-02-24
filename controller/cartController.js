@@ -13,14 +13,16 @@ const instance = new Razorpay({
 
 const addToCart = async (req, res) => {
     try {
-        console.log(req.query)
-
+        
         const { id, quantity } = req.body
         const clientId = req.session.user_id
-        const checkTheProduct = await cartDb.findOne({ products: { $elemMatch: { productId: id } } })
+        const checkTheProduct = await cartDb.findOne({ clientId})
+        const checkTheCartProduct = checkTheProduct.products.some(product=>product.productId==id)
         const productToCart = await productDb.findOne({ _id: id }).populate('categoryid')
         console.log(checkTheProduct)
-        if (!checkTheProduct) {
+        console.log(checkTheProduct,423)
+        products: { $elemMatch: { productId: id } } 
+        if (!checkTheCartProduct) {
             const checkTheCart = await cartDb.findOne({ clientId })
             if (checkTheCart) {
                 const initialLength = checkTheCart.products.length;
@@ -83,20 +85,20 @@ const addToCart = async (req, res) => {
 const cartView = async (req, res) => {
     try {
         const { user_id } = req.session
-
-
+        console.log(req.body,433434343434)
+        console.log(req.query)
+        const {hidden}=req.query
         const cart = await cartDb.findOne({ clientId: user_id }).populate({
             path: 'products.productId',
             model: 'product'
         })
+        console.log("sdkdsckjdmckm")
         // const errmsg = req.flash("err");
         if (cart) {
             const totalPrice = cart.products.reduce((total, product) => {
                 return total + product.totalPrice
 
             }, 0)
-            console.log(cart.products.length, "++++++++++++++++++++++++++++++++++=")
-            console.log(cart.products[0].productId.quantity)
             res.render('cart', { cart, totalPrice })
 
         } else {
@@ -181,13 +183,17 @@ const totalPrice = async (req, res) => {
 //CHECKOUT
 const checkOut = async (req, res) => {
     try {
-        const { totalPrice } = req.query
         const {user_id}=req.session
         const address = await addressDb.find({ clientId:user_id}).populate('clientId')
         const cart = await cartDb.findOne({clientId:user_id}).populate({path:'products.productId',model:'product'})
         
         console.log(cart)
-        res.render('checkOut', { totalPrice, address,cart})
+        console.log(1)
+        const cartTotal= cart.products.reduce((total,product)=>{
+            return total+product.totalPrice
+        },0)
+        console.log(cartTotal)
+        res.render('checkOut', { totalPrice:cartTotal, address,cart})
 
     } catch (error) {
         console.log(error.message)
@@ -225,13 +231,10 @@ const placeholder = async (req, res) => {
 
             };
         }))
-        console.log(products)
         const timestamp = Date.now();
         const date = new Date(timestamp);
         const formattedDate = date.toLocaleString();
-        console.log(address._id,"+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+")
 
-        console.log(formattedDate);
         const orderData = new orderDb({
             clientId: user_id,
             addressId:address._id,
@@ -251,7 +254,6 @@ const placeholder = async (req, res) => {
 
 
 
-        console.log(paymentMethod,"erkedmk,dmk,dm")
         if (paymentMethod =="COD") {
 
 

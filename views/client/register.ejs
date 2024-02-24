@@ -132,12 +132,23 @@
 
                                             <div class="form-group">
                                                 <label for="register-password-2">Password *</label>
-                                                <input type="password" class="form-control" id="register-password-2"
+                                                <input onkeydown="checkPassword(this)" type="password" class="form-control" id="register-password-2"
                                                     name="register_password" required>
+                                                    <p id="passwordCriteria">
+                                                        <span id="uppercase">Uppercase</span>
+                                                        <span id="lowercase">Lowercase</span>
+                                                        <span id="numbers">0-9</span>
+                                                        <span id="specialChars">!-$</span>
+                                                    </p>                                                    
+
+
+
+                                                    <p style="color: red; display: none;" id="error"><b>Enter strong password</b></p>
+
                                             </div><!-- End .form-group -->
 
                                             <div class="form-footer">
-                                                <button type="submit" class="btn btn-outline-primary-2">
+                                                <button type="submit" id="signUp1" class="btn btn-outline-primary-2">
                                                     <span>SIGN UP</span>
                                                     <i class="icon-long-arrow-right"></i>
                                                 </button>
@@ -162,7 +173,56 @@
         </div><!-- End .container -->
         </div><!-- End .login-page section-bg -->
         </main><!-- End .main -->
+<script>
+  function  checkPassword(val){
 
+
+
+
+    input = val.value.trim()
+    if(input.length >0){
+
+        const checkedResult=isStrongPassword(input)
+        
+    const error = document.getElementById('error')
+    const signbutton = document.getElementById('signUp1')
+    if(checkedResult===true){
+        signbutton.disabled=false
+        error.style.display="none"
+
+    }else{
+        signbutton.disabled=true
+        error.style.display="block"
+        
+    }
+    
+    function isStrongPassword(password) {
+        
+        const minLength = 8; 
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumbers = /[0-9]/.test(password);
+        const hasSpecialChars = /[!@#$%^&*()_\-+=<>?]/.test(password);
+        document.getElementById("uppercase").style.color = hasUppercase ? "green" : "red";
+        document.getElementById("lowercase").style.color = hasLowercase ? "green" : "red";
+        document.getElementById("numbers").style.color = hasNumbers ? "green" : "red";
+        document.getElementById("specialChars").style.color = hasSpecialChars ? "green" : "red";
+        
+        return (
+            password.length >= minLength &&
+            hasUppercase &&
+            hasLowercase &&
+            hasNumbers &&
+            hasSpecialChars
+            );
+        }
+        
+        
+        
+        
+    }
+    }
+</script>
         <footer class="footer">
             <div class="footer-middle">
                 <div class="container">

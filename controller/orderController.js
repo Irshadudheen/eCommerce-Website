@@ -51,8 +51,26 @@ const updateSatus = async (req, res) => {
     }
 }
 
+//VIEW EACH ORDER IN USER
+const orderEachView = async (req,res)=>{
+    try {
+        const {productId,cartId}= req.query
+        const{user_id}=req.session
+        console.log(cartId,productId,111234234)
+        const orderData = await orderDb.findOne({ products: { $elemMatch: { productId: productId } } })
+          
+        console.log(req.query)
+console.log(orderData,1111111111111111111111111111111111111111111111111111)
+        res.render("eachOrder",{orderData})
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports = {
     delteTheOrder,
     orderlist,
-    updateSatus
+    updateSatus,
+    orderEachView
 }

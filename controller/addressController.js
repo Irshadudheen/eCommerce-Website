@@ -4,12 +4,8 @@ const clientDb = require('../model/clientDb')
 const addnewaddress = async (req, res) => {
     try {
         const { country, streetAddress, city, state, pincode, mobile } = req.body
-        console.log(streetAddress)
         const { user_id } = req.session
-        console.log(req.body)
-        console.log(mobile.length)
         const pincodeArray = pincode.toString().split('')
-        console.log(pincodeArray.length)
         const digitsArray = mobile.toString().split('');
 
 
@@ -51,7 +47,6 @@ const editProfile = async (req, res) => {
         if (mobileMakeArray.length == 10 && pincodeMakeArray.length == 6) {
             const updateAddress = await addressDb.findByIdAndUpdate({ _id: id }, { $set: { country, streetAddress, city, state, pincode, mobile } }, { new: true })
             if (updateAddress) {
-                console.log("address updated")
                 res.redirect('/profile')
             }
         } else {

@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Login Page - Product Admin Template</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
-    />
-    <!-- https://fonts.google.com/specimen/Open+Sans -->
-    <link rel="stylesheet" href="css/fontawesome.min.css" />
-    <!-- https://fontawesome.com/ -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <!-- https://getbootstrap.com/ -->
-    <link rel="stylesheet" href="css/templatemo-style.css">
-    <!--
-	Product Admin CSS Template
-	https://templatemo.com/tm-524-product-admin
-	-->
-  </head>
+<%-include('../layout/adminHeader')-%>
 
   <body>
     <div>
@@ -73,7 +51,12 @@
                   <i class="fas fa-shopping-cart"></i> Products
                 </a>
               </li>
-
+              <li class="nav-item active">
+                <a class="nav-link " href="/admin/ViewCategoryOffer">
+                    <i class="fa-regular fa-envelope"></i>
+                    Category offer
+                </a>
+            </li>
               <li class="nav-item">
                 <a class="nav-link" href="accounts.html">
                   <i class="far fa-user"></i> Accounts
@@ -108,7 +91,7 @@
       <div class="row tm-content-row">
         <div class="col-12 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
-            <h2 class="tm-block-title">List of Coupon</h2>
+            <h2 class="tm-block-title">List of offer category</h2>
 
             <!-- Search Bar -->
             <div class="input-group mb-3">
@@ -130,23 +113,23 @@
                 </tr>
               </thead>
               <tbody id="userTableBody">
-               <% if(couponData !='undefined'){%>
-               <% couponData.forEach(data=>{%>
-                <tr id="row<%=data._id%>">
-                  <td><%=data.couponId%></td>
-                  <td><%=data.name%></td>
-                  <td><%=data.amount%></td> 
-                  <td><%=data.method%></td>
-                  <td><%=data.exprDate.toLocaleDateString()%></td>
-                  <td><span style="cursor: pointer;" onclick="delteTheCoupon('<%=data._id%>')" class="material-symbols-outlined">
+            
+              
+                <tr id="row">
+                  <td></td>
+                  <td></td>
+                  <td></td> 
+                  <td></td>
+                  <td></td>
+                  <td><span style="cursor: pointer;" onclick="delteTheCoupon('')" class="material-symbols-outlined">
                     delete
                     </span></td>
                   <td> 
-                    <span class="material-symbols-outlined"  style="cursor: pointer;" data-toggle="modal" data-target="#editModalCenter<%=data._id%>">
+                    <span class="material-symbols-outlined"  style="cursor: pointer;" data-toggle="modal" data-target="#editModalCenter">
                       edit
                       </span>
                  <!-- Modal -->
-<div class="modal fade" id="editModalCenter<%=data._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" style="background-color: #435c70;">
       <div class="modal-header">
@@ -161,16 +144,16 @@
           <input type="text"
            placeholder="COUPON"
             name="name"
-            value="<%=data.name%>"
+            value=""
              required>
-          <input type="number" value="<%=data.amount%>" placeholder="amount" name="amount" required>
+          <input type="number" value="" placeholder="amount" name="amount" required>
           <select name="method" id=""  style="width:190px; height: 30px"  required>
             <option value="fixed amount">fixed amount</option>
             <option value="percentage">percentage</option>
           </select>
-          <input type="hidden" name="_id" value="<%=data._id%>">
+          <input type="hidden" name="_id" value="">
           
-          <input type="date" onchange="checkdate()" value="<%=data.exprDate.toLocaleDateString()%>" name="exprDate" id="exprDate" style="width: 190px; height: 30px;" required>
+          <input type="date" onchange="checkdate()" value="" name="exprDate" id="exprDate" style="width: 190px; height: 30px;" required>
 
         </div>
         <div class="modal-footer">
@@ -184,11 +167,11 @@
                    
                   </td>
                     </tr>
-                 <% })}else{%>
+                 
                       <tr>
                         <td colspan="5">coupon is not found</td>
                       </tr>
-                      <%}%>
+                    
                     
               </tbody>
 
@@ -213,48 +196,65 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" style="background-color: #435c70;">
       <div class="modal-header">
-        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">ADD COUPON</h5>
+        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">ADD OFFER</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="/admin/adminAddCoupon" method="post">
+        <form action="/admin/adminaddOfferCatogory" enctype="multipart/form-data" method="post">
+            <input type="text" name="name" placeholder="offer name" required>
+            <select name="category"  style="width:190px; height: 30px;" id="">
+            <% if(category.length>0){
+               category.forEach(data=>{ %>
 
-          <input type="text"
-           placeholder="COUPON"
-            name="name"
-             required>
-          <input type="number" placeholder="amount" name="amount" required>
+                    <option value="<%=data._id%>"><%=data.name%></option>
+                <%})}%>
+           
+          </select>
+          <input type="number" placeholder="amount"  name="amount" required>
           <select name="method" id="" style="width:190px; height: 30px"  required>
             <option value="fixed amount">fixed amount</option>
             <option value="percentage">percentage</option>
           </select>
-          
-          <input type="date" onchange="checkdate()" name="exprDate" id="exprDate" style="width: 190px; height: 30px;" required>
 
-        </div>
+          <input type="date" onchange="checkdate()" name="exprDate" id="exprDate1" style="width: 190px; height: 30px;" required>
+          <input type="file" name="image" accept="image/*" id="" required>
+          </div>
+          <textarea name="description" id="" cols="10" rows="5"></textarea>
         <div class="modal-footer">
          
-          <button type="submit" id="submit" class="btn btn-primary">ADD NEW</button>
+          <button type="submit" id="submit1" class="btn btn-primary">ADD NEW</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-<script>
-  function checkdate(){
-    const submitBtn= document.getElementById('submit')
+
+
+    <footer class="tm-footer row tm-mt-small">
+      <div class="col-12 font-weight-light">
+        <p class="text-center text-white mb-0 px-4 small">
+          Copyright &copy; <b>2018</b> All rights reserved. 
+          
+          Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+        </p>
+      </div>
+    </footer>
+    <script>
+    function checkdate(){
+    const submitBtn= document.getElementById('submit1')
       console.log(submitBtn)
       submitBtn.disabled=false
-    const exprDate = document.getElementById('exprDate').value
+    const exprDate = document.getElementById('exprDate1').value
+    console.log(exprDate)
     console.log(exprDate)
     const nowDate = Date.now()
     exprDate1= new Date(exprDate)
     if(nowDate<exprDate1){
       console.log(true)
     }else{
-      const submitBtn= document.getElementById('submit')
+      const submitBtn= document.getElementById('submit1')
       console.log(submitBtn)
       submitBtn.disabled=true
       Swal.fire({
@@ -270,42 +270,6 @@
     }
   }
 </script>
-<script>
-  function delteTheCoupon(couponId){
-    const row= document.getElementById(`row${couponId}`)
-                  fetch('/admin/deleteTheCoupon',{
-                    method:'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ couponId })
-                  }).then(res => res.json()).then(data => {
-                    if (data.status == true) {
-                      row.remove()
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'the coupon is remove',
-                        customClass: {
-                          popup: "custom-popup-class",
-                          header: 'custom-header-class',
-                          content: 'custom-content-class',
-                          confirmButton: 'custom-confirm-button-class'
-                        }
-                      });
-                    }})
-                  }
-
-  
-</script>
-    <footer class="tm-footer row tm-mt-small">
-      <div class="col-12 font-weight-light">
-        <p class="text-center text-white mb-0 px-4 small">
-          Copyright &copy; <b>2018</b> All rights reserved. 
-          
-          Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
-        </p>
-      </div>
-    </footer>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="js/jquery-3.3.1.min.js"></script>

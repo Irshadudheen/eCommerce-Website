@@ -5,7 +5,9 @@ const adminProductController = require('../controller/productController')
 const adminCategoryController = require('../controller/categoryController')
 const adminOrderController = require('../controller/orderController')
 const adminCouponController = require('../controller/couponController')
+const adminOfferController = require('../controller/offerController')
 const authantication = require('../middleware/authantication')
+
 const multer = require('multer')
 const path = require('path')
 
@@ -62,4 +64,7 @@ adminRouter.get('/couponAdmin',authantication.isadminlogin,adminCouponController
 adminRouter.post('/cropImage',upload.single('image'),adminProductController.cropImage)
 adminRouter.post('/adminAddCoupon',authantication.isadminlogin,adminCouponController.adminAddCoupon)
 adminRouter.post('/deleteTheCoupon',adminCouponController.deleteTheCoupon)
+adminRouter.post('/admimEditCoupon',adminCouponController.admimEditCoupon)
+adminRouter.get('/ViewCategoryOffer',authantication.isadminlogin,adminOfferController.ViewCategoryOffer)
+adminRouter.post('/adminaddOfferCatogory',upload.single('image'),adminOfferController.addCategoryOffer)
 module.exports = adminRouter;
