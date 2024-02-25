@@ -8,6 +8,7 @@ const orderDb = require('../model/orderDb')
 const cartDb = require("../model/cartDb")
 const wishlistDb = require("../model/wishlistDb")
 const couponDb = require("../model/couponDb")
+const walletDb = require('../model/walletDb')
 
 //PASSWORD CONVERTING TO HASH
 const securePassword = async (password) => {
@@ -59,7 +60,10 @@ const sendOtpMail = async (name, email, otp) => {
 //REGISTER THE SUBMIT 
 const signUpPost = async (req, res) => {
     try {
-        const { register_fname, register_lname, register_email, register_mobile, register_password } = req.body
+        const { register_fname, register_lname, register_email, register_mobile, register_password,referralCode } = req.body
+        if(referralCode){
+            req.session.referralCode=referralCode
+        }
         const checkAccount = await clientDb.findOne({ email: register_email })
         if (!checkAccount) {
 
@@ -78,7 +82,8 @@ const signUpPost = async (req, res) => {
                         const lname = register_lname;
                         const email = register_email;
                         const mobile = register_mobile;
-
+                        //radom string
+                     
 
                         const Client = new client({
 
@@ -88,7 +93,8 @@ const signUpPost = async (req, res) => {
                             password: sPassword,
                             mobile,
                             is_admin: 0,
-                            is_block: false
+                            is_block: false,
+                         
 
 
                         })
@@ -246,8 +252,30 @@ const otpSubmit = async (req, res) => {
                 const clientDbUbdate = await client.updateOne({ email }, { $set: { is_varified: true } })
                 if (clientDbUbdate) {
                     await otpDb.deleteOne({ _id: otpVerify._id })
-                    req.session.user_id = otpVerify.userId
-                    res.redirect("/dashboard")
+                    if(req.session.referralCode){
+                        const refferdUser = await walletDb.findOneAndUpdate({referralCode:req.session.referralCode},{$inc:{balance:100}},{new:true})
+                        if(refferdUser){
+                            const newWallet = await walletDb.create({
+                                clientId:  otpVerify.userId,
+                                referralCode:`${email}${inputOtp}`,
+                                balance: 50
+                            });
+                            req.session.user_id = otpVerify.userId
+                          return  res.redirect("/dashboard")
+
+                        }
+                    }else{
+
+                        
+                        const newWallet = await walletDb.create({
+                            clientId:  otpVerify.userId,
+                            referralCode:`${email}${inputOtp}`,
+                            balance: 0 
+                        });
+                        
+                        req.session.user_id = otpVerify.userId
+                        return  res.redirect("/dashboard")
+                    }
                 }
             }
         }
@@ -306,7 +334,6 @@ const resendOtp = async (req, res) => {
             console.log(email)
             if (personData) {
                 sendOtpMail(personData.fname, email, otp)
-                console.log("slkajlkajlakjfaklajkla")
                 res.render('otpVerification', { email })
 
             }
@@ -319,7 +346,7 @@ const resendOtp = async (req, res) => {
     }
 }
 
-//FORGOT PASSWORD
+//FORGOT PASSWORD (show the page)
 const forgotPassword = async (req, res) => {
     try {
 
@@ -330,7 +357,7 @@ const forgotPassword = async (req, res) => {
     }
 }
 
-//FORGOT PASSWORD SUBMIT
+//FORGOT PASSWORD SUBMIT (post)
 const forgotPasswordSubmit = async (req, res) => {
     try {
         const { email } = req.body
