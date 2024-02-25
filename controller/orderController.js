@@ -68,9 +68,22 @@ console.log(orderData,1111111111111111111111111111111111111111111111111111)
     }
 }
 
+//INVOICE TO ADMIN SIDE 
+const invoice = async (req,res)=>{
+    try {
+        const order  = await orderDb.find().populate({path:"products.productId",model:"product"}).populate("clientId")
+        res.render('invoice',{order})
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports = {
     delteTheOrder,
     orderlist,
     updateSatus,
-    orderEachView
+    orderEachView,
+    invoice
 }

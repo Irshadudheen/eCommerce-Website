@@ -340,33 +340,174 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <label>Country *</label>
-                                                    <input type="text" name="country" class="form-control" required>
+                                                    <input type="text" name="country" id="country" onkeyup="checkCountry(this)" class="form-control" required>
+                                                   <p id="countryerror" style="display: none; color: red;">Please enter the country name</p>
+                                                    <script>
+                                                      function  checkCountry(inputTag){
+                                                        const   addbtn = document.getElementById('add-address')
+                                                        const err=  document.getElementById('countryerror')
+
+                                                        console.log(inputTag.value.trim())
+                                                        const input = inputTag.value.trim()
+                                                        if(input.length>0){
+                                                            console.log("asdidskdsik")
+                                                            err.style.display="none"
+
+                                                         
+                                                         addbtn.disabled=false
+                                                        }else{
+                                                            console.log(223232323)
+                                                            err.style.display="block"
+                                                  
+                                                         addbtn.disabled=true
+                                                        }
+
+                                                        }
+                                                    </script>
                                                 </div><!-- End .col-sm-6 -->
                                                 <div class="col-sm-3">
                                                     <label>City *</label>
-                                                    <input type="text" name="city" class="form-control" required>
+                                                    <input type="text" name="city" onkeyup="checkCity(this)" class="form-control" required>
+                                                    <p id="cityerror" style="display: none; color: red;">Please enter the city name</p>
+                                                    <script>
+                                                        function  checkCity(inputTag){
+                                                          const   addbtn = document.getElementById('add-address')
+                                                          const err=  document.getElementById('cityerror')
+
+                                                          console.log(inputTag.value.trim())
+                                                          const input = inputTag.value.trim()
+                                                          if(input.length>0){
+                                                              console.log("asdidskdsik")
+                                                              err.style.display="none"
+
+
+                                                           
+                                                           addbtn.disabled=false
+                                                          }else{
+                                                              console.log(223232323)
+                                                              err.style.display="block"
+                                                    
+                                                           addbtn.disabled=true
+                                                          }
+  
+                                                          }
+                                                      </script>
                                                 </div><!-- End .col-sm-6 -->
                                             </div><!-- End .row -->
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <label>Street Address *</label>
-                                                    <input type="text" name="streetAddress" class="form-control" required>
+                                                    <input type="text" name="streetAddress" onkeyup="checkStreet(this)"  class="form-control" required>
+                                                    <p id="Streeterror" style="display: none; color: red;">Please enter the Street name</p>
+                                                    <script>
+                                                        function  checkStreet(inputTag){
+                                                          const   addbtn = document.getElementById('add-address')
+                                                          const err=  document.getElementById('Streeterror')
+
+                                                          console.log(inputTag.value.trim())
+                                                          const input = inputTag.value.trim()
+                                                          if(input.length>0){
+                                                              console.log("asdidskdsik")
+                                                              err.style.display="none"
+
+
+                                                           
+                                                           addbtn.disabled=false
+                                                          }else{
+                                                              console.log(223232323)
+                                                              err.style.display="block"
+                                                    
+                                                           addbtn.disabled=true
+                                                          }
+  
+                                                          }
+                                                      </script>
                                                 </div><!-- End .col-sm-8 -->
                                                 <div class="col-sm-4">
                                                     <label>State *</label>
-                                                    <input type="text" name="state" class="form-control" required>
+                                                    <input type="text" name="state" class="form-control" onkeyup="checkState(this)" required>
+                                                    <p id="Stateerror" style="display: none; color: red;">Please enter the State name</p>
+                                                    <script>
+                                                        function  checkState(inputTag){
+                                                          const   addbtn = document.getElementById('add-address')
+                                                          const err=  document.getElementById('Stateerror')
+
+                                                          console.log(inputTag.value.trim())
+                                                          const input = inputTag.value.trim()
+                                                          if(input.length>0){
+                                                              console.log("asdidskdsik")
+                                                              err.style.display="none"
+
+
+                                                           
+                                                           addbtn.disabled=false
+                                                          }else{
+                                                              console.log(223232323)
+                                                              err.style.display="block"
+                                                    
+                                                           addbtn.disabled=true
+                                                          }
+  
+                                                          }
+                                                      </script>
                                                 </div><!-- End .col-sm-4 -->
                                             </div><!-- End .row -->
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <label>Pincode *</label>
-                                                    <input type="number" name="pincode" class="form-control">
+                                                    <input type="number" name="pincode"  onkeyup="checkPincode(this)" class="form-control">
+                                                    <p id="Pincodeerror" style="display: none; color: red;">Please enter the pincode</p>
+                                                    <script>
+                                                        function  checkPincode(inputTag){
+                                                          const   addbtn = document.getElementById('add-address')
+                                                          const err=  document.getElementById('Pincodeerror')
+
+                                                          console.log(inputTag.value.trim())
+                                                          const input = inputTag.value.trim()
+                                                          if(input.length>0&&input>0){
+                                                              console.log("asdidskdsik")
+                                                              err.style.display="none"
+
+
+                                                           
+                                                           addbtn.disabled=false
+                                                          }else{
+                                                              console.log(223232323)
+                                                              err.style.display="block"
+                                                    
+                                                           addbtn.disabled=true
+                                                          }
+  
+                                                          }
+                                                      </script>
                                                 </div><!-- End .col-sm-4 -->
                                                 <div class="col-sm-4">
                                                     <label>Mobile *</label>
-                                                    <input type="number" name="mobile" class="form-control">
+                                                    <input type="number" name="mobile" onkeyup="checkMobile(this)" class="form-control">
+                                                    <p id="mobileNumbererror" style="display: none; color: red;">please enter 10 number</p>
+                                                    <script>
+                                                        function checkMobile(inputTag){
+                                                            console.log("sdidskj")
+                                                            const input= inputTag.value.trim()
+                                                            const   addbtn = document.getElementById('add-address')
+
+                                                            const mobileNumbererror = document.getElementById('mobileNumbererror')
+                                                            console.log(mobileNumbererror)
+                                                            console.log(input.length)
+                                                            if(input.length<10){
+                                                                mobileNumbererror.style.display="block"
+                                                                addbtn.disabled=true
+
+
+                                                            }else{
+                                                                mobileNumbererror.style.display="none"
+                                                                addbtn.disabled=false
+
+                                                            }
+                                                        }
+                                                    </script>
                                                     <div class="col-sm-4">
-                                                        <button type="submit" class="btn btn-outline-primary-2">
+                                                        <button type="submit" id="add-address" class="btn btn-outline-primary-2">
                                                             <span>Add Address</span>
                                                             <i class="icon-long-arrow-right"></i>
                                                         </button>
@@ -494,43 +635,10 @@
                              
                                 </div><!-- End .summary -->
                             </aside><!-- End .col-lg-3 -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#exampleModal">ADD Adresses</button>
+                        
                         </div><!-- End .row -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="/addnewaddress" method="post">
-                                            <p id="Messge"></p>
-                                            <input type="text" id="country" value="" placeholder="country"
-                                                name="country">
-                                            <input type="text" id="streetAddress" value="" placeholder="streetAddress"
-                                                name="streetAddress">
-                                            <input type="text" id="city" value="" placeholder="city" name="city">
-                                            <input type="text" id="state" value='' placeholder="state" name="state">
-                                            <input type="text" id="pincode" value="" placeholder="pincode"
-                                                name="pincode">
-                                            <input type="text" id="mobile" oninput="mobileCheck()" value=''
-                                                placeholder="mobile" name="mobile">
-                                            <button id="edit" type="submit">ADD</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
+                       
 
 
                     </div><!-- End .container -->
