@@ -348,12 +348,21 @@
                                                         class="product-image">
                                                 </a>
                                                 <div class="product-action-vertical">
+                                                    
+                                                   <% if(!wishlist.length>0){%>
+
                                                     <a  id="holeHeart<%=data._id%>" class=" btn-product-icon btn-wishlist btn-expandable" onclick="AddTowislist('<%=data._id%>')" style="color: red;"><span >add to
                                                         wishlist</span></a>
-                                                        
+                                                        <%}else{%>
+                                                            <%console.log(33333333)%>
+                                                           <% wishlist.products.forEach(ele=>{%>
+                                                                   <% if(ele.productId.toString()==data._id.toString()){%>
 
-                                                                <i id="solidheart<%=data._id%>"  style="display: none; color: red;" class="fa-solid fa-heart"></i>
-                                                           
+                                                                        <i id="solidheart<%=data._id%>"  style="display: none; color: red;" class="fa-solid fa-heart"></i>
+                                                                  <%  }%>
+                                                          <%  })%>
+
+                                                           <%}%>
                                                         
                                                       
                                                     </div>
@@ -387,7 +396,6 @@
                                                             }
                                                         }
                                                     </script>
-                                                 <% console.log("DEYETHDTHDTHDHT",data.name,data.categoryid._id.toString()  === ele.categoryId.toString(), data.categoryid._id ,ele.categoryId)%>
 
                                                             <% if( data.categoryid._id.toString()  == ele.categoryId.toString() ) { %>
                                                                 <%if(ele.method=="fixed amount"){%>

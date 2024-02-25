@@ -33,7 +33,7 @@ const Clientproduct = async (req, res) => {
             match: { status: true }
         }).exec()
         const wishlist = await wishlistDb.findOne({clientId:user_id})
-        console.log(wishlist)
+       
         
         const filteredProduct = product.filter(product => product.categoryid !== null)
         const cart = await cartDb.findOne({clientId:user_id})
