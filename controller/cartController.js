@@ -5,6 +5,7 @@ const orderDb = require('../model/orderDb')
 const addressDb = require('../model/addressDb')
 const Razorpay = require('razorpay')
 const couponDb = require('../model/couponDb')
+const offerDb = require('../model/offerDb')
 
 //RAZORPAY PAYMENT METHOD
 const instance = new Razorpay({
@@ -20,9 +21,19 @@ const addToCart = async (req, res) => {
         const checkTheProduct = await cartDb.findOne({ clientId})
         const checkTheCartProduct = checkTheProduct?.products.some(product=>product.productId==id)
         const productToCart = await productDb.findOne({ _id: id }).populate('categoryid')
-        console.log(1)
-        console.log(checkTheProduct)
-        console.log(checkTheProduct,423)
+        const offer = await offerDb.findOne({categoryId:productToCart.categoryid._id})
+        console.log("saa")
+        if(offer){
+            if(offer.method=="fixed amount"){
+                const offerPrice = productToCart.price-offer.amount
+                productToCart.price=offerPrice
+
+            }else{
+                const offerPrice = productToCart.price-(offer.amount*productToCart.price)/100
+                productToCart.price=offerPrice
+
+            }
+        }
         
         if (!checkTheCartProduct) {
             const checkTheCart = await cartDb.findOne({ clientId })
@@ -48,12 +59,6 @@ const addToCart = async (req, res) => {
 
 
             } else {
-
-
-
-
-
-
 
                 const newCart = new cartDb({
                     clientId,
@@ -90,6 +95,7 @@ const cartView = async (req, res) => {
         console.log(req.body,433434343434)
         console.log(req.query)
         const {hidden}=req.query
+        const offer = await offerDb.find()
         const cart = await cartDb.findOne({ clientId: user_id }).populate({
             path: 'products.productId',
             model: 'product'
@@ -101,7 +107,7 @@ const cartView = async (req, res) => {
                 return total + product.totalPrice
 
             }, 0)
-            res.render('cart', { cart, totalPrice })
+            res.render('cart', { cart, totalPrice,offer })
 
         } else {
 

@@ -279,7 +279,21 @@
                                                             </h3><!-- End .product-title -->
                                                         </div><!-- End .product -->
                                                     </td>
-                                                    <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price %></td>
+                                                  <%  if(offer.length>0){%>
+                                                   <% offer.forEach(ele=>{%>
+                                                    <%if(product.productId.categoryid.toString()==ele.categoryId.toString()){%>
+                                                        <%if(ele.method=="fixed amount"){%>
+
+                                                        <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price -ele.amount%></td>
+                                                        <%}else{%>
+                                                            <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price-(ele.amount*product.productId.price)/100 %></td>
+
+                                                   <%}}})%>
+
+                                                  <%  }else{%>
+
+                                                        <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price %></td>
+                                                   <% }%>
                                                     <td class="quantity-col">
                                                         <div class="cart-product-quantity">
                                                             <input type="number" class="form-control"   value="<%=product.quantity%>" id="p_quantity<%=product.productId._id%>" min="1" onchange="increase('<%= product.productId._id %>','<%=cart._id%>')" max="<%=product.productId.quantity%>" step="1" data-decimals="0" required>

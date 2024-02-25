@@ -115,29 +115,19 @@
 
                       <td>
 
+                        <%if(data.status==true){%>
 
-                        <span id="softDelete<%=data._id%>" onclick="statusBlock('<%=data.name%>','<%=data._id%>')"
-                          class="material-symbols-outlined ">block</span>
-                        <script>
-                          document.addEventListener('DOMContentLoaded', () => {
-
-                            // const storedColor = localStorage.getItem('softDeleteColor'); 
-                            const icon = document.getElementById("softDelete<%=data._id%>")
-                            document.querySelectorAll('[id^="softDelete<%= data._id %>"]').forEach((icon) => {
-                              console.log(icon.dataset.id)
-                              const storedColor = localStorage.getItem(`softDeleteColor_${icon.dataset.id}`)
-                              if (storedColor) {
-
-                                icon.style.color = storedColor;
-                              }
-                            })
-                          });
-
-                        </script>
+                          <span id="softDelete<%=data._id%>" onclick="statusBlock('<%=data.name%>','<%=data._id%>')"
+                            class="material-symbols-outlined ">block</span>
+                           
+                          <%  }else{%>
+                            <span id="softDelete<%=data._id%>" style="color: red;" onclick="statusBlock('<%=data.name%>','<%=data._id%>')"
+                            class="material-symbols-outlined ">block</span>
+                            <%}%>
+                            
 
                         </a>
                       </td>
-
 
                     </tr>
 

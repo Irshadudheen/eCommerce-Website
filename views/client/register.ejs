@@ -132,7 +132,7 @@
 
                                             <div class="form-group">
                                                 <label for="register-password-2">Password *</label>
-                                                <input onkeydown="checkPassword(this)" type="password" class="form-control" id="register-password-2"
+                                                <input onkeyup="checkPassword(this)" type="password" class="form-control" id="register-password-2"
                                                     name="register_password" required>
                                                     <p id="passwordCriteria">
                                                         <span id="uppercase">Uppercase</span>
@@ -146,7 +146,13 @@
                                                     <p style="color: red; display: none;" id="error"><b>Enter strong password</b></p>
 
                                             </div><!-- End .form-group -->
+                                            <div class="form-group">
+                                                <label for="register-password-2">Confirm password *</label>
+                                                <input onkeyup="checkConform(this)" type="password" class="form-control" id="formPassword"
+                                                    name="confirm password" required>
+                                                    <p style="color: red; display: none;" id="conform"><b>Confirm password is not match</b></p>
 
+                                                    </div>
                                             <div class="form-footer">
                                                 <button type="submit" id="signUp1" class="btn btn-outline-primary-2">
                                                     <span>SIGN UP</span>
@@ -221,6 +227,23 @@
         
         
     }
+    }
+</script>
+<script>
+    function checkConform(inputTag){
+        const input = inputTag.value.trim()
+
+        const password = document.getElementById('register-password-2').value.trim()
+        if(password!=input){
+            document.getElementById('conform').style.display="block"
+
+        }else{
+            document.getElementById('conform').style.display="none"
+
+        }
+        console.log(input)
+
+        
     }
 </script>
         <footer class="footer">

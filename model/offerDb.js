@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const offerCategorySchema = mongoose.Schema({
+const offerSchema = mongoose.Schema({
     name:{type:String,required:true},
-    categoryId:{type:mongoose.Schema.Types.ObjectId,required:true,ref:'category'},
+    categoryId:{type:mongoose.Schema.Types.ObjectId,ref:'category'},
+    productId:{type:mongoose.Schema.Types.ObjectId,ref:'product'},
     expreDate:{type:Date,required:true},
     createDate:{type:Date,required:true},
     amount:{type:Number,required:true},
@@ -9,4 +10,4 @@ const offerCategorySchema = mongoose.Schema({
     method:{type:String,required:true},
     image:{type:String,required:true}
 })
-module.exports=mongoose.model('offerCategory',offerCategorySchema)
+module.exports=mongoose.model('offer',offerSchema)

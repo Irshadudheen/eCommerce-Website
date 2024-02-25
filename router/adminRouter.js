@@ -65,7 +65,7 @@ adminRouter.post('/cropImage',upload.single('image'),adminProductController.crop
 adminRouter.post('/adminAddCoupon',authantication.isadminlogin,adminCouponController.adminAddCoupon)
 adminRouter.post('/deleteTheCoupon',adminCouponController.deleteTheCoupon)
 adminRouter.post('/admimEditCoupon',adminCouponController.admimEditCoupon)
-adminRouter.get('/ViewCategoryOffer',authantication.isadminlogin,adminOfferController.ViewCategoryOffer)
+adminRouter.get('/ViewOffer',authantication.isadminlogin,adminOfferController.ViewCategoryOffer)
 adminRouter.post('/adminaddOfferCatogory',upload.single('image'),adminOfferController.addCategoryOffer)
 adminRouter.post('/editCategoryOffer',adminOfferController.editCategoryOffer)
 module.exports = adminRouter;

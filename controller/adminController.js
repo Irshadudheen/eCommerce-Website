@@ -100,22 +100,11 @@ const deleteClient = async (req, res) => {
 const blockClient = async (req, res) => {
     try {
         console.log(req.query.id)
+
         const { id } = req.query
         const check = await clientDb.findOne({ _id: id })
-        if (check.is_block == true) {
-            const data = await clientDb.findOneAndUpdate({ _id: id }, { $set: { is_block: false } })
-            if (data) {
-                res.redirect("/admin/clientview")
-            }
-
-        } else {
-            const data = await clientDb.findOneAndUpdate({ _id: id }, { $set: { is_block: true } })
-            if (data) {
-                res.redirect("/admin/clientview")
-            }
-
-        }
-
+        check.is_block=!check.is_block
+        check.save()
 
     } catch (error) {
         console.log(error.message)

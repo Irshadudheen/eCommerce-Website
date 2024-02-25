@@ -114,11 +114,16 @@
 
                           <a href="/admin/editUser?id=<%=data[i]._id%>"><button
                               class="btn btn-info btn-sm">Edit</button></a>
-                          <form style="display:inline-block ;" action="/admin/deleteClient" method="post"> <button
-                              onclick="delet()" name="delet" id="delete" value="<%=data[i]._id%>"
-                              class="btn btn-danger btn-sm">Delete</button></form>
-                          <a href="/admin/blockClient?id=<%=data[i]._id%>"><button
-                              class="btn btn-warning btn-sm">Block</button></a>
+                          
+                              <%if(data[i].is_block==true){%>
+
+                                <button onclick="blockUser('<%=data[i]._id%>')"
+                                  id="block<%=data[i]._id%>" style="width: 110px;"  class="btn btn-warning btn-sm">Block</button>
+                               <% }else{%>
+                                  <button onclick="blockUser('<%=data[i]._id%>')"
+                                  id="block<%=data[i]._id%>"  class="btn btn-warning btn-sm">Unblock</button>
+
+                              <% }%>
                         </td>
                       </tr>
                       <% } }else{ %>
@@ -187,5 +192,27 @@
     <!-- https://getbootstrap.com/ -->
 
   </body>
+  <script>
+    function blockUser(ID){
+
+      const blockBtn = document.getElementById(`block${ID}`).innerText
+      console.log(blockBtn)
+      console.log(blockBtn=="Block")
+      if(blockBtn=='Block'){
+        const blockBtn = document.getElementById(`block${ID}`).innerHTML="Unblock"
+
+      }else{
+        const blockBtn = document.getElementById(`block${ID}`).innerHTML="Block"
+
+
+      }
+      console.log("dsdsksdjsdkl")
+fetch(` /admin/blockClient?id=${ID}`,{
+  method:'GET',
+ 
+})
+    }
+    
+    </script>
 
   </html>

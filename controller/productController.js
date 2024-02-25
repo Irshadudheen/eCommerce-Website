@@ -5,11 +5,14 @@ const cartDb = require('../model/cartDb')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const offerDb = require('../model/offerDb')
 
 //TOTAL VIEW OF PRODUCT IN CLIENT
 const Clientproduct = async (req, res) => {
     try {
         const sortOption= req.query.sort
+        const offer= await offerDb.find()
+        
         const {user_id}=req.session
         console.log(sortOption)
         let sort = {};
@@ -35,7 +38,7 @@ const Clientproduct = async (req, res) => {
         const filteredProduct = product.filter(product => product.categoryid !== null)
         const cart = await cartDb.findOne({clientId:user_id})
         const cartCount = cart?.products.length
-        res.render('product', { productData: filteredProduct,sortOption ,wishlist,cartCount});
+        res.render('product', { productData: filteredProduct,sortOption ,wishlist,cartCount,offer});
 
 
     } catch (error) {
@@ -46,10 +49,12 @@ const Clientproduct = async (req, res) => {
 //SELCTED PRODUCT IN CLIENT
 const eachproduct = async (req, res) => {
     try {
-        const productData = await productDb.findOne({ _id: req.query.id })
+        const {id}=req.query
+        const productData = await productDb.findOne({_id:id})
+        const offer = await offerDb.find()
         console.log(productData)
         console.log(productData.quantity)
-        res.render('eachproduct', { productData })
+        res.render('eachproduct', { productData,offer})
 
     } catch (error) {
         console.log(error.message)
@@ -262,27 +267,7 @@ const cropImage = async (req,res)=>{
     }
 }
 
-// const convertImageDataIntoImage= async (binaryImage)=>{
-// try {
-//    const imagePath=  path.join(__dirname, '../public/productImage',)
-//    console.log("jfdssdjkmkfjsdmkdsfjmfkdjsdjk")
-    
-//     const base64Image = binaryImage.replace(/^data:image\/\w+;base64,/, '');
-//     const buffer = Buffer.from(base64Image, 'base64');
-//     fs.writeFile(imagePath, buffer, (err) => {
-//         if (err) {
-//             console.error('Error writing image:', err);
-//         } else {
-//             console.log('Image saved successfully.');
-//         }
-//     });
-    
-    
 
-// } catch (error) {
-    
-// }
-// }
 
 module.exports = {
     eachproduct,

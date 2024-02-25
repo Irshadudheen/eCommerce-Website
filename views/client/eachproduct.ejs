@@ -408,7 +408,15 @@
                                         </div><!-- End .rating-container -->
 
                                         <div class="product-price">
-                                            $<%= productData.price %>
+                                            <%if(offer.length>0){%>
+                                              <% offer.forEach(ele=>{%>
+                                                <%if(ele.categoryId.toString()==productData.categoryid.toString()){%>
+                                                    <%if(ele.method=="fixed amount"){%>
+                                            $<%= productData.price-ele.amount %>
+                                            <%}else{%>
+                                             $<%= productData.price-(ele.amount*productData.price)/100 %>
+
+                                           <% }}})}%>
                                         </div><!-- End .product-price -->
 
                                         <div class="product-content">

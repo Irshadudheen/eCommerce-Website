@@ -8,6 +8,7 @@ const addressController = require('../controller/addressController')
 const orderController = require('../controller/orderController')
 const wishlistController =require('../controller/wishlistController')
 const couponController = require('../controller/couponController')
+const offerController = require('../controller/offerController')
 const path = require('path')
 
 clientRouter.set('views','./views/client')
@@ -56,4 +57,5 @@ clientRouter.post('/removefromWishlist',wishlistController.removefromWishlist)
 clientRouter.get('/orderEachView',authantication.login,orderController.orderEachView)
 clientRouter.post('/checkCopon',couponController.checkCopon)
 clientRouter.get('/forgotOtpPage',clientController.forgotOtpPage)
+clientRouter.get('/deal',authantication.login,offerController.deal)
 module.exports = clientRouter;
