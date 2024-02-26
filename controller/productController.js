@@ -12,7 +12,14 @@ const Clientproduct = async (req, res) => {
     try {
         const sortOption= req.query.sort
         const offer= await offerDb.find()
-        
+        const search = req.query.q
+        let searchData={}
+        if(search){
+            searchData = { name: { $regex: search, $options: 'i' } }
+               
+        }
+        console.log(searchData)
+        console.log(search)
         const {user_id}=req.session
         console.log(sortOption)
         let sort = {};
@@ -27,11 +34,22 @@ const Clientproduct = async (req, res) => {
             sort = { name: 1 };
         }
         console.log("sort",sort);
+        let product=[]
+        if(search){
+             product = await productDb.find({ $and:[{status: true},{name:searchData.name} ]}).sort(sort).populate({
+                path: "categoryid",
+                match: { status: true }
+            }).exec()
+
+        }else{
+             product = await productDb.find({status: true} ).sort(sort).populate({
+                path: "categoryid",
+                match: { status: true }
+            }).exec()
+            
+        }
         
-        const product = await productDb.find({ status: true }).sort(sort).populate({
-            path: "categoryid",
-            match: { status: true }
-        }).exec()
+       
         const wishlist = await wishlistDb.findOne({clientId:user_id})
        
         

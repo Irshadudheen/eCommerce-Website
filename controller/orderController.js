@@ -21,7 +21,7 @@ const delteTheOrder = async (req, res) => {
 const orderlist = async (req, res) => {
     try {
         console.log(req.query)
-        const { productId, orderId } = req.query
+        const { orderId } = req.query
         const orderData = await orderDb.findOne({ _id: orderId }).populate('clientId').populate({
             path: 'products.productId',
             model: 'product'
@@ -80,10 +80,28 @@ const invoice = async (req,res)=>{
     }
 }
 
+
+//
+const updateSatusOfOrderProduct = async (req,res)=>{
+    try {
+        console.log(req.body)
+        const {option,product_id}=req.body
+        console.log(option,product_id)
+        const UpdateproductStatus = await  orderDb.findOneAndUpdate({"products._id":product_id},{$set:{"products.$.productStatus":option}})
+        if(UpdateproductStatus){
+            res.send({status:true})
+        }
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports = {
     delteTheOrder,
     orderlist,
     updateSatus,
     orderEachView,
-    invoice
+    invoice,
+    updateSatusOfOrderProduct
 }

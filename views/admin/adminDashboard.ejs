@@ -223,8 +223,8 @@
                                     <tr>
                                         <th scope="col">ORDER NO.</th>
                                         <th scope="col">CUSTOMER</th>
-                                        <th scope="col">PRODUCT NAME</th>
-                                        <th scope="col">IMAGE</th>
+                                        <th scope="col">PAYMENT METHOD</th>
+                                        <th scope="col">ACTION</th>
                                         <th scope="col">STATUS</th>
                                         <th scope="col">DATE</th>
                                         <th scope="col">ACTION</th>
@@ -235,10 +235,10 @@
                                     <%if(order.length >0){%>
 
                                         <% order.forEach(data=> { %>
-                                            <% data.products.forEach(element=> { %>
+                                          
                                                 <tr>
-                                                <th scope="row"><b>
-                                                        <%=data.paymentMethod%>
+                                                <th scope="row"><b><%=data._id%>
+                                                       
                                                     </b></th>
                                                     <td>
                                                         
@@ -248,23 +248,28 @@
                                                         
                                                     </td>
                                                     <td><b>
-                                                        <%=element.productId.name%>
+                                                        <%=data.paymentMethod%>
                                                     </b></td>
-                                                    <td><img src="productImage/<%=element.image%>" width="50" height="50"
-                                                        alt=""></td>
-                                                <td><b>
+                                                    <td><select onchange="statusChange('<%=data._id%>')" name="status" id="option<%=data._id%>">
+
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Processing">Processing</option>
+                                                        <option value="Shipped">Shipped</option>
+                                                        <option value="Delivered">Delivered</option>
+                                                      </select></td>
+                                                <td id="status<%=data._id%>"><b>
                                                     <%=data.orderStatus%>
                                                 </b></td>
                                                 <td>
                                                     <%=data.date.toLocaleDateString()%>
                                                 </td>
                                                 <td><a
-                                                    href="/admin/orderlist?productId=<%=element.productId._id%>&orderId=<%=data._id%>"><b>
+                                                    href="/admin/orderlist?orderId=<%=data._id%>"><b>
                                                         VIEW</b></a></td>
                                                     </tr>
                                                     <% }); %>
-                                                    <% }); %>
-                                    <%}%>
+                                                    <% }; %>
+                                 
 
                                 </tbody>
                             </table>
@@ -273,6 +278,30 @@
                 </div>
             </div>
             <%-include('../layout/adminFooter')-%>
+            <script>
+                function statusChange(order_id) {
+                  console.log(order_id)
+        
+                 
+                  const option = document.getElementById(`option${order_id}`).value
+                  console.log(option)
+                  fetch('/admin/updateSatus', {
+                    method: "POST",
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ option, order_id })
+                  }).then(res => res.json()).then(data => {
+                    if (data) {
+                        console.log(data)
+
+                      const status = document.getElementById(`status${order_id}`).innerText = option
+                      console.log(status)
+                    }
+        
+                  })
+                }
+              </script>
         </div>
 
         <script src="js/jquery-3.3.1.min.js"></script>

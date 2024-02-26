@@ -300,41 +300,155 @@
 
                                     </form>
                                 </div><!-- End .checkout-discount -->
+                                <div class="select-container">
+                                    <select name="address" id="addressSelect">
+                                        <% address.forEach(data=> { %>
+                                            <option id="address" value="<%= data._id %>">
+                                                pincode <%= data.pincode %> -MOBILE <%= data.mobile %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                    <style>
+                                        .select-container {
+                                            width: 300px;
+                                            margin: 0 auto;
+                                        }
+
+                                        #addressSelect {
+                                            width: 100%;
+                                            padding: 10px;
+                                            font-size: 16px;
+                                            border-radius: 5px;
+                                            border: 1px solid #ccc;
+                                            outline: none;
+                                        }
+
+                                        #addressSelect option {
+                                            padding: 5px;
+                                        }
+                                    </style>
+
+                                </div>
                             
                                 <div class="row">
 
 
 
-                                    <div class="select-container">
-                                        <select name="address" id="addressSelect">
-                                            <% address.forEach(data=> { %>
-                                                <option id="address" value="<%= data._id %>">
-                                                    pincode <%= data.pincode %> -MOBILE <%= data.mobile %>
-                                                </option>
-                                                <% }) %>
-                                        </select>
-                                        <style>
-                                            .select-container {
-                                                width: 300px;
-                                                margin: 0 auto;
-                                            }
-    
-                                            #addressSelect {
-                                                width: 100%;
-                                                padding: 10px;
-                                                font-size: 16px;
-                                                border-radius: 5px;
-                                                border: 1px solid #ccc;
-                                                outline: none;
-                                            }
-    
-                                            #addressSelect option {
-                                                padding: 5px;
-                                            }
-                                        </style>
-    
-                                    </div>
-                                    <aside class="col-lg-9 ">
+                                   
+                                    <aside class="col-lg-3 ">
+                                        <div class="summary">
+                                            <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+        
+                                            <table class="table table-summary">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+        
+                                                <tbody>
+                                                    <%if(cart){%>
+                                                    <% cart.products.forEach(data=>{%>
+                                                        
+                                                            
+                                                                
+                                                                
+                                                                <tr>
+                                                                    <td><a href="#"><%=data.productId.name%></a></td>
+                                                                    <td>$<%=data.totalPrice%></td>
+                                                                </tr>
+                                                                <% })%>
+                                                                <%}%>
+                                                       
+        
+                                                    
+                                                    <tr class="summary-subtotal">
+                                                        <td>Subtotal:</td>
+                                                        <td>$<%=totalPrice%>
+                                                        </td>
+                                                    </tr><!-- End .summary-subtotal -->
+                                                    <tr>
+                                                        <td>Shipping:</td>
+                                                        <td>Free shipping</td>
+                                                    </tr>
+                                                    <tr class="summary-total">
+                                                        <td>Total:</td>
+                                                        <td id="totalPrice">
+                                                            <%=totalPrice%>
+                                                        </td>
+                                                    </tr><!-- End .summary-total -->
+                                                </tbody>
+                                            </table><!-- End .table table-summary -->
+        
+                                            <div class="accordion-summary" id="accordion-payment">
+                                                
+                                                   
+        
+                                                
+                                                    
+                                                
+        
+                                                    <div class="card">
+                                                        <div class="card-header" id="heading-3">
+                                                            
+                                                            <h2 class="card-title">
+                                                                <input type="radio" value="COD" name="method" id="cod" required >
+                                                                <label for="cod">Cash on delivery</label>
+                                                            </h2>
+                                                        </div><!-- End .card-header -->
+                                                        
+                                                    </div><!-- End .card -->
+                                                    
+                                                    <div class="card">
+                                                        <div class="card-header" id="heading-4">
+                                                            <h2 class="card-title">
+                                                                <input type="radio" value="Razorpay" name="method" id="Razorpay" required >
+                                                                <label for="Razorpay">Razorpay</label>
+                                                            </h2>
+                                                        </div><!-- End .card-header -->
+                                                    
+                                                        <div id="collapse-4" class="collapse" aria-labelledby="heading-4"
+                                                        data-parent="#accordion-payment">
+                                                        <div class="card-body">
+                                                            Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non,
+                                                            semper suscipit, posuere a, pede. Donec nec justo eget felis
+                                                            facilisis fermentum.
+                                                        </div><!-- End .card-body -->
+                                                    </div><!-- End .collapse -->
+                                                </div><!-- End .card -->
+        
+                                                <div class="card">
+                                                    <div class="card-header" id="heading-5">
+                                                        <h2 class="card-title">
+                                                            <a class="collapsed" role="button" data-toggle="collapse"
+                                                                href="#collapse-5" aria-expanded="false"
+                                                                aria-controls="collapse-5">
+                                                                Credit Card (Stripe)
+                                                                <img src="assets/images/payments-summary.png"
+                                                                    alt="payments cards">
+                                                            </a>
+                                                        </h2>
+                                                    </div><!-- End .card-header -->
+                                                    <div id="collapse-5" class="collapse" aria-labelledby="heading-5"
+                                                        data-parent="#accordion-payment">
+                                                        <div class="card-body"> Donec nec justo eget felis facilisis
+                                                            fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                                                            Donec odio. Quisque volutpat mattis eros. Lorem ipsum dolor sit ame.
+                                                        </div><!-- End .card-body -->
+                                                    </div><!-- End .collapse -->
+                                                </div><!-- End .card -->
+                                            </div><!-- End .accordion -->
+        
+                                            <button type="submit" id="placeOrder" onclick="placeOrder()"
+                                                class="btn btn-outline-primary-2 btn-order btn-block">
+                                                <span class="btn-text">Place Order</span>
+                                                <span class="btn-hover-text">Proceed to Checkout</span>
+                                            </button>
+                                     
+                                        </div><!-- End .summary -->
+                                    </aside><!-- End .col-lg-3 -->
+                                    <div class="col-lg-9 ">
                                     <div class="container">
                                         <form action="/addnewaddress" method="post">
                                             <div class="row">
@@ -520,121 +634,9 @@
                                   
 
                                 </div><!-- End .col-lg-9 -->
-                            </aside>
+                            </div>
                             
-                            <aside class="col-lg-3 ">
-                                <div class="summary">
-                                    <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
-
-                                    <table class="table table-summary">
-                                        <thead>
-                                            <tr>
-                                                <th>Product</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <%if(cart){%>
-                                            <% cart.products.forEach(data=>{%>
-                                                
-                                                    
-                                                        
-                                                        
-                                                        <tr>
-                                                            <td><a href="#"><%=data.productId.name%></a></td>
-                                                            <td>$<%=data.totalPrice%></td>
-                                                        </tr>
-                                                        <% })%>
-                                                        <%}%>
-                                               
-
-                                            
-                                            <tr class="summary-subtotal">
-                                                <td>Subtotal:</td>
-                                                <td>$<%=totalPrice%>
-                                                </td>
-                                            </tr><!-- End .summary-subtotal -->
-                                            <tr>
-                                                <td>Shipping:</td>
-                                                <td>Free shipping</td>
-                                            </tr>
-                                            <tr class="summary-total">
-                                                <td>Total:</td>
-                                                <td id="totalPrice">
-                                                    <%=totalPrice%>
-                                                </td>
-                                            </tr><!-- End .summary-total -->
-                                        </tbody>
-                                    </table><!-- End .table table-summary -->
-
-                                    <div class="accordion-summary" id="accordion-payment">
-                                        
-                                           
-
-                                        
-                                            
-                                        
-
-                                            <div class="card">
-                                                <div class="card-header" id="heading-3">
-                                                    
-                                                    <h2 class="card-title">
-                                                        <input type="radio" value="COD" name="method" id="cod" required >
-                                                        <label for="cod">Cash on delivery</label>
-                                                    </h2>
-                                                </div><!-- End .card-header -->
-                                                
-                                            </div><!-- End .card -->
-                                            
-                                            <div class="card">
-                                                <div class="card-header" id="heading-4">
-                                                    <h2 class="card-title">
-                                                        <input type="radio" value="Razorpay" name="method" id="Razorpay" required >
-                                                        <label for="Razorpay">Razorpay</label>
-                                                    </h2>
-                                                </div><!-- End .card-header -->
-                                            
-                                                <div id="collapse-4" class="collapse" aria-labelledby="heading-4"
-                                                data-parent="#accordion-payment">
-                                                <div class="card-body">
-                                                    Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non,
-                                                    semper suscipit, posuere a, pede. Donec nec justo eget felis
-                                                    facilisis fermentum.
-                                                </div><!-- End .card-body -->
-                                            </div><!-- End .collapse -->
-                                        </div><!-- End .card -->
-
-                                        <div class="card">
-                                            <div class="card-header" id="heading-5">
-                                                <h2 class="card-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse"
-                                                        href="#collapse-5" aria-expanded="false"
-                                                        aria-controls="collapse-5">
-                                                        Credit Card (Stripe)
-                                                        <img src="assets/images/payments-summary.png"
-                                                            alt="payments cards">
-                                                    </a>
-                                                </h2>
-                                            </div><!-- End .card-header -->
-                                            <div id="collapse-5" class="collapse" aria-labelledby="heading-5"
-                                                data-parent="#accordion-payment">
-                                                <div class="card-body"> Donec nec justo eget felis facilisis
-                                                    fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                                                    Donec odio. Quisque volutpat mattis eros. Lorem ipsum dolor sit ame.
-                                                </div><!-- End .card-body -->
-                                            </div><!-- End .collapse -->
-                                        </div><!-- End .card -->
-                                    </div><!-- End .accordion -->
-
-                                    <button type="submit" id="placeOrder" onclick="placeOrder()"
-                                        class="btn btn-outline-primary-2 btn-order btn-block">
-                                        <span class="btn-text">Place Order</span>
-                                        <span class="btn-hover-text">Proceed to Checkout</span>
-                                    </button>
-                             
-                                </div><!-- End .summary -->
-                            </aside><!-- End .col-lg-3 -->
+                          
                         
                         </div><!-- End .row -->
                         

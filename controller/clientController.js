@@ -299,12 +299,13 @@ const profile = async (req, res) => {
         const address = await addressDb.find({ clientId: user_id }).populate("clientId")
         const order = await orderDb.find({ clientId: user_id }).populate('addressId')
         const coupon = await couponDb.find()
+        const wallet = await walletDb.findOne({clientId:user_id})
         console.log(order,"___________________________________________________________")
        
-
+console.log(wallet)
         
         
-        res.render('clientProfile', { userData, address, order,coupon })
+        res.render('clientProfile', { userData, address, order,coupon,wallet })
 
     } catch (error) {
         console.log(error.message)

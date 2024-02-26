@@ -8,12 +8,14 @@ const orderSchema = new mongoose.Schema({
         quantity: { type: Number, required: true },
 
         totalPrice: { type: Number, required:true},
-        image: { type: String }
+        image: { type: String },
+        productStatus:{type:String,enum: ['Pending', 'Processing', 'Shipped', 'Delivered',"placed"], default: 'Pending'}
     },],
     paymentMethod:{type:String,require:true},
+    dectription:{type:String},
     totalPrice: { type: Number, required: true },
     date: { type: Date, required: true },
-    orderStatus: { type: String, enum: ['Pending', 'Processing', 'Shipped', 'Delivered'], default: 'Pending' },
+    orderStatus: { type: String, enum: ['Pending', 'Processing', 'Shipped', 'Delivered',"placed"], default: 'Pending' },
     payment: { type: Number, required: true }
 
 });

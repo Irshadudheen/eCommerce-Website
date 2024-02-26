@@ -180,11 +180,11 @@
                             <div class="header-search">
                                 <a href="#" class="search-toggle" role="button" title="Search"><i
                                         class="icon-search"></i></a>
-                                <form action="#" method="get">
+                                <form action="/product" method="get">
                                     <div class="header-search-wrapper">
-                                        <label for="q" class="sr-only">Search</label>
+                                        <label for="q"  class="sr-only">Search</label>
                                         <input type="search" class="form-control" name="q" id="myInput"
-                                            onkeyup="searchProduct()" placeholder="Search in..." required>
+                                             placeholder="Search in..." required>
                                     </div><!-- End .header-search-wrapper -->
                                 </form>
                             </div><!-- End .header-search -->
@@ -349,20 +349,14 @@
                                                 </a>
                                                 <div class="product-action-vertical">
                                                     
-                                                   <% if(!wishlist.length>0){%>
+                                                   
 
                                                     <a  id="holeHeart<%=data._id%>" class=" btn-product-icon btn-wishlist btn-expandable" onclick="AddTowislist('<%=data._id%>')" style="color: red;"><span >add to
                                                         wishlist</span></a>
-                                                        <%}else{%>
-                                                            <%console.log(33333333)%>
-                                                           <% wishlist.products.forEach(ele=>{%>
-                                                                   <% if(ele.productId.toString()==data._id.toString()){%>
+                                                    
 
                                                                         <i id="solidheart<%=data._id%>"  style="display: none; color: red;" class="fa-solid fa-heart"></i>
-                                                                  <%  }%>
-                                                          <%  })%>
-
-                                                           <%}%>
+                                                                
                                                         
                                                       
                                                     </div>

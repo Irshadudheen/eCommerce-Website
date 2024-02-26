@@ -69,4 +69,5 @@ adminRouter.get('/ViewOffer',authantication.isadminlogin,adminOfferController.Vi
 adminRouter.post('/adminaddOfferCatogory',upload.single('image'),adminOfferController.addCategoryOffer)
 adminRouter.post('/editCategoryOffer',adminOfferController.editCategoryOffer)
 adminRouter.get('/invoice',authantication.isadminlogin,adminOrderController.invoice)
+adminRouter.post('/updateSatusOfOrderProduct',adminOrderController.updateSatusOfOrderProduct)
 module.exports = adminRouter;

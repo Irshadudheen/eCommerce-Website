@@ -97,8 +97,8 @@
                         <%=ele.productId.name%>
                       </b></td>
                     <td><img src="productImage/<%=ele.image%>" width="50" height="50" alt=""></td>
-                    <td><b id="statusView">
-                        <%=orderData.orderStatus%>
+                    <td><b id="statusView<%=ele._id%>">
+                        <%=ele.productStatus%>
                       </b></td>
                     <td>
                       <%=ele.totalPrice%>
@@ -106,7 +106,7 @@
                     <td>
                       <%=ele.quantity%>
                     </td>
-                    <td><select onchange="statusChange('<%=orderData._id%>')" name="status" id="status">
+                    <td><select onchange="statusChange('<%=ele._id%>')" name="status" id="status<%=ele._id%>">
 
                         <option value="Pending">Pending</option>
                         <option value="Processing">Processing</option>
@@ -132,21 +132,21 @@
       <script src="js/bootstrap.min.js"></script>
       <!-- https://getbootstrap.com/ -->
       <script>
-        function statusChange(order_id) {
-          console.log(order_id)
+        function statusChange(product_id) {
+          console.log(product_id)
 
-          console.log(status)
-          const option = document.getElementById("status").value
+         
+          const option = document.getElementById(`status${product_id}`).value
           console.log(option)
-          fetch('/admin/updateSatus', {
+          fetch('/admin/updateSatusOfOrderProduct', {
             method: "POST",
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ option, order_id })
+            body: JSON.stringify({ option, product_id})
           }).then(res => res.json()).then(data => {
             if (data) {
-              const status = document.getElementById('statusView').innerText = option
+              const status = document.getElementById(`statusView${product_id}`).innerText = option
             }
 
           })

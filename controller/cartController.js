@@ -28,9 +28,11 @@ const addToCart = async (req, res) => {
                 const offerPrice = productToCart.price-offer.amount
                 productToCart.price=offerPrice
 
+
             }else{
                 const offerPrice = productToCart.price-(offer.amount*productToCart.price)/100
                 productToCart.price=offerPrice
+                
 
             }
         }
@@ -214,9 +216,11 @@ const placeholder = async (req, res) => {
     try {
         const { user_id } = req.session
         const {coupon}=req?.session
+       const  dectription="the full price"
         if(coupon){
 
             const addUserId = await couponDb.findOneAndUpdate({_id:coupon},{$push:{users:{clientId:user_id}}},{ new: true })
+            dectription="the offer price by  Coupon"
         }
         const address = await addressDb.findOne({ _id: req.body.address_id })
         console.log(user_id, address, "address and user_id")
@@ -237,7 +241,6 @@ const placeholder = async (req, res) => {
                 name: productDetails.name,
                 price: productDetails.price,
                 quantity: cartProduct.quantity,
-
                 totalPrice: cartProduct.totalPrice,
                 image: cartProduct.image,
 
@@ -253,6 +256,7 @@ const placeholder = async (req, res) => {
             products: products,
             totalPrice,
             paymentMethod,
+            dectription,
             
             date: formattedDate,
             payment: totalPrice,

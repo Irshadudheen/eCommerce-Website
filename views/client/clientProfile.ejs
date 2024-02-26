@@ -478,7 +478,108 @@
 
                                         <div class="row">
                                             
-                                            <div class="card-body">eriklfkler</div>
+                                            <div class="card-dashboard">
+                                                <div class="wallet">
+                                                    <div class="wallet-header">
+                                                      <h2>My Wallet</h2>
+                                               
+                                                      <span class="wallet-balance">Balance: $<%=wallet.balance%></span>
+                                                     
+                                                    </div>
+                                                    <div class="wallet-body">
+                                                      <!-- Transaction History -->
+                                                      <div class="transaction-history">
+                                                        <h3>Transaction History</h3>
+                                                        <ul>
+                                                          <li>
+                                                            <span class="transaction-type">Credit</span>
+                                                            <span class="transaction-amount">+$50</span>
+                                                          </li>
+                                                          <li>
+                                                            <span class="transaction-type">Debit</span>
+                                                            <span class="transaction-amount">-$30</span>
+                                                          </li>
+                                                          <!-- Add more transaction items as needed -->
+                                                        </ul>
+                                                      </div>
+                                                      <!-- Add Money / Withdraw Money -->
+                                                      <div class="wallet-actions">
+                                                        <button class="add-money-btn">Add Money</button>
+                                                        <button class="withdraw-money-btn">Withdraw Money</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <style>
+       .wallet {                                             
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.wallet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.wallet-body {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.transaction-history {
+  margin-bottom: 20px;
+}
+
+.transaction-history h3 {
+  margin-bottom: 10px;
+}
+
+.transaction-history ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.transaction-history li {
+  margin-bottom: 5px;
+}
+
+.transaction-type {
+  margin-right: 10px;
+}
+
+.wallet-actions {
+  text-align: center;
+}
+
+.add-money-btn,
+.withdraw-money-btn {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-money-btn {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.withdraw-money-btn {
+  background-color: #f44336;
+  color: #fff;
+}
+
+                                                  </style>
+                                                  
+                                                  
+                                            </div>
                                             </div>
                                             </div>
                                         <div class="tab-pane fade" id="tab-downloads" role="tabpanel"
