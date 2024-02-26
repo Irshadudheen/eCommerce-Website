@@ -58,4 +58,5 @@ clientRouter.get('/orderEachView',authantication.login,orderController.orderEach
 clientRouter.post('/checkCopon',couponController.checkCopon)
 clientRouter.get('/forgotOtpPage',clientController.forgotOtpPage)
 clientRouter.get('/deal',authantication.login,offerController.deal)
+clientRouter.post('/cancelTheOrder',orderController.cancelTheOrder)
 module.exports = clientRouter;

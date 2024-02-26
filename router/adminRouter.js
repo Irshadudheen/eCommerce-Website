@@ -7,6 +7,7 @@ const adminOrderController = require('../controller/orderController')
 const adminCouponController = require('../controller/couponController')
 const adminOfferController = require('../controller/offerController')
 const authantication = require('../middleware/authantication')
+const reportController = require('../controller/reportController')
 
 const multer = require('multer')
 const path = require('path')
@@ -70,4 +71,5 @@ adminRouter.post('/adminaddOfferCatogory',upload.single('image'),adminOfferContr
 adminRouter.post('/editCategoryOffer',adminOfferController.editCategoryOffer)
 adminRouter.get('/invoice',authantication.isadminlogin,adminOrderController.invoice)
 adminRouter.post('/updateSatusOfOrderProduct',adminOrderController.updateSatusOfOrderProduct)
+adminRouter.get('/report',authantication.isadminlogin,reportController.reportPage)
 module.exports = adminRouter;

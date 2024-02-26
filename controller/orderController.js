@@ -54,14 +54,17 @@ const updateSatus = async (req, res) => {
 //VIEW EACH ORDER IN USER
 const orderEachView = async (req,res)=>{
     try {
-        const {productId,cartId}= req.query
+        const {productId,OrderId}= req.query
         const{user_id}=req.session
-        console.log(cartId,productId,111234234)
-        const orderData = await orderDb.findOne({ products: { $elemMatch: { productId: productId } } })
+       
+        const orderData = await orderDb.findOne( {_id:OrderId} ).populate('addressId').populate("clientId")
+       const orderPrdoct= orderData.products.find(product=>product.productId.toString()==productId.toString())
+        console.log(orderPrdoct)
+
           
         console.log(req.query)
 console.log(orderData,1111111111111111111111111111111111111111111111111111)
-        res.render("eachOrder",{orderData})
+        res.render("eachOrder",{orderData,productId})
     } catch (error) {
         console.log(error.message)
         
@@ -97,11 +100,24 @@ const updateSatusOfOrderProduct = async (req,res)=>{
     }
 }
 
+const cancelTheOrder = async(req,res)=>{
+    try {
+        console.log(req.body)
+       const{ producId,orderId}=req.body
+       const update = await orderDb.findOneAndUpdate({'products._id': producId},{$set:{'products.$.productStatus':"Cancel"}},{new:true})
+        console.log(update)
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports = {
     delteTheOrder,
     orderlist,
     updateSatus,
     orderEachView,
     invoice,
-    updateSatusOfOrderProduct
+    updateSatusOfOrderProduct,
+    cancelTheOrder
 }

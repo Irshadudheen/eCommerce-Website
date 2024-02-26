@@ -414,6 +414,7 @@
                                                     <!-- Edit Button -->
                                                     <p>mobile:<%=userData.mobile%>
                                                     </p>
+                                                    <p style="color: red;">refferId:<%=wallet.referralCode%></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -458,7 +459,11 @@
                                                                             <td>
                                                                                 <%=ele.orderStatus%>
                                                                             </td>
-                                                                            <td><span onclick="orderEachView('<%=data._id%>','<%=ele._id%>')">view</span></td>
+                                                                            <!-- <td><span onclick="orderEachView('<%=data.productId%>','<%=ele._id%>')">view</span></td> -->
+                                                                            <td>
+                                                                                <span onclick="orderCancel('<%=data._id%>','<%=ele._id%>')">Cancel</span>
+                                                                            </td>
+
                                                                             <td class="remove-col"><button
                                                                                     onclick="btnToRemoveOrder('<%=data.productId%>','<%=ele._id%>','<%=data.quantity%>')"
                                                                                     class="btn-remove"><i
@@ -1099,9 +1104,9 @@
             }
         </script>
         <script>
-          function  orderEachView(id,cartId){
+          function  orderEachView(id,OrderId){
             console.log("wesdfhuiwesdjcmk")
-            window.location.href =`/orderEachView?productId=${id}&cartId=${cartId}`
+            window.location.href =`/orderEachView?productId=${id}&OrderId=${OrderId}`
 
             }
         </script>
@@ -1173,6 +1178,19 @@
                 }
             }
 
+        </script>
+        <script>
+            function orderCancel(producId,orderId){
+                console.log(producId,orderId)
+                fetch('/cancelTheOrder',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                body:JSON.stringify({producId,orderId})
+                })
+                console.log("asoxji")
+            }
         </script>
 
 
