@@ -155,7 +155,7 @@
             name="name"
             value="<%=data.name%>"
              required>
-          <input type="number" value="<%=data.amount%>" placeholder="amount" name="amount" required>
+          <input type="number" value="<%=data.amount%>"min="1" placeholder="amount" name="amount" required>
           <select name="method" id=""  style="width:190px; height: 30px"  required>
             <option value="fixed amount">fixed amount</option>
             <option value="percentage">percentage</option>
@@ -217,7 +217,7 @@
            placeholder="COUPON"
             name="name"
              required>
-          <input type="number" placeholder="amount" name="amount" required>
+          <input type="number" placeholder="amount" min="1" name="amount" required>
           <select name="method" id="" style="width:190px; height: 30px"  required>
             <option value="fixed amount">fixed amount</option>
             <option value="percentage">percentage</option>

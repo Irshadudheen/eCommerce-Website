@@ -1,5 +1,6 @@
 const orderDb = require("../model/orderDb")
 const productDb = require('../model/productDb')
+const walletDb = require("../model/walletDb")
 
 //DELETE THE ORDER
 const delteTheOrder = async (req, res) => {
@@ -104,8 +105,15 @@ const cancelTheOrder = async(req,res)=>{
     try {
         console.log(req.body)
        const{ producId,orderId}=req.body
+       const {user_id}=req.session
+       console.log(req.session)
        const update = await orderDb.findOneAndUpdate({'products._id': producId},{$set:{'products.$.productStatus':"Cancel"}},{new:true})
         console.log(update)
+        if(update){
+            console.log(update.products[0].totalPrice)
+            const updateWallet =await walletDb.findOneAndUpdate({clientId:user_id},{$inc:{balance:update.products[0].totalPrice}}) 
+            console.log(updateWallet)
+        }
     } catch (error) {
         console.log(error.message)
         

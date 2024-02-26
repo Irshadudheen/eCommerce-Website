@@ -177,7 +177,7 @@
                   ></i> -->
                 <!-- </div> -->
                 <div class="custom-file mt-3 mb-3">
-                  <input type="file" multiple accept="image/*" maxlength="4" name="image" />
+                  <input type="file" id="imageUpload" onchange="checkImage(event)" multiple accept="image/*" maxlength="4" name="image" />
 
 
                 </div>
@@ -191,7 +191,20 @@
         </div>
       </div>
     </div>
+    <script>
+      {
+      const imageinput = document.getElementById('imageUpload')
+      function checkImage(event){
+        const files = event.target.files;
+  if(files.length>4){
+    console.log("sdjk")
+    imageinput.value=""
+    alert("only 4 image")
 
+  }; 
+      }
+    }
+    </script>
     <%-include('../layout/adminFooter')-%>
 
       <script src="js/jquery-3.3.1.min.js"></script>

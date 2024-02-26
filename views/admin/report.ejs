@@ -56,7 +56,9 @@
                   <a class="dropdown-item" href="#">Billing</a>
                   <a class="dropdown-item" href="#">Customize</a>
                 </div>
+
               </li>
+              <li> </li>
             </ul>
           </div>
         </div>
@@ -65,8 +67,36 @@
 
     <div class="container tm-mt-big tm-mb-big">
       <div class="row">
+        <input type="text" style="margin-top: 40px;margin-left: 17px;"  onclick="downloadPDF('printDive')"  value="Download as PDF">
+        <input type="text" style="margin-top: 40px;margin-left: 17px;"  onclick="downloadExcel('printDive')"  value="Download as Excel">
+
+        <script>
+        function downloadExcel(divName) {
+            const table = document.getElementById(divName);
+            const rows = table.getElementsByTagName('tr');
+            let csvContent = "data:text/csv;charset=utf-8,";
+        
+            for (const row of rows) {
+                const cells = row.getElementsByTagName('td');
+                const cellValues = [];
+                for (const cell of cells) {
+                    cellValues.push(cell.textContent);
+                }
+                csvContent += cellValues.join(',') + '\n';
+            }
+        
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'data.csv');
+            document.body.appendChild(link);
+        
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
         <div class="col-12 tm-block-col">
-          <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+          <div id="printDive" class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
             <h2 class="tm-block-title">Weekly DATA</h2>
 
             <table class="table">
@@ -86,15 +116,18 @@
               </thead>
               <tbody>
                 <%data.forEach(ele=>{%>
+                   
                   <tr>
                     <th scope="row"><b><%=ele._id%></b></th>
                     <td>
                       <b>
-                     f
+                     <%=ele.clientId.fname%>
                       </b>
                     </td>
                     <td><b>
-                      f
+                        <%ele.products.forEach(data=>{%>
+                      <%=data.productId.name%>
+                      <%})%>
                       </b></td>
                     <td><%=ele.date.toLocaleDateString()%></td>
                     <td><b id="statusView">
@@ -104,10 +137,17 @@
                     
                     
                   </tr>
+                  
                   <%})%>
                   <tr>
                     <td>Weekly Order:<%=report[0].totalOrders%></td>
                     <td>TotalAmount:<%=report[0].totalSales%></td>
+                    <td> 
+             
+                 
+             
+                 
+          </div></td>
                   </tr>
 
           
@@ -120,6 +160,15 @@
     </div>
     </div>
     <%-include('../layout/adminFooter')-%>
+    <script>
+         function downloadPDF(divName) {
+            const printContents = document.getElementById(divName).innerHTML;
+            const originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
       <script src="js/jquery-3.3.1.min.js"></script>
       <!-- https://jquery.com/download/ -->
       <script src="js/bootstrap.min.js"></script>

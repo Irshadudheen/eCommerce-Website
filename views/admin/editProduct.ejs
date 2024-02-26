@@ -186,8 +186,20 @@
                 }
               </script>
 
-                <input id="fileInput" type="file" name="image" multiple />
-
+                <input id="fileInput" onchange="checkImage(event)" accept="image/*"  type="file" name="image" multiple />
+<script>
+  const inputImage = document.getElementById('fileInput')
+  console.log(inputImage)
+function checkImage(event){
+  const files = event.target.files
+  
+  if(files.length>4){
+    alert("image only 4 allowed")
+    inputImage.value=""
+  }
+  
+}
+</script>
               </div>
             </div>
             <div class="col-6">
@@ -269,6 +281,7 @@
           });
         });
       </script>
+      
   </body>
 
   </html>

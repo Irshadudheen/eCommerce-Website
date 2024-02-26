@@ -115,29 +115,56 @@
             <form action="/admin/updateClient" method="post" class="tm-signup-form row">
               <div class="form-group col-lg-6">
                 <label for="name">Account Name</label>
-                <input id="name" name="name" type="text"
+                <input id="name" name="name" type="text" onkeyup="nameCheck(this)"
                 <%  if( typeof client !=="undefined"){%>
                  value="<%=client.fname%>" 
                  <%}%>
                  class="form-control validate" />
+                 <script>
+                  function nameCheck(tag){
+                    const input = tag.value.trim()
+                    const submit = document.getElementById('submit')
+                    if(input.length>0){
+                      submit.disabled=false
+                    }else{
+                      submit.disabled=true
+                    }
+
+                  }
+                 </script>
               </div>
               <div class="form-group col-lg-6">
                 <label for="email">Account Email</label>
-                <input id="email" name="email" type="email"
+                <input id="email" name="email" type="email" onkeyup="emailCheck(this)"
                 <%  if( typeof client !=="undefined"){%>
                  value="<%=client.email%>"
                  <%}%>
                   class="form-control validate" />
+                  <script>
+                    function emailCheck(tag){
+                      const input = tag.value.trim()
+                      const submit = document.getElementById('submit')
+                      if(input.length>0){
+                        submit.disabled=false
+                      }else{
+                        submit.disabled=true
+                      }
+  
+                    }
+                   </script>
               </div>
 
 
               <div class="form-group col-lg-6">
                 <label for="phone">Phone</label>
-                <input id="phone" name="phone" type="tel" 
+                <input id="phone" name="phone"  min="1" type="number" 
+                
                 <%  if( typeof client !=="undefined"){%>
                 value="<%=client.mobile%>"
+
                 <%}%>
                 class="form-control validate" />
+                
               </div>
               <div class="form-group col-lg-6">
               <%  if( typeof message !=="undefined"){%>
@@ -153,7 +180,7 @@
                 <input type="hidden" 
                 value="<%=id%>" name="id">
                 <input type="hidden" value="<%=client%>">
-                <button type="submit" class="btn btn-primary btn-block text-uppercase">
+                <button type="submit" id="submit" class="btn btn-primary btn-block text-uppercase">
                   update your profile
                 </button>
               </div>
