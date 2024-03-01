@@ -206,6 +206,7 @@
     <div class="modal-content" style="background-color: #435c70;">
       <div class="modal-header">
         <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">ADD COUPON</h5>
+        <p id="enter-5" style="display: none; margin-left:50px; color: rgb(255, 43, 43);">Enter the atleast five</p>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -216,51 +217,62 @@
           <input type="text"
            placeholder="COUPON"
             name="name"
+            id="name"
+            onkeyup="checkCouponInDb(this)"
              required>
-          <input type="number" placeholder="amount" min="1" name="amount" required>
-          <select name="method" id="" style="width:190px; height: 30px"  required>
+          <input type="number" id="amount" style="width:190px; height: 30px" placeholder="amount" min="1" max="99" name="amount" required>
+          <select name="method" id="method" style="width:190px; height: 30px"  required>
             <option value="fixed amount">fixed amount</option>
             <option value="percentage">percentage</option>
           </select>
           
-          <input type="date" onchange="checkdate()" name="exprDate" id="exprDate" style="width: 190px; height: 30px;" required>
+          <input type="date"  name="exprDate" id="exprDate" style="width: 190px; height: 30px;" required>
 
         </div>
         <div class="modal-footer">
          
-          <button type="submit" id="submit" class="btn btn-primary">ADD NEW</button>
-        </form>
+          <button id="submit1"  class="btn btn-primary" >ADD NEW</button>
+        </from>
       </div>
+    
+        
     </div>
   </div>
 </div>
 <script>
-  function checkdate(){
-    const submitBtn= document.getElementById('submit')
-      console.log(submitBtn)
-      submitBtn.disabled=false
-    const exprDate = document.getElementById('exprDate').value
-    console.log(exprDate)
-    const nowDate = Date.now()
-    exprDate1= new Date(exprDate)
-    if(nowDate<exprDate1){
-      console.log(true)
-    }else{
-      const submitBtn= document.getElementById('submit')
-      console.log(submitBtn)
-      submitBtn.disabled=true
-      Swal.fire({
-                        icon: 'error',
-                        title: 'the date is incorrect',
-                        customClass: {
-                          popup: "custom-popup-class",
-                          header: 'custom-header-class',
-                          content: 'custom-content-class',
-                          confirmButton: 'custom-confirm-button-class'
-                        }
-                      });
-    }
-  }
+function checkCouponInDb(data){
+const enter= document.getElementById('enter-5')
+  const submit = document.getElementById('submit1')
+  const input = data.value.trim()
+  
+  if(input.length>4){
+    enter.style.display='none'
+    console.log(input)
+
+    fetch('/admin/checkCouponDb',{
+      method:'post',
+  headers:{
+    'Content-Type':'application/json'
+  },
+  body:JSON.stringify({input})
+
+  }).then(res=>res.json()).then(data=>{if(data.status==true){
+    console.log("sdukjsdfikj")
+    console.log(submit)
+    submit.disabled =true
+
+  }else{
+   console.log("ljlkjlkjlkjlkjlsf   ")
+    submit.disabled =false
+
+  }})
+
+  
+}else{
+  enter.style.display='block'
+
+}
+}
 </script>
 <script>
   function delteTheCoupon(couponId){

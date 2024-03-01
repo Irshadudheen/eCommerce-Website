@@ -85,7 +85,7 @@
             </div>
             <div class="row tm-edit-product-row">
               <div class="col-xl-12 col-lg-12 col-md-12">
-                <form class="tm-edit-product-form">
+                <div class="tm-edit-product-form">
                   <input type="hidden" name="id" id="id" value="<%=dataCatogory._id %>">
                   <div class="form-group mb-3">
                     <label for="name">Category Name
@@ -176,7 +176,7 @@
                 <button type="submit" onclick="updateTheData()" id="submit" class="btn btn-primary btn-block text-uppercase">Edit
                   Category Now</button>
               </div>
-              </form>
+            </div>
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@
         const description = document.getElementById('description').value
         console.log(name, description)
         fetch('/admin/editCategory', {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -199,10 +199,11 @@
           if (data.status == true) {
             window.location = '/admin/ViewCategory'
 
-          } else {
+          } else if(data.status==false) {
+            console.log("sdisdfjcifdjcuedj")
             Swal.fire({
               icon: 'warning',
-              title: 'the category is already exist',
+              title: data.message,
               customClass: {
                 popup: "custom-popup-class",
                 header: 'custom-header-class',
@@ -219,7 +220,7 @@
 
     <%-include('../layout/adminFooter')-%>
 
-      script src="js/jquery-3.3.1.min.js"></script>
+     <script src="js/jquery-3.3.1.min.js"></script>
       <!-- https://jquery.com/download/ -->
       <script src="jquery-ui-datepicker/jquery-ui.min.js"></script>
       <!-- https://jqueryui.com/download/ -->

@@ -35,7 +35,7 @@ function drawLineChart() {
         datasets: [
           {
             label: "Latest Hits",
-            data: [88, 68, 79, 57, 50, 55, 70],
+            data: [1, 1, 1, 1, 1, 7, 2],
             fill: false,
             borderColor: "rgb(75, 192, 192)",
             cubicInterpolationMode: "monotone",
@@ -43,7 +43,7 @@ function drawLineChart() {
           },
           {
             label: "Popular Hits",
-            data: [33, 45, 37, 21, 55, 74, 69],
+            data: [1, 1, 1, 1, 1, 1, 4],
             fill: false,
             borderColor: "rgba(255,99,132,1)",
             cubicInterpolationMode: "monotone",
@@ -51,7 +51,7 @@ function drawLineChart() {
           },
           {
             label: "Featured",
-            data: [44, 19, 38, 46, 85, 66, 79],
+            data: [1, 1, 1, 1, 1, 1, 1],
             fill: false,
             borderColor: "rgba(153, 102, 255, 1)",
             cubicInterpolationMode: "monotone",

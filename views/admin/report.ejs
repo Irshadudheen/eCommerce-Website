@@ -97,7 +97,7 @@
     </script>
         <div class="col-12 tm-block-col">
           <div id="printDive" class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-            <h2 class="tm-block-title">Weekly DATA</h2>
+            <h2 class="tm-block-title"><%=reportPeriod%> DATA</h2>
 
             <table class="table">
               <thead>
@@ -115,6 +115,7 @@
                 </tr>
               </thead>
               <tbody>
+                <%if(data.length>0){%>
                 <%data.forEach(ele=>{%>
                    
                   <tr>
@@ -143,6 +144,7 @@
                     <td>Weekly Order:<%=report[0].totalOrders%></td>
                     <td>TotalAmount:<%=report[0].totalSales%></td>
                     <td> 
+                      <%}%>
              
                  
              

@@ -16,33 +16,43 @@ const couponAdmin = async (req,res)=>{
 const adminAddCoupon = async (req,res)=>{
     try {
         const{name,amount,method,exprDate}=req.body
-        const datenow= Date.now()
-        const currentDate = new Date(datenow);
+        console.log(req.body)
+        const checkCopon = await couponDb.findOne({ name: { $regex: new RegExp('^' + name + "$", "i") } })
+        console.log(checkCopon)
+        if(!checkCopon){
+
+            const datenow= Date.now()
+            const currentDate = new Date(datenow);
         const exprDate1= new Date(exprDate)
         if(exprDate1>currentDate){
                
 
- 
+            
     const couponId= randomStr(6, '12345ab#@$&*cde');
+    console.log(couponId,"sdjkdsil")
 
                 const saveCoupon =new couponDb({
-                        name,
-                        amount,
+                    name,
+                    amount,
                         couponId,
                         method,
                         createDate:currentDate,
                         exprDate:exprDate,
-                    
+                        
                     })
                    const data= await saveCoupon.save()
                    if(data){
+                  
                     res.redirect('/admin/couponAdmin')
                    }
-                    
+                   
                 }
-                    
-    } catch (error) {
-        console.log(error.message)
+            }else{
+                res.send({status:false})
+            }
+                
+            } catch (error) {
+                console.log(error.message)
         
     }
 }
@@ -50,11 +60,13 @@ const adminAddCoupon = async (req,res)=>{
 //RANDOM STRING
 const randomStr=(len, arr)=> {
     try {
-        const ans = '';
+        console.log("adofksikm")
+        let ans = '';
     for ( i = len; i > 0; i--) {
         ans +=
             arr[(Math.floor(Math.random() * arr.length))];
     }
+    console.log(ans,32323)
     return ans
     
 } catch (error) {
@@ -155,10 +167,29 @@ const checkCopon = async (req,res)=>{
     }
 }
 
+//admin side check coupon
+const checkCouponDb = async (req,res)=>{
+    try {
+        console.log("suijsdhj")
+        console.log(req.body)
+        const {input}=req.body
+        const checkCoupon = await couponDb.findOne({ name: { $regex: new RegExp('^' + input + "$", "i") } })
+        console.log(checkCoupon)
+        if(checkCoupon){
+            console.log("dshjfsduijhfsdij")
+            res.send({status:true})
+        }else{
+            res.send({status:false})
+        }
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 module.exports={
     couponAdmin,
     adminAddCoupon,
     deleteTheCoupon,
     admimEditCoupon,
-    checkCopon
+    checkCopon,
+    checkCouponDb
 }

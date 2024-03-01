@@ -256,7 +256,9 @@
                                     </thead>
                                     
                                     <tbody>
-                                        <%if(cart){%>
+                                       
+
+                                        <%if(typeof cart !='undefined'){%>
                                             <% if(cart.products.length > 0) {%>
                                             <% cart.products.forEach(product =>{ %>
 
@@ -339,7 +341,10 @@
                                                     <td id="Subtotal">$<%=totalPrice%></td>
                                                     
                                                     <%
-                                                 }
+                                                 }else{%>
+                                                    <td id="Subtotal">$0.00</td>
+
+                                             <%    }
                                                  %>
                                              
 	                						</tr><!-- End .summary-subtotal -->
@@ -353,6 +358,8 @@
 													<div class="custom-control custom-radio">
                                                         <form action="/checkout">
 														<input type="radio" id="free-shipping" name="shipping" class="custom-control-input" required>
+                                                        <input type="radio" id="free-shippig" name="shipping" class="custom-control-input" required>
+
                                                        <% if (typeof totalPrice !="undefined") {%>
                                                         <input type="hidden" id="hidden" name="totalPrice"
                                                             
@@ -361,6 +368,7 @@
                                                         
                                                         <%}%>
 														<label class="custom-control-label" for="free-shipping">Free Shipping</label>
+
 													</div><!-- End .custom-control -->
 	                							</td>
 	                							<td>$0.00</td>
@@ -379,8 +387,10 @@
                                                     <td id="total">$<%=totalPrice%></td>
                                                     
                                                     <%
-                                                 }
-                                                 %>
+                                                 }else{%>
+                                                    <td id="total">$0.00</td>
+
+                                                            <%}%>
 	                						</tr><!-- End .summary-total -->
 	                					</tbody>
 	                				</table><!-- End .table table-summary -->
@@ -392,7 +402,7 @@
                                                         </form>
                                                     <%
                                                  }else{%>
-                                                    <button   class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</button >
+                                                 
 
 
                                                 <% }

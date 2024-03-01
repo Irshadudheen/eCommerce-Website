@@ -26,7 +26,8 @@ const reportPage=async (req,res)=>{
     console.log(report)
     const data = await orderDb.find({date:{$gte:startOfThisWeek,$lte:endOfThisWeek}}).populate('clientId').populate({path:"products.productId", model:'product'})
     console.log(data)
-        res.render('report',{data,report})
+    console.log("sdpojkeriodkjm")
+        res.render('report',{data,report,reportPeriod:"Daily"})
         
     } catch (error) {
         

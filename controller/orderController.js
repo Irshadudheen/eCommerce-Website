@@ -57,8 +57,9 @@ const orderEachView = async (req,res)=>{
     try {
         const {productId,OrderId}= req.query
         const{user_id}=req.session
+        console.log(productId,122121)
        
-        const orderData = await orderDb.findOne( {_id:OrderId} ).populate('addressId').populate("clientId")
+        const orderData = await orderDb.findOne( {_id:OrderId} ).populate('addressId').populate("clientId").populate({path:'products.productId',model:'product'})
        const orderPrdoct= orderData.products.find(product=>product.productId.toString()==productId.toString())
         console.log(orderPrdoct)
 

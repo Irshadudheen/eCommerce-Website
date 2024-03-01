@@ -87,19 +87,25 @@ const editCategorySubmit = async (req, res) => {
     try {
         const { id, name, description } = req.body
         const checkdata = await categoryDb.findOne({ name: { $regex: new RegExp('^' + name + "$", "i") } })
-        if (checkdata._id==id) {
-
-
+        if (checkdata==null) {
 
 
             const categoryUpdate = await categoryDb.updateOne({ _id: id }, { $set: { name, description } })
 
-            res.send({ status: true })
+          return  res.send({ status: true })
 
+
+         
+
+
+        }else if(checkdata._id==id){
+            const categoryUpdate = await categoryDb.updateOne({ _id: id }, { $set: { name, description } })
+
+          return  res.send({ status: true })
 
         } else {
-            res.send({ status: false })
-            res.render('editCategory', { message: "the catogory is already exists" })
+            res.send({ status: false,message: "the catogory is already exists" })
+    
         }
 
 

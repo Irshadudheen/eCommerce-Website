@@ -100,20 +100,24 @@ const cartView = async (req, res) => {
         const offer = await offerDb.find()
         const cart = await cartDb.findOne({ clientId: user_id }).populate({
             path: 'products.productId',
-            model: 'product'
+            model: 'product',
+            match: { status: true }
         })
+        const filteredCart = cart.products.filter(product => product.productId !== null)
+        console.log("dsfijfiosdk")
         console.log("sdkdsckjdmckm")
         // const errmsg = req.flash("err");
-        if (cart) {
+        if (Object.keys(filteredCart).length>0) {
             const totalPrice = cart.products.reduce((total, product) => {
                 return total + product.totalPrice
-
+                
             }, 0)
-            res.render('cart', { cart, totalPrice,offer })
-
+            res.render('cart', { cart:filteredCart, totalPrice,offer })
+            
         } else {
+            console.log("jsdiokljdsilkjrfsdjkdsjkm")
 
-            res.render("cart", { cart })
+            res.render("cart")
         }
         // console.log(cart.productsId)
         // console.log("---------------------------------------------------------",cart.length)

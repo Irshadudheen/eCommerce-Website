@@ -354,8 +354,8 @@
                                 <div class="col-lg-3 ">
                                     <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link " id="tab-dashboard-link" data-toggle="tab"
-                                                href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
+                                            <a class="nav-link " id="tab-dashboard-link" 
+                                                href="/profile" 
                                                 aria-selected="false">Dashboard</a>
                                         </li>
                                         <li class="nav-item">
@@ -363,44 +363,15 @@
                                                 href="#tab-orders" role="tab" aria-controls="tab-orders"
                                                 aria-selected="true">Orders</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="tab-downloads-link" data-toggle="tab"
-                                                href="#tab-downloads" role="tab" aria-controls="tab-downloads"
-                                                aria-selected="false">Downloads</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="tab-address-link" data-toggle="tab"
-                                                href="#tab-address" role="tab" aria-controls="tab-address"
-                                                aria-selected="false">Adresses</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="tab-account-link" data-toggle="tab"
-                                                href="#tab-account" role="tab" aria-controls="tab-account"
-                                                aria-selected="false">add address</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="/logout">Sign Out</a>
-                                        </li>
+                                     
+                                    
+                                      
                                     </ul>
                                 </div><!-- End .col-lg-3 -->
 
                                 <div class="col-md-8 col-lg-9">
                                     <div class="tab-content">
-                                        <div class="tab-pane fade " id="tab-dashboard" role="tabpanel"
-                                            aria-labelledby="tab-dashboard-link">
-                                            <!-- User Dashboard Content -->
-                                            <div class="card-dashboard col-5">
-                                                <div class="card-body">
-
-
-
-                                                    <!-- User Image -->
-
-                                                    <!-- User Name -->
-                                                   
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                         <!-- .End .tab-pane -->
 
                                         <div class="tab-pane fade show active" id="tab-orders" role="tabpanel"
@@ -411,13 +382,27 @@
                                                         <div class="order-card">
                                                             <div class="card-body">
                                                                 <div class="order-details">
-                                                                    <p class="address">Address:<%orderData%></p>
-                                                                    <p class="status">Status: Shipped</p>
+
+                                                                    <p class="address">Address: <%=orderData.addressId.country%>,<%=orderData.addressId.state%>,<%=orderData.addressId.city%>,<%=orderData.addressId.streetAddress%>,<%=orderData.addressId.pincode%>,mobile:<%=orderData.addressId.mobile%></p>
+                                                                    <%orderData.products.forEach(ele=>{%>
+                                                                        <%console.log(ele._id.toString()==productId.toString())%>
+                                                                        <%if(ele._id.toString()==productId.toString()){%>
+                                                                        <p class="status">Status: <%ele.productStatus%></p>
+                                                                    <p>Product name: <%=ele.productId.name%></p>
+                                                                 
+                                                                   <img src="productImage/<%=ele.image%>" width="100" height="100" alt="">
                                                                 </div>
                                                                 <div class="user-actions">
                                                                     <button class="btn btn-primary">Track Order</button>
+                                                                    <%if(ele.productStatus=="Delivered"){%>
+                                                                        <button class="btn btn-secondary">Return Order</button>
+
+                                                                   <% }else{%>
+                                                                    
                                                                     <button class="btn btn-secondary">Cancel Order</button>
+                                                                    <%}%>
                                                                 </div>
+                                                                <%}})%>
                                                             </div>
                                                         </div>
                                                         
