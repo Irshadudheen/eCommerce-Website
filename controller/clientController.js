@@ -316,7 +316,7 @@ console.log(wallet)
 //RESENT OTP
 const resendOtp = async (req, res) => {
     try {
-        const { email } = req.query
+        const { email,forget } = req.query
 
 
         const personData = await client.findOne({ email })
@@ -330,6 +330,9 @@ const resendOtp = async (req, res) => {
             otp
         })
         const dataOtp = await otpUpdate.save()
+        if(forget){
+            res.render('forgetOtp',{email})
+        }else 
         if (dataOtp) {
             console.log(otp)
             console.log(email)

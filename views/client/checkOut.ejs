@@ -964,6 +964,11 @@
                         alert(response.razorpay_signature)
                         // verifyPayment(response,order)
                         // Redirect or show success message
+                        fetch('/succesPayment',{
+                            method:'POST',
+                            headers:{  'Content-Type': 'application/json'},
+                            body:JSON.stringify({response})
+                        })
                     },
                     prefill: {
                         name: 'Customer Name',

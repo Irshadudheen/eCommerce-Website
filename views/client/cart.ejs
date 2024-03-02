@@ -259,7 +259,7 @@
                                        
 
                                         <%if(typeof cart !='undefined'){%>
-                                            <% if(cart.products.length > 0) {%>
+                                            <% if(cart.products.length> 0) {%>
                                             <% cart.products.forEach(product =>{ %>
 
                                          
@@ -374,7 +374,15 @@
 	                							<td>$0.00</td>
 	                						</tr><!-- End .summary-shipping-row -->
 
-	                						
+	                						<tr class="summary-shipping-row">
+	                							<td>
+													<div class="custom-control custom-radio">
+														<input type="radio" id="express" name="shipping" class="custom-control-input">
+														<label class="custom-control-label" for="express">Express:</label>
+													</div><!-- End .custom-control -->
+	                							</td>
+	                							<td>$100.0</td>
+	                						</tr><!-- End .summary-shipping-row -->
 
 	                						
 

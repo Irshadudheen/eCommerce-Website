@@ -121,6 +121,22 @@ const cancelTheOrder = async(req,res)=>{
     }
 }
 
+//succesPaymentRazorpay
+const succesPayment = async(req,res)=>{
+    try {
+        console.log(req.session.rezorpay)
+const {rezorpay}=req.session
+        const update = await orderDb.findOneAndUpdate({_id:rezorpay},{$set:{orderStatus:'placed'}})
+        console.log(update,'230939029',209309209390,'dfjkfdjdj')
+        update.products.forEach(product=>product.productStatus='placed')
+       await update.save()
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports = {
     delteTheOrder,
     orderlist,
@@ -128,5 +144,6 @@ module.exports = {
     orderEachView,
     invoice,
     updateSatusOfOrderProduct,
-    cancelTheOrder
+    cancelTheOrder,
+    succesPayment
 }

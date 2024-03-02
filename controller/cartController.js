@@ -104,15 +104,16 @@ const cartView = async (req, res) => {
             match: { status: true }
         })
         const filteredCart = cart.products.filter(product => product.productId !== null)
+        cart.products=filteredCart
         console.log("dsfijfiosdk")
         console.log("sdkdsckjdmckm")
         // const errmsg = req.flash("err");
-        if (Object.keys(filteredCart).length>0) {
+        if (cart) {
             const totalPrice = cart.products.reduce((total, product) => {
                 return total + product.totalPrice
                 
             }, 0)
-            res.render('cart', { cart:filteredCart, totalPrice,offer })
+            res.render('cart', { cart, totalPrice,offer })
             
         } else {
             console.log("jsdiokljdsilkjrfsdjkdsjkm")
@@ -294,7 +295,9 @@ if(deleteCart){
         currency:'INR',
         receipt:dataOrder._id.toString()
     })
+    
     if(razorpayOrder){
+        req.session.rezorpay=orderData._id
         res.send({status:"razorpayOrder",razorpayOrder})
     }
     

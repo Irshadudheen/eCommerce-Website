@@ -35,7 +35,7 @@ function drawLineChart() {
         datasets: [
           {
             label: "Latest Hits",
-            data: [1, 1, 1, 1, 1, 7, 2],
+            data: [1, 2, 1, 3, 2, 4, 2],
             fill: false,
             borderColor: "rgb(75, 192, 192)",
             cubicInterpolationMode: "monotone",
@@ -159,7 +159,7 @@ function drawPieChart() {
       data: {
         datasets: [
           {
-            data: [18.24, 6.5, 9.15],
+            data: [18.24, 3, 9.15],
             backgroundColor: ["#F7604D", "#4ED6B8", "#A8D582"],
             label: "Storage"
           }

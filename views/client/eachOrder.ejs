@@ -387,7 +387,7 @@
                                                                     <%orderData.products.forEach(ele=>{%>
                                                                         <%console.log(ele._id.toString()==productId.toString())%>
                                                                         <%if(ele._id.toString()==productId.toString()){%>
-                                                                        <p class="status">Status: <%ele.productStatus%></p>
+                                                                        <p class="status">Status: <%=ele.productStatus%></p>
                                                                     <p>Product name: <%=ele.productId.name%></p>
                                                                  
                                                                    <img src="productImage/<%=ele.image%>" width="100" height="100" alt="">
