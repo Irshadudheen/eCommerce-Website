@@ -396,7 +396,93 @@
                                                                     <button class="btn btn-primary">Track Order</button>
                                                                     <%if(ele.productStatus=="Delivered"){%>
                                                                         <button class="btn btn-secondary">Return Order</button>
+                                                                        <button class="btn btn-primary" onclick="invoiceBill('<%=ele.totalPrice%>','<%=ele.quantity%>')">Dovonload bill</button>
 
+<script>
+    function invoiceBill(totalPrice,quantity){
+       let price= totalPrice/quantity
+       console.log(quantity)
+       console.log(totalPrice)
+       console.log(price)
+        console.log(price)
+       
+        console.log(totalPrice)
+        var data = {
+    apiKey: "free", // Please register to receive a production apiKey: https://app.budgetinvoice.com/register
+    mode: "development", // Production or development, defaults to production   
+    images: {
+        // The logo on top of your invoice
+        logo: "https://public.budgetinvoice.com/img/logo_en_original.png",
+        // The invoice background
+        background: "https://public.budgetinvoice.com/img/watermark-draft.jpg"
+    },
+    // Your own data
+    sender: {
+        company: "Sample Corp",
+        address: "Sample Street 123",
+        zip: "1234 AB",
+        city: "Sampletown",
+        country: "Samplecountry"
+        // custom1: "custom value 1",
+        // custom2: "custom value 2",
+        // custom3: "custom value 3"
+    },
+    // Your recipient
+    client: {
+        company: "Client Corp",
+        address: "Clientstreet 456",
+        zip: "4567 CD",
+        city: "Clientcity",
+        country: "Clientcountry"
+        // custom1: "custom value 1",
+        // custom2: "custom value 2",
+        // custom3: "custom value 3"
+    },
+    information: {
+        // Invoice number
+        number: "2021.0001",
+        // Invoice data
+        date: "12-12-2021",
+        // Invoice due date
+        dueDate: "31-12-2021"
+    },
+
+    products: [
+        {
+            quantity: quantity,
+            description: "Product 1",
+            price: price
+        },
+      
+       
+    ],
+    // The message you would like to display on the bottom of your invoice
+    bottomNotice: "Kindly pay your invoice within 15 days.",
+    // Settings to customize your invoice
+    settings: {
+        currency: "USD",
+        
+    },
+   
+    translate: {
+       
+    },
+
+    // Customize enables you to provide your own templates
+    // Please review the documentation for instructions and examples
+    // "customize": {
+    //      "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
+    // }
+};
+
+//Create your invoice! Easy!
+easyinvoice.createInvoice(data, function (result) {
+    //The response will contain a base64 encoded PDF file
+    console.log('PDF base64 string: ', result.pdf);
+    easyinvoice.download('invoice.pdf')
+});
+    }
+</script>
                                                                    <% }else{%>
                                                                     
                                                                     <button class="btn btn-secondary">Cancel Order</button>
@@ -678,7 +764,7 @@
 
   
         <!-- Plugins JS File -->
-      
+        <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
        
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       

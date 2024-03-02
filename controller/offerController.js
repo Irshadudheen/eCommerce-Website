@@ -31,7 +31,7 @@ const addCategoryOffer = async (req,res)=>{
         })
         const addOffer = await offerCategory.save()
         if(addOffer){
-            res.redirect('/admin/ViewCategoryOffer')
+            res.redirect('/admin/ViewOffer')
         }
         
     } catch (error) {
@@ -45,9 +45,14 @@ const editCategoryOffer = async (req,res)=>{
     try {
         console.log(req.body)
         const {_id,name,amount,exprDate,method,description}=req.body
-        const offerDataUpdate = await offerDb.findByIdAndUpdate({_id},{$set:{name,amount,method,expreDate:exprDate,description}})
-        if(offerDataUpdate){
-            res.redirect('/admin/ViewCategoryOffer')
+        const checkOffer = await offerDb.findOne({name})
+        console.log(_id==checkOffer._id)
+        if(checkOffer._id==_id){
+            const offerDataUpdate = await offerDb.findByIdAndUpdate({_id},{$set:{name,amount,method,expreDate:exprDate,description}})
+
+            if(offerDataUpdate){
+                res.redirect('/admin/ViewOffer')
+            }
         }
     } catch (error) {
         console.log(error.message)
