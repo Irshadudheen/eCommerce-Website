@@ -1,6 +1,6 @@
 const clientDb = require('../model/clientDb');
 const orderDb = require('../model/orderDb')
-
+const chartController= require('./chartDataController')
 //ADMIN ADASHBOARD
 const adminDashboard = async (req, res) => {
     try {
@@ -8,8 +8,9 @@ const adminDashboard = async (req, res) => {
             path: 'products.productId',
             model: 'product'
         })
-
-        res.render('adminDashboard', { order })
+       const data = await chartController.orderPrdouct()
+       console.log(data,32323232323)
+        res.render('adminDashboard', { order ,data})
     } catch (error) {
         console.log(error.message)
 
