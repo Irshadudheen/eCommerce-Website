@@ -9,7 +9,7 @@ const adminDashboard = async (req, res) => {
             model: 'product'
         })
        const data = await chartController.orderPrdouct()
-       console.log(data,32323232323)
+   
         res.render('adminDashboard', { order ,data})
     } catch (error) {
         console.log(error.message)

@@ -17,7 +17,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mx-auto h-100">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="/">
                                     <i class="fas fa-tachometer-alt"></i>
                                     Dashboard
                                     <span class="sr-only">(current)</span>
@@ -108,6 +108,13 @@
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
                         <div class="tm-bg-primary-dark tm-block">
                             <h2 class="tm-block-title">Latest Hits</h2>
+                            <input type="radio" style=" cursor: pointer;" onclick="" name="date" id="daily" >
+                            <label for="daily" style="color:aliceblue; cursor: pointer;">Daily</label>
+                            
+                            <input type="radio" style=" cursor: pointer;"  onclick="drawLineChart('<%=data.monthDeliverd%>','<%=data.monthCancel%>','<%=data.monthPlaced%>','<%=data.monthRetrun%>','<%=data.currentMonthLabel%>')" name="date" id="month" >
+                            <label for="month" style="color:aliceblue;cursor: pointer;">Monthly</label>
+                            <input type="radio" style=" cursor: pointer;" onclick="drawLineChart('<%=data.yearlyDeliverd%>','<%=data.yearlyCancel%>','<%=data.yearlyPlaced%>','<%=data.yearlyRetrun%>','<%=data.yearlyData%>')" name="date" id="year" >
+                            <label for="year" style="color:aliceblue;cursor: pointer;">Yearly</label>
                             <canvas id="lineChart"></canvas>
                         </div>
                     </div>
@@ -315,8 +322,8 @@
        <script>
         const width_threshold = 480;
 
-function drawLineChart(data) {
-console.log(data.split(','))
+function drawLineChart(deliverd,canceled,Placed,Return,Label) {
+console.log( deliverd,canceled,Return)
   if ($("#lineChart").length) {
     ctxLine = document.getElementById("lineChart").getContext("2d");
     optionsLine = {
@@ -339,42 +346,37 @@ console.log(data.split(','))
     configLine = {
       type: "line",
       data: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          'august',
-          'september',
-          'october',
-          'november',
-          'december'
-        ],
+        labels:Label.split(','),
         datasets: [
+        {
+            label: "Placed",
+            data: Placed.split(','),
+            fill: false,
+            borderColor: "#A8D582",
+            cubicInterpolationMode: "monotone",
+            pointRadius: 0
+          },
           {
-            label: "Latest Hits",
-            data: data.split(','),
+            label: "Deliverd",
+            data: deliverd.split(','),
             fill: false,
             borderColor: "rgb(75, 192, 192)",
             cubicInterpolationMode: "monotone",
             pointRadius: 0
           },
           {
-            label: "Popular Hits",
-            data: [1, 1, 1, 1, 1, 1, 4],
+            label: "Canceled",
+            data: canceled.split(','),
             fill: false,
             borderColor: "rgba(255,99,132,1)",
             cubicInterpolationMode: "monotone",
             pointRadius: 0
           },
           {
-            label: "Featured",
-            data: [1, 1, 1, 1, 1, 1, 1],
+            label: "Return",
+            data: Return.split(','),
             fill: false,
-            borderColor: "rgba(153, 102, 255, 1)",
+            borderColor: "#F7604D",
             cubicInterpolationMode: "monotone",
             pointRadius: 0
           }
@@ -451,7 +453,10 @@ function drawBarChart() {
   }
 }
 
-function drawPieChart() {
+function drawPieChart(paymentMethod) {
+    console.log(paymentMethod)
+    const data= paymentMethod.split(',')
+    console.log(data)
   if ($("#pieChart").length) {
     var chartHeight = 300;
 
@@ -480,15 +485,15 @@ function drawPieChart() {
       data: {
         datasets: [
           {
-            data: [18.24, 3, 9.15],
-            backgroundColor: ["#F7604D", "#4ED6B8", "#A8D582"],
+            data: paymentMethod.split(','),
+            backgroundColor: ["#A8D582", "#4ED6B8", "#DB9C3F"],
             label: "Storage"
           }
         ],
         labels: [
-          "Used Storage (18.240GB)",
-          "System Storage (6.500GB)",
-          "Available Storage (9.150GB)"
+          `Razorpay (${data[0]})`,
+          `COD (${data[1]})`,
+          "PayPal (0)"
         ]
       },
       options: optionsPie
@@ -529,9 +534,9 @@ function updateBarChart() {
             // DOM is ready
             $(function () {
                 
-                drawLineChart('<%=data%>'); // Line Chart
+                drawLineChart('<%=data.monthDeliverd%>','<%=data.monthCancel%>','<%=data.monthPlaced%>','<%=data.monthRetrun%>','<%=data.currentMonthLabel%>'); // Line Chart
                 drawBarChart(); // Bar Chart
-                drawPieChart(); // Pie Chart
+                drawPieChart('<%=data.paymentMethod%>'); // Pie Chart
 
                 $(window).resize(function () {
                     updateLineChart();

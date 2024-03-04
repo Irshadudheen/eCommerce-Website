@@ -1,5 +1,7 @@
 const express = require('express')
 const adminRouter = express()
+
+const upload = require('../middleware/multer')
 const adminController = require('../controller/adminController')
 const adminProductController = require('../controller/productController')
 const adminCategoryController = require('../controller/categoryController')
@@ -10,7 +12,6 @@ const authantication = require('../middleware/authantication')
 const reportController = require('../controller/reportController')
 const chartController = require('../controller/chartDataController')
 
-const multer = require('multer')
 const path = require('path')
 
 adminRouter.set('views', './views/admin')
@@ -19,19 +20,7 @@ adminRouter.set('views', './views/admin')
 adminRouter.use(express.static(path.join(__dirname, '../public')))
 
 
-//MULTER
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../public/productImage'))
-    },
-    filename: function (req, file, cb) {
-        const name = Date.now() + '-' + file.originalname;
-        cb(null, name)
-    }
 
-})
-
-const upload = multer({  storage })
 
 
 // adminRouter.set('views','./views/client')
@@ -74,5 +63,5 @@ adminRouter.get('/invoice',authantication.isadminlogin,adminOrderController.invo
 adminRouter.post('/updateSatusOfOrderProduct',adminOrderController.updateSatusOfOrderProduct)
 adminRouter.get('/report',authantication.isadminlogin,reportController.reportPage)
 adminRouter.post ('/checkCouponDb',adminCouponController.checkCouponDb)
-adminRouter.get('/data',chartController.orderPrdouct)
+
 module.exports = adminRouter;
