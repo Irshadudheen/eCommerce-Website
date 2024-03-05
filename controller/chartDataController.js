@@ -1,4 +1,5 @@
-const orderDb = require("../model/orderDb")
+const orderDb = require("../model/orderDb");
+const productDb = require("../model/productDb");
 
 const orderPrdouct = async (req,res)=>{
     try {
@@ -23,7 +24,7 @@ const productQuantities = {};
         const  monthCancel = new Array(currentMonthIndex + 1).fill(0)
         const  monthRetrun = new Array(currentMonthIndex + 1).fill(0)
         const  monthPlaced = new Array(currentMonthIndex + 1).fill(0)
-        const  paymentMethod = new Array(2).fill(0)
+        const  paymentMethod = new Array(3).fill(0)
         const dailyData = Array.from({ length: 31 }, () => ({
             delivered: 0,
             cancelled: 0,
@@ -42,6 +43,10 @@ const productQuantities = {};
                 }
                 case 'COD':{
                     paymentMethod[1]++
+                    break;
+                }
+                case 'Wallet':{
+                    paymentMethod[2]++
                     break;
                 }
 
@@ -88,9 +93,12 @@ const productQuantities = {};
         const sortedProducts = Object.entries(productQuantities).sort((a, b) => b[1] - a[1]);
         const topTenProducts = sortedProducts.slice(0, 10);
         console.log(topTenProducts);
+        const topTenProductId = topTenProducts.map(product =>product[0])
+        const prouductData = await productDb.find({_id:{$in:topTenProductId}})
+        console.log(prouductData)
       console.log(dailyData,89999999999999999999999999923045)
         
-       const data = {dailyData,yearlyDeliverd, yearlyCancel , yearlyRetrun ,yearlyData,yearlyPlaced,currentMonthLabel,monthDeliverd,monthCancel,monthRetrun,monthPlaced,paymentMethod}
+       const data = {prouductData,topTenProducts,dailyData,yearlyDeliverd, yearlyCancel , yearlyRetrun ,yearlyData,yearlyPlaced,currentMonthLabel,monthDeliverd,monthCancel,monthRetrun,monthPlaced,paymentMethod}
      
         return data
         

@@ -95,17 +95,48 @@ const deleteTheCoupon = async (req,res)=>{
 const admimEditCoupon = async (req,res)=>{
     try {
         const{name,amount,method,exprDate,_id}=req.body
-        if(exprDate){
+        console.log(req.body)
+        
+        const checkAlreadyHave = await couponDb.findOne({name: { $regex: new RegExp('^' + name + "$", "i")}})
+        if(checkAlreadyHave==null){
+            if(exprDate.trim()){
 
-            const updatCoupon = await couponDb.findOneAndUpdate({_id},{$set:{name,amount,method,exprDate}})
-            if(updatCoupon){
-                res.redirect('/admin/couponAdmin')
+                const updatCoupon = await couponDb.findOneAndUpdate({_id},{$set:{name,amount,method,exprDate}})
+                
+                if(updatCoupon){
+                    res.send({status:true})
+                }
+            }else{
+                const updatCoupon = await couponDb.findOneAndUpdate({_id},{$set:{name,amount,method}})
+                
+                if(updatCoupon){
+                    res.send({status:true})
+                }
+
+            }
+        }else if(checkAlreadyHave._id==_id){
+            if(exprDate.trim()){
+
+                const updatCoupon = await couponDb.findOneAndUpdate({_id},{$set:{name,amount,method,exprDate}})
+                if(updatCoupon){
+                    res.send({status:true})
+                    res.redirect('/admin/couponAdmin')
+                }
+            }else{
+                const updatCoupon = await couponDb.findOneAndUpdate({_id},{$set:{name,amount,method}})
+                if(updatCoupon){
+                    res.send({status:true})
+                    res.redirect('/admin/couponAdmin')
+                }
+
             }
         }else{
-                        const updatCoupon = await couponDb.findOneAndUpdate({_id},{$set:{name,amount,method}})
-                        res.redirect('/admin/couponAdmin')
-
+            res.send({status:false,message:'the coupon is already have'})
+            
         }
+       
+
+        
         
     } catch (error) {
         console.log(error.message)

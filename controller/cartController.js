@@ -6,6 +6,7 @@ const addressDb = require('../model/addressDb')
 const Razorpay = require('razorpay')
 const couponDb = require('../model/couponDb')
 const offerDb = require('../model/offerDb')
+const walletDb = require('../model/walletDb')
 
 //RAZORPAY PAYMENT METHOD
 const instance = new Razorpay({
@@ -221,7 +222,7 @@ const placeholder = async (req, res) => {
     try {
         const { user_id } = req.session
         const {coupon}=req?.session
-       const  dectription="the full price"
+        let dectription="the full price"
         if(coupon){
 
             const addUserId = await couponDb.findOneAndUpdate({_id:coupon},{$push:{users:{clientId:user_id}}},{ new: true })
@@ -232,6 +233,13 @@ const placeholder = async (req, res) => {
 
 
         const { paymentMethod, totalPrice } = req.body
+        if(paymentMethod =='Wallet'){
+
+            const Wallet = await walletDb.findOne({clientId:user_id})
+            if(totalPrice>Wallet.balance){
+               return res.send({Wallet:false})
+            }
+        }
         const cart = await cartDb.findOne({ clientId: user_id })
 
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
@@ -297,11 +305,19 @@ if(deleteCart){
     })
     
     if(razorpayOrder){
-        req.session.rezorpay=orderData._id
+        req.session.OrderId=orderData._id
         res.send({status:"razorpayOrder",razorpayOrder})
     }
     
 }
+}else if(paymentMethod =='Wallet'){
+    const deleteCart = await cartDb.deleteOne({ clientId: req.session.user_id })
+    const wallet = await walletDb.findOneAndUpdate({clientId: req.session.user_id},{$inc:{balance:-totalPrice}})
+    if(wallet){
+        req.session.OrderId=orderData._id
+        res.send({Wallet:true})
+    }
+
 }
     }
 

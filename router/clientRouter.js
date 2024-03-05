@@ -60,4 +60,5 @@ clientRouter.get('/forgotOtpPage',clientController.forgotOtpPage)
 clientRouter.get('/deal',authantication.login,offerController.deal)
 clientRouter.post('/cancelTheOrder',orderController.cancelTheOrder)
 clientRouter.post('/succesPayment',orderController.succesPayment)
+clientRouter.post('/returnOrderProduct',orderController.returnOrderProduct)
 module.exports = clientRouter;

@@ -108,8 +108,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
                         <div class="tm-bg-primary-dark tm-block">
                             <h2 class="tm-block-title">Latest Hits</h2>
-                            <input type="radio" style=" cursor: pointer;" onclick="" name="date" id="daily" >
-                            <label for="daily" style="color:aliceblue; cursor: pointer;">Daily</label>
+                           
                             
                             <input type="radio" style=" cursor: pointer;"  onclick="drawLineChart('<%=data.monthDeliverd%>','<%=data.monthCancel%>','<%=data.monthPlaced%>','<%=data.monthRetrun%>','<%=data.currentMonthLabel%>')" name="date" id="month" >
                             <label for="month" style="color:aliceblue;cursor: pointer;">Monthly</label>
@@ -134,93 +133,30 @@
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
                         <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-overflow">
-                            <h2 class="tm-block-title">Notification List</h2>
+                            <h2 class="tm-block-title">Top selling Product</h2>
                             <div class="tm-notification-items">
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-01.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Jessica</b> and <b>6 others</b> sent you new <a href="#"
-                                                class="tm-notification-link">product updates</a>. Check new orders.</p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
+                                
+                                
+                               
+                                
+                               
+                               
+                                
+                              
+                              <% if(data.prouductData.length>0){ %>
+                               <% data.prouductData.forEach(ele=>{ %> 
+                                
+                              <div class="media tm-notification-item">
+                                    <div class="tm-gray-circle"><img src="/productImage/<%=ele.image[0]%>" width="87" height="87" alt="Avatar Image"
+                                      class="rounded-circle"></div>
+                                      <div class="media-body">
+                                        <p class="mb-2"><b><%=ele.name%></b> .</p>
+                                         
+                                        </div>
+                                      </div>
+                                      <% }) } %>
                                     </div>
-                                </div>
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-02.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Oliver Too</b> and <b>6 others</b> sent you existing <a
-                                                href="#" class="tm-notification-link">product updates</a>. Read more
-                                            reports.</p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                    </div>
-                                </div>
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-03.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Victoria</b> and <b>6 others</b> sent you <a href="#"
-                                                class="tm-notification-link">order updates</a>. Read order information.
-                                        </p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                    </div>
-                                </div>
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-01.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Laura Cute</b> and <b>6 others</b> sent you <a href="#"
-                                                class="tm-notification-link">product records</a>.</p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                    </div>
-                                </div>
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-02.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Samantha</b> and <b>6 others</b> sent you <a href="#"
-                                                class="tm-notification-link">order stuffs</a>.</p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                    </div>
-                                </div>
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-03.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Sophie</b> and <b>6 others</b> sent you <a href="#"
-                                                class="tm-notification-link">product updates</a>.</p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                    </div>
-                                </div>
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-01.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Lily A</b> and <b>6 others</b> sent you <a href="#"
-                                                class="tm-notification-link">product updates</a>.</p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                    </div>
-                                </div>
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-02.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Amara</b> and <b>6 others</b> sent you <a href="#"
-                                                class="tm-notification-link">product updates</a>.</p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                    </div>
-                                </div>
-                                <div class="media tm-notification-item">
-                                    <div class="tm-gray-circle"><img src="img/notification-03.jpg" alt="Avatar Image"
-                                            class="rounded-circle"></div>
-                                    <div class="media-body">
-                                        <p class="mb-2"><b>Cinthela</b> and <b>6 others</b> sent you <a href="#"
-                                                class="tm-notification-link">product updates</a>.</p>
-                                        <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                  </div>
                     </div>
                     <div class="col-12 tm-block-col">
                         <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
@@ -231,7 +167,7 @@
                                         <th scope="col">ORDER NO.</th>
                                         <th scope="col">CUSTOMER</th>
                                         <th scope="col">PAYMENT METHOD</th>
-                                        <th scope="col">ACTION</th>
+                                        <th scope="col">description</th>
                                         <th scope="col">STATUS</th>
                                         <th scope="col">DATE</th>
                                         <th scope="col">ACTION</th>
@@ -257,13 +193,7 @@
                                                     <td><b>
                                                         <%=data.paymentMethod%>
                                                     </b></td>
-                                                    <td><select onchange="statusChange('<%=data._id%>')" name="status" id="option<%=data._id%>">
-
-                                                        <option value="Pending">Pending</option>
-                                                        <option value="Processing">Processing</option>
-                                                        <option value="Shipped">Shipped</option>
-                                                        <option value="Delivered">Delivered</option>
-                                                      </select></td>
+                                                    <td><%=data.dectription%></td>
                                                 <td id="status<%=data._id%>"><b>
                                                     <%=data.orderStatus%>
                                                 </b></td>
@@ -493,7 +423,7 @@ function drawPieChart(paymentMethod) {
         labels: [
           `Razorpay (${data[0]})`,
           `COD (${data[1]})`,
-          "PayPal (0)"
+           ` Wallet (${data[2]})`
         ]
       },
       options: optionsPie

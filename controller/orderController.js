@@ -114,6 +114,9 @@ const cancelTheOrder = async(req,res)=>{
             console.log(update.products[0].totalPrice)
             const updateWallet =await walletDb.findOneAndUpdate({clientId:user_id},{$inc:{balance:update.products[0].totalPrice}}) 
             console.log(updateWallet)
+            if(updateWallet){
+                res.send({status:true})
+            }
         }
     } catch (error) {
         console.log(error.message)
@@ -125,14 +128,30 @@ const cancelTheOrder = async(req,res)=>{
 const succesPayment = async(req,res)=>{
     try {
         console.log(req.session.rezorpay)
-const {rezorpay}=req.session
-        const update = await orderDb.findOneAndUpdate({_id:rezorpay},{$set:{orderStatus:'placed'}})
+const {OrderId}=req.session
+        const update = await orderDb.findOneAndUpdate({_id:OrderId},{$set:{orderStatus:'placed'}})
         console.log(update,'230939029',209309209390,'dfjkfdjdj')
       const data =   update.products.forEach(product=>product.productStatus='placed')
       
 
        await update.save()
         
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
+const returnOrderProduct = async(req,res)=>{
+    try {
+        
+        console.log(req.body)
+        const {orderId,producId}=req.body
+        const updateProductStatus = await orderDb.findOneAndUpdate({'products._id':producId},{$set:{'products.$.productStatus':'Return'}},{new:true})
+        console.log(updateProductStatus)
+        if(updateProductStatus){
+            res.send({status:true})
+        }
     } catch (error) {
         console.log(error.message)
         
@@ -147,5 +166,6 @@ module.exports = {
     invoice,
     updateSatusOfOrderProduct,
     cancelTheOrder,
-    succesPayment
+    succesPayment,
+    returnOrderProduct
 }

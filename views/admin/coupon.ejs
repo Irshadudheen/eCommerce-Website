@@ -137,6 +137,7 @@
                     <span class="material-symbols-outlined"  style="cursor: pointer;" data-toggle="modal" data-target="#editModalCenter<%=data._id%>">
                       edit
                       </span>
+                      
                  <!-- Modal -->
 <div class="modal fade" id="editModalCenter<%=data._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -148,27 +149,67 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="/admin/admimEditCoupon" method="post">
+      
 
           <input type="text"
            placeholder="COUPON"
             name="name"
+            id="name12"
             value="<%=data.name%>"
              required>
-          <input type="number" value="<%=data.amount%>"min="1" placeholder="amount" name="amount" required>
-          <select name="method" id=""  style="width:190px; height: 30px"  required>
+          <input type="number" value="<%=data.amount%>"min="1" id="amount12" placeholder="amount" name="amount" required>
+          <select name="method" id="method12"  style="width:190px; height: 30px"  required>
             <option value="fixed amount">fixed amount</option>
             <option value="percentage">percentage</option>
           </select>
-          <input type="hidden" name="_id" value="<%=data._id%>">
+          <input type="hidden" name="_id" value="">
           
-          <input type="date" onchange="checkdate()" value="<%=data.exprDate.toLocaleDateString()%>" name="exprDate" id="exprDate" style="width: 190px; height: 30px;" required>
+          <input type="date" onchange="checkdate()" value="<%=data.exprDate.toLocaleDateString()%>" name="exprDate" id="exprDate12" style="width: 190px; height: 30px;" required>
 
         </div>
         <div class="modal-footer">
          
-          <button type="submit" id="submit" class="btn btn-primary">ADD NEW</button>
-        </form>
+          <button type="submit" id="submit" onclick="updateCoupon('<%=data._id%>')"  class="btn btn-primary">Edit</button>
+          <script>
+            function updateCoupon(_id){
+             
+              const name = document.getElementById('name12').value
+              const amount = document.getElementById('amount12').value
+              const method = document.getElementById('method12').value
+              const exprDate = document.getElementById('exprDate12').value
+              fetch('/admin/admimEditCoupon',{
+                method:'POST',
+                headers:{
+    'Content-Type':'application/json'
+  },
+  body:JSON.stringify({name,amount,method,exprDate,_id})
+
+  }).then(res=>res.json()).then(data=>{if(data.status==true){
+    Swal.fire({
+                        icon: 'success',
+                        title: 'the coupon is update',
+                        customClass: {
+                          popup: "custom-popup-class",
+                          header: 'custom-header-class',
+                          content: 'custom-content-class',
+                          confirmButton: 'custom-confirm-button-class'
+                        }
+                      });
+              }else if(data.status==false){
+                Swal.fire({
+                        icon: 'error',
+                        title:data.message ,
+                        customClass: {
+                          popup: "custom-popup-class",
+                          header: 'custom-header-class',
+                          content: 'custom-content-class',
+                          confirmButton: 'custom-confirm-button-class'
+                        }
+                      });
+              }})
+            }
+          </script>
+        
       </div>
     </div>
   </div>

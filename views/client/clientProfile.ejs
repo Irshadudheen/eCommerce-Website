@@ -774,7 +774,20 @@
                                                     <label>Mobile *</label>
                                                     <input type="number" name="mobile" class="form-control">
 
+<script>
+    
 
+    document.getElementById("myForm").addEventListener("submit", function(event) {
+        const mobileField = document.getElementsByName("mobile")[0];
+        const mobileRegex = /^\d{10}$/; // Regular expression for 10-digit mobile number
+
+        if (!mobileRegex.test(mobileField.value)) {
+            alert("Please enter a valid 10-digit mobile number.");
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+
+</script>
 
                                                     <button type="submit" class="btn btn-outline-primary-2">
                                                         <span>Add Address</span>
@@ -1171,19 +1184,7 @@
             }
 
         </script>
-        <script>
-            function orderCancel(producId,orderId){
-                console.log(producId,orderId)
-                fetch('/cancelTheOrder',{
-                    method:'POST',
-                    headers:{
-                        'Content-Type': 'application/json'
-                    },
-                body:JSON.stringify({producId,orderId})
-                })
-                console.log("asoxji")
-            }
-        </script>
+        
 
 
         <%- include('../layout/footer') -%>

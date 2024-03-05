@@ -396,6 +396,10 @@
                                                                 <input type="radio" value="COD" name="method" id="cod" required >
                                                                 <label for="cod">Cash on delivery</label>
                                                             </h2>
+                                                            <h2 class="card-title">
+                                                                <input type="radio" value="Wallet" name="method" id="Wallet" required >
+                                                                <label for="cod">Wallet</label>
+                                                            </h2>
                                                         </div><!-- End .card-header -->
                                                         
                                                     </div><!-- End .card -->
@@ -939,6 +943,33 @@
                         razorpayPayment(data.razorpayOrder)
 
                         
+                    }else if(data.Wallet==false){
+                        Swal.fire({
+                                icon: 'error',
+                                title: 'the amount of your wallet is less',
+                                customClass: {
+                                    popup: "custom-popup-class",
+                                    header: 'custom-header-class',
+                                    content: 'custom-content-class', // Corrected typo here
+                                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                                }
+                            });
+                    }else if(data.Wallet==true){
+                        fetch('/succesPayment',{
+                            method:'POST',
+                           
+                        })
+                        Swal.fire({
+                            
+                                icon: 'success',
+                                title: 'the payment is success',
+                                customClass: {
+                                    popup: "custom-popup-class",
+                                    header: 'custom-header-class',
+                                    content: 'custom-content-class', // Corrected typo here
+                                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                                }
+                            });
                     }})
                     
                     
@@ -966,8 +997,7 @@
                         // Redirect or show success message
                         fetch('/succesPayment',{
                             method:'POST',
-                            headers:{  'Content-Type': 'application/json'},
-                            body:JSON.stringify({response})
+                           
                         })
                     },
                     prefill: {
