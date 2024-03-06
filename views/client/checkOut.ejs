@@ -394,7 +394,7 @@
                                                             
                                                             <h2 class="card-title">
                                                                 <input type="radio" value="COD" name="method" id="cod" required >
-                                                                <label for="cod">Cash on delivery</label>
+                                                                <label for="cod">Cash on delivery(below 5000 only)</label>
                                                             </h2>
                                                             <h2 class="card-title">
                                                                 <input type="radio" value="Wallet" name="method" id="Wallet" required >
@@ -912,6 +912,14 @@
                     console.log(selectedPaymentMethod)
                     const paymentMethod = 'Cash on delivery'
                     const address_id = document.getElementById('addressSelect').value
+                    if(!address_id.trim()){
+                        return alert('please add address!')
+                    }
+                    if(selectedPaymentMethod=='COD'){
+                       if(totalPrice>5000){
+                      return  alert('below 1000 only have in Cash on delivry')
+                       }
+                    }
                     console.log("placeholder=================================")
                     console.log(address)
                     

@@ -104,8 +104,11 @@ const cartView = async (req, res) => {
             model: 'product',
             match: { status: true }
         })
-        const filteredCart = cart.products.filter(product => product.productId !== null)
-        cart.products=filteredCart
+        const filteredCart = cart?.products.filter(product => product.productId !== null)
+        if(cart){
+
+            cart.products=filteredCart
+        }
         console.log("dsfijfiosdk")
         console.log("sdkdsckjdmckm")
         // const errmsg = req.flash("err");

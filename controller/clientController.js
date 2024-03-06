@@ -155,7 +155,7 @@ const loginPost = async (req, res) => {
         const email = req.body.singin_email
         const password = req.body.singin_password
         console.log(email)
-        const clientData = await client.findOne({ email })
+        const clientData = await client.findOne({ $or:[{email},{fname:email}] })
         console.log(clientData)
         if (clientData) {
 
@@ -475,6 +475,23 @@ const register = async (req, res) => {
     }
 }
 
+// checkUserName
+const checkUserName = async (req,res)=>{
+    try {
+        const{input}=req.body
+        const checkUsername = await clientDb.findOne({fname:input})
+        if(checkUsername){
+            res.send({status:false})
+        }else{
+            res.send({status:true})
+        }
+    } catch (error) {
+        
+        console.log(error.message)
+        
+    }
+}
+
 //EXPORT
 module.exports = {
     clientDashboard,
@@ -490,7 +507,8 @@ module.exports = {
     otpSubmitForgot,
     passwordUpdate,
     register,
-    forgotOtpPage
+    forgotOtpPage,
+    checkUserName
 
 
 

@@ -108,8 +108,36 @@
                                         <form action="/register" method="post">
                                             <div class="form-group">
                                                 <label for="register-fname">Username*</label>
-                                                <input type="text" class="form-control" id="register-fname"
+                                                <input type="text" onkeyup  ="thedata(this)" class="form-control" id="register-fname"
                                                     name="register_fname" required>
+                                                    <script>
+                                                        function thedata(tag){
+                                                            const input = tag.value.trim()
+                                                        console.log
+                                                            console.log(input)
+                                                            if(input.length>4){
+                                                                console.log("dslkj")
+                                                                const signbutton = document.getElementById('signUp1')
+                                                                fetch('/CheckUserName',{
+                                                                    method:'POST',
+                                                                    headers:{'Content-Type':'application/json'},
+                                                                    body:JSON.stringify({input})
+                                                                }).then(res=>res.json()).then(data=>{
+                                                                    if(data.status==true){
+                                                                        signbutton.disabled=false
+                                                                        console.log("1111111111111111111111111")
+                                                                        tag.style.color='#777'
+                                                                    }else if(data.status==false){
+                                                                        signbutton.disabled=true
+                                                                        console.log("sdkfisdkjmifdkjk")
+                                                                        tag.style.color='red'
+                                                                    }
+                                                                })
+
+                                                            }
+
+                                                        }
+                                                    </script>
                                             </div><!-- End .form-group -->
 
                                
@@ -120,11 +148,7 @@
                                                 name="register_email" required>
                                             </div><!-- End .form-group -->
                                             
-                                            <div class="form-group">
-                                                <label for="register-mobile">Mobile*</label>
-                                                <input type="number" class="form-control" id="register-mobile"
-                                                    name="register_mobile" required>
-                                            </div><!-- End .form-group -->                                           
+                                                                                    
 
                                             <div class="form-group">
                                                 <label for="register-password-2">Password *</label>

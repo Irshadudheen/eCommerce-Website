@@ -2,6 +2,7 @@ const express = require('express')
 const nocache = require('nocache')
 const dotenv = require('dotenv').config()
 const path = require('path')
+const flash = require('express-flash')
 const session = require('express-session')
 const easyinvoice = require('easyinvoice')
 const config = require('./config/config')
@@ -10,7 +11,7 @@ const clientRouter = require('./router/clientRouter')
 const app = express()
 const {PORT}= process.env
 
-
+app.use(flash())
 app.use(nocache())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

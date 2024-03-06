@@ -64,4 +64,5 @@ adminRouter.post('/updateSatusOfOrderProduct',adminOrderController.updateSatusOf
 adminRouter.get('/report',authantication.isadminlogin,reportController.reportPage)
 adminRouter.post ('/checkCouponDb',adminCouponController.checkCouponDb)
 
+
 module.exports = adminRouter;

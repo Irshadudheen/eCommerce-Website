@@ -258,8 +258,8 @@
                                     <tbody>
                                        
 
-                                        <%if(typeof cart !='undefined'){%>
-                                            <% if(cart.products.length> 0) {%>
+                                      
+                                            <% if(cart) {%>
                                             <% cart.products.forEach(product =>{ %>
 
                                          
@@ -306,7 +306,7 @@
                                                     <td class="remove-col"><button onclick="btnToDelete('<%=product.productId._id%>','<%=cart._id%>')" class="btn-remove"><i class="icon-close"></i></button></td>
                                                 </tr>
                                           <%  })}%>
-                                          <%}%>
+                                          
                                     
                                        
                                     </tbody>
