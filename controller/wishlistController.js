@@ -18,7 +18,7 @@ const productDb =require('../model/productDb')
         
         const {user_id}=req.session
         const productToData = await productDb.findOne({_id:productId})
-        const checkInWishlist = await wishlistDb.findOne({products:{$elemMatch:{productId}}})
+        const checkInWishlist = await wishlistDb.findOne({clientId:user_id,products:{$elemMatch:{productId}}})
         if(!checkInWishlist){
             const checkWishlist = await wishlistDb.findOne({clientId:user_id})
             if(checkWishlist){

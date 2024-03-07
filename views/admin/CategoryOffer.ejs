@@ -101,7 +101,10 @@
         <div class="col-12 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
             <h2 class="tm-block-title">List of offer category</h2>
+            <% if(message!='undefined'){%>
 
+              <p style="color: red;"><%=message%></p>
+           <% } %>
             <!-- Search Bar -->
             <div class="input-group mb-3">
               <input type="text" class="form-control" id="myInput" placeholder="Search for Coupon..."
@@ -158,16 +161,13 @@
           name="name"
             value="<%=data.name%>"
             required>
-            <input type="number" min="1" value="<%=data.amount%>" placeholder="amount" name="amount" required>
-          <select name="method" id=""  style="width:190px; height: 30px"  required>
-            <option value="fixed amount">fixed amount</option>
-            <option value="percentage">percentage</option>
-          </select>
+            <input type="number" min="1" value="<%=data.amount%>" placeholder="amount" max="99" name="amount" required>
+          
           <input type="hidden" name="_id" value="<%=data._id%>">
           
           <input type="date" onchange="checkdateEdit()" value="" name="exprDate" id="exprDate2" style="width: 190px; height: 30px;" required>
         </div>
-        <textarea name="description" id="" cols="30" rows="10"><%=data.description%></textarea>
+       
         <div class="modal-footer">
          
           <button type="submit" id="submit" class="btn btn-primary">EDIT</button>
@@ -216,7 +216,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="/admin/adminaddOfferCatogory" enctype="multipart/form-data" method="post">
+        <form action="/admin/adminaddOfferCatogory" method="post">
             <input type="text" name="name" placeholder="offer name" required>
             <select name="category"  style="width:190px; height: 30px;" id="">
             <% if(category.length>0){
@@ -227,15 +227,10 @@
            
           </select>
           <input type="number" min="1" placeholder="amount"  name="amount" required>
-          <select name="method" id="" style="width:190px; height: 30px"  required>
-            <option value="fixed amount">fixed amount</option>
-            <option value="percentage">percentage</option>
-          </select>
+          
 
           <input type="date" onchange="checkdate()" name="exprDate" id="exprDate1" style="width: 190px; height: 30px;" required>
-          <input type="file" name="image" accept="image/*" id="" required>
           </div>
-          <textarea name="description" id="" cols="10" rows="5"></textarea>
         <div class="modal-footer">
          
           <button type="submit" id="submit1" class="btn btn-primary">ADD NEW</button>

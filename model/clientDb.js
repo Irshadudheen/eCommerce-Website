@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     is_admin: { type: Boolean, required: true },
-    is_varified: { type: Boolean, required: true, default: 0 },
     is_block: { type: Boolean, required: true },
    
 })

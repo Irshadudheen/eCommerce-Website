@@ -378,31 +378,21 @@
                                                         <%=data.name%>
                                                     </a></h3><!-- End .product-title -->
                                                 <div class="product-price">
-                                                    <% if (offer.length > 0) { %>
-                                                        <% offer.forEach(ele => { %>
-                                                    <script>
-                                                        
-                                                        {
-                                                            if('<%=data.categoryid._id %>' =='<%= ele.categoryId%>'){
+                                                    
+                                                   
 
-                                                                console.log('<%=data.categoryid._id %>  <%= ele.categoryId%>')
-                                                                console.log('<%= data.price - (data.price * ele.amount) / 100 %>')
-                                                            }
-                                                        }
-                                                    </script>
+                                                                <span class="new-price">$<%= data.price %></span>
+                                                                
+                                                                <% if(data.oldPrice){%>
+                                                                    <%console.log(data.oldPrice!='undefined',892332892309230923092309)%>
 
-                                                            <% if( data.categoryid._id.toString()  == ele.categoryId.toString() ) { %>
-                                                                <%if(ele.method=="fixed amount"){%>
-                                                                <span class="new-price">$   <%= data.price - ele.amount %>   </span>
-                                                                <span class="old-price">$<%= data.price %></span>
-                                                            <% }else{%>
-                                                                <span class="new-price">$   <%= data.price-(data.price * ele.amount)/100 %>   </span>
-                                                                <span class="old-price">$<%= data.price %></span>
-                                                            <%}}})}else{%>
-                                                                <span class="new-price">$   <%= data.price  %>   </span>
+                                                                    <span class="old-price">$<%= data.oldPrice %></span>
+                                                               <% } %>
+                                                               
+                                                          
 
 
-                                                            <%} %>
+                                                         
                                                                 <!-- If no offer for the category, display regular price -->
                                                                 
                                                             

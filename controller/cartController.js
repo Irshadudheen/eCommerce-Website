@@ -113,6 +113,18 @@ const cartView = async (req, res) => {
         console.log("sdkdsckjdmckm")
         // const errmsg = req.flash("err");
         if (cart) {
+            cart.products.forEach(product=>{
+                offer.forEach(ele=>{
+                  
+               if(product.productId.categoryid.toString()==ele.categoryId.toString()){
+                if(ele.method=="fixed amount"){
+
+                    product.productId.price=product.productId.price-ele.amount
+                    }else{
+                        product.productId.price=product.productId.price-(ele.amount*product.productId.price)/100
+
+               }
+        }})})
             const totalPrice = cart.products.reduce((total, product) => {
                 return total + product.totalPrice
                 

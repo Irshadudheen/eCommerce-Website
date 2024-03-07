@@ -270,38 +270,31 @@
                                                     <td class="product-col">
                                                         <div class="product">
                                                             <figure class="product-media">
-                                                                <a href="#">
+                                                                <a href="/eachproduct?id=<%=product.productId._id %>">
                                                                     
                                                                     <img src="/productImage/<%=product.image%>" alt="Product image">
                                                                 </a>
                                                             </figure>
                                                             
                                                             <h3 class="product-title">
-                                                                <a href="/eachProduct?<%=product.productId._id%>"><%=product.productId.name %></a>
+                                                                <a href="/eachproduct?id=<%=product.productId._id %>"><%=product.productId.name %></a>
                                                             </h3><!-- End .product-title -->
                                                         </div><!-- End .product -->
                                                     </td>
-                                                  <%  if(offer.length>0){%>
-                                                   <% offer.forEach(ele=>{%>
-                                                    <%if(product.productId.categoryid.toString()==ele.categoryId.toString()){%>
-                                                        <%if(ele.method=="fixed amount"){%>
+                                                 
+                                                   
 
-                                                        <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price -ele.amount%></td>
-                                                        <%}else{%>
-                                                            <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price-(ele.amount*product.productId.price)/100 %></td>
 
-                                                   <%}}})%>
 
-                                                  <%  }else{%>
+
 
                                                         <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price %></td>
-                                                   <% }%>
                                                     <td class="quantity-col">
                                                         <div class="cart-product-quantity">
                                                             <input type="number" class="form-control"   value="<%=product.quantity%>" id="p_quantity<%=product.productId._id%>" min="1" onchange="increase('<%= product.productId._id %>','<%=cart._id%>')" max="<%=product.productId.quantity%>" step="1" data-decimals="0" required>
                                                         </div><!-- End .cart-product-quantity -->
                                                     </td>
-                                                    <td class="total-col"  id="p_total">$<%= product.totalPrice %></td>
+                                                    <td class="total-col"  id="p_total<%=product.productId._id%>">$<%= product.totalPrice %></td>
                                    
                                                     <td class="remove-col"><button onclick="btnToDelete('<%=product.productId._id%>','<%=cart._id%>')" class="btn-remove"><i class="icon-close"></i></button></td>
                                                 </tr>
@@ -622,7 +615,7 @@
      
      
      // console.log(p_quantity)
-     const p_totol =document.getElementById("p_total").innerHTML=`$${p_price*p_quantity}`
+     const p_totol =document.getElementById(`p_total${id}`).innerHTML=`$${p_price*p_quantity}`
      console.log(p_totol)
      const hidden = document.getElementById("hidden").innerHTML=p_price*p_quantity
      console.log(hidden,345432452)

@@ -92,11 +92,11 @@ const productQuantities = {};
         });
         const sortedProducts = Object.entries(productQuantities).sort((a, b) => b[1] - a[1]);
         const topTenProducts = sortedProducts.slice(0, 10);
-        console.log(topTenProducts);
+        
         const topTenProductId = topTenProducts.map(product =>product[0])
         const prouductData = await productDb.find({_id:{$in:topTenProductId}})
-        console.log(prouductData)
-      console.log(dailyData,89999999999999999999999999923045)
+       
+     
         
        const data = {prouductData,topTenProducts,dailyData,yearlyDeliverd, yearlyCancel , yearlyRetrun ,yearlyData,yearlyPlaced,currentMonthLabel,monthDeliverd,monthCancel,monthRetrun,monthPlaced,paymentMethod}
      

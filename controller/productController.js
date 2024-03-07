@@ -54,6 +54,17 @@ const Clientproduct = async (req, res) => {
        
         
         const filteredProduct = product.filter(product => product.categoryid !== null)
+        filteredProduct.forEach(product=>{
+            offer.forEach(ele=>{
+                console.log(product.categoryid.toString()==ele.categoryId.toString(),ele.categoryId,product.categoryid)
+               if(product.categoryid._id.toString()==ele.categoryId.toString()){
+                
+                   product.oldPrice=product.price
+                product.price=product.price-(product.price*ele.amount)/100
+               }
+
+            })
+        })
         const cart = await cartDb.findOne({clientId:user_id})
         const cartCount = cart?.products.length
         res.render('product', { productData: filteredProduct,sortOption ,wishlist,cartCount,offer});
@@ -67,12 +78,16 @@ const Clientproduct = async (req, res) => {
 //SELCTED PRODUCT IN CLIENT
 const eachproduct = async (req, res) => {
     try {
+
         const {id}=req.query
         const productData = await productDb.findOne({_id:id})
         const offer = await offerDb.find()
         console.log(productData)
         console.log(productData.quantity)
-        res.render('eachproduct', { productData,offer})
+        const cartOne = await  cartDb.findOne({clientId:req.session.user_id})
+        const cartCount = cartOne?.products.length
+        console.log(cartCount,"asadklfj;as;djklfasjkldfuckdkfjdl")
+        res.render('eachproduct', { productData,offer,cartCount})
 
     } catch (error) {
         console.log(error.message)

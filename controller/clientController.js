@@ -98,18 +98,18 @@ const signUpPost = async (req, res) => {
 
 
                         })
-                        const result = await Client.save()
-                        if (result) {
+                        req.session.ClientData=Client
+                        // const result = await Client.save()
+                        if (Client) {
                             const otp = Math.floor((Math.random() * 1000)) + 1000
                             const otpsave = new otpDb({
-                                userId: result._id,
-                                emailId: email,
+                                 emailId:email,
                                 otp
                             })
                             const otpResult = await otpsave.save()
                             console.log(otpResult)
                             console.log(otp)
-                            sendOtpMail(fname, email, otp, result._id)
+                            sendOtpMail(fname, email, otp)
                             res.render('otpVerification', { email })
 
 
@@ -162,11 +162,9 @@ const loginPost = async (req, res) => {
 
             const passwordMatch = await bcrypt.compare(password, clientData.password)
             if (passwordMatch) {
-
-                if (clientData.is_varified === 0) {
-                    console.log("verfiy the email")
-                }
-                if (clientData.is_varified === true && clientData.is_block === false) {
+                console.log(clientData.is_varified,clientData.is_block)
+                if ( clientData.is_block === false) {
+                    console.log("sduhsdfcxuij")
 
                     if (clientData.is_admin === true) {
                         req.session.admin_id = clientData._id
@@ -181,7 +179,7 @@ const loginPost = async (req, res) => {
                     }
 
                 } else {
-                    res.render('login', { message: 'not verfied' })
+                    res.render('login', { message: 'Block' })
 
                 }
 
@@ -210,7 +208,6 @@ const clientDashboard = async (req, res) => {
         const {user_id}=req.session
         const cart = await cartDb.findOne({clientId:user_id})
         const cartCount = cart?.products.length
-        console.log(cartCount,11111111111111111111)
             const totalPriceCart = cart?.products.reduce((total, product) => {
                 return total + product.totalPrice
 
@@ -244,23 +241,25 @@ const otpSubmit = async (req, res) => {
         const email = req.body.email
 
         const otpVerify = await otpDb.findOne({ emailId: email })
-        console.log(otpVerify)
-        if (otpVerify) {
+        const userData=req.session.ClientData
+        console.log(userData)
+        if (userData) {
             const inputOtp = req.body.digit1 * 1000 + req.body.digit2 * 100 + req.body.digit3 * 10 + req.body.digit4 * 1
             console.log(inputOtp)
             if (inputOtp == otpVerify.otp) {
-                const clientDbUbdate = await client.updateOne({ email }, { $set: { is_varified: true } })
-                if (clientDbUbdate) {
+                const result= await clientDb.create(userData) 
+                if (result) {
                     await otpDb.deleteOne({ _id: otpVerify._id })
                     if(req.session.referralCode){
                         const refferdUser = await walletDb.findOneAndUpdate({referralCode:req.session.referralCode},{$inc:{balance:100}},{new:true})
                         if(refferdUser){
                             const newWallet = await walletDb.create({
-                                clientId:  otpVerify.userId,
+                                clientId:  result._id,
                                 referralCode:`${email}${inputOtp}`,
                                 balance: 50
                             });
-                            req.session.user_id = otpVerify.userId
+                            req.session.user_id = result._id
+                            console.log(req.session.user_id)
                           return  res.redirect("/dashboard")
 
                         }
@@ -268,12 +267,12 @@ const otpSubmit = async (req, res) => {
 
                         
                         const newWallet = await walletDb.create({
-                            clientId:  otpVerify.userId,
+                            clientId:  result._id,
                             referralCode:`${email}${inputOtp}`,
                             balance: 0 
                         });
                         
-                        req.session.user_id = otpVerify.userId
+                        req.session.user_id = result.userId
                         return  res.redirect("/dashboard")
                     }
                 }
