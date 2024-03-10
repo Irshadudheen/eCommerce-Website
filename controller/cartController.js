@@ -22,21 +22,7 @@ const addToCart = async (req, res) => {
         const checkTheProduct = await cartDb.findOne({ clientId})
         const checkTheCartProduct = checkTheProduct?.products.some(product=>product.productId==id)
         const productToCart = await productDb.findOne({ _id: id }).populate('categoryid')
-        const offer = await offerDb.findOne({categoryId:productToCart.categoryid._id})
-        console.log("saa")
-        if(offer){
-            if(offer.method=="fixed amount"){
-                const offerPrice = productToCart.price-offer.amount
-                productToCart.price=offerPrice
-
-
-            }else{
-                const offerPrice = productToCart.price-(offer.amount*productToCart.price)/100
-                productToCart.price=offerPrice
-                
-
-            }
-        }
+        
         
         if (!checkTheCartProduct) {
             const checkTheCart = await cartDb.findOne({ clientId })
@@ -115,21 +101,35 @@ const cartView = async (req, res) => {
         if (cart) {
             cart.products.forEach(product=>{
                 offer.forEach(ele=>{
-                  
-               if(product.productId.categoryid.toString()==ele.categoryId.toString()){
-                if(ele.method=="fixed amount"){
+              
+                    if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
+                   
+                applyOffer(product,ele.amount)
 
-                    product.productId.price=product.productId.price-ele.amount
-                    }else{
-                        product.productId.price=product.productId.price-(ele.amount*product.productId.price)/100
+        } if(ele.productId && product.productId._id.toString()==ele. productId.toString() ){
+            applyOffer(product,ele.amount)
 
-               }
-        }})})
+        }})
+        function applyOffer(product,amount){
+            console.log(product.productPrice,'q')
+            console.log(product,amount,"rfidokreoeruofidkucjikwjkwtfuicjmt4sdijt4mfsuidjwduitjmuit4ocdjmji")
+         
+            const discountedPrice=product.totalPrice-(product.totalPrice*amount)/100
+            const discountedPriceIn=product.productPrice-(product.productPrice*amount)/100
+            console.log(discountedPrice)
+            product.totalPrice=Math.round(Math.min(product.totalPrice,discountedPrice))
+            product.productPrice=Math.round(Math.min(product.productPrice,discountedPriceIn))
+            console.log(product.totalPrice)
+           
+        }
+    })
+
             const totalPrice = cart.products.reduce((total, product) => {
                 return total + product.totalPrice
                 
             }, 0)
-            res.render('cart', { cart, totalPrice,offer })
+            
+            res.render('cart', { cart, totalPrice})
             
         } else {
             console.log("jsdiokljdsilkjrfsdjkdsjkm")
@@ -180,7 +180,29 @@ const totalPrice = async (req, res) => {
 
             productToUpdate.quantity = p_quantity
             productToUpdate.totalPrice = p_quantity * productToUpdate.productPrice
+            const offer = await offerDb.find()
             const updatedCart = await existingCart.save()
+            const newCart = await cartDb.findOne({_id:cart_id}).populate({path:'products.productId',model:'product'})
+            console.log(newCart)
+            newCart.products.forEach(product=>{
+                offer.forEach(ele=>{
+                    if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
+                        applyOffer(product,ele.amount)
+                    }
+              
+                    if(ele.productId&&product.productId._id.toString()==ele.productId.toString()){
+                     
+                        applyOffer(product,ele.amount)
+                    }
+                })
+                function applyOffer(product,amount){
+                    const discountedPrice=product.totalPrice-(product.totalPrice*amount)/100
+                    product.totalPrice=Math.round(Math.min(product.totalPrice,discountedPrice))
+
+
+                }
+
+            })
             const updatedTotalPrice = productToUpdate.totalPrice;
             //product total
             const totalPricetotal = existingCart.products.reduce((total, product) => {
@@ -189,10 +211,11 @@ const totalPrice = async (req, res) => {
             })
             if (totalPricetotal) {
                 //cart total
-                const totalPrice = updatedCart.products.reduce((total, product) => {
+                const totalPrice = newCart.products.reduce((total, product) => {
                     return total + product.totalPrice
 
                 }, 0)
+                
 
                 res.send({ totalPrice })
             }
@@ -217,7 +240,26 @@ const checkOut = async (req, res) => {
         const {user_id}=req.session
         const address = await addressDb.find({ clientId:user_id}).populate('clientId')
         const cart = await cartDb.findOne({clientId:user_id}).populate({path:'products.productId',model:'product'})
-        
+        const offer = await offerDb.find()
+        cart.products.forEach(product=>{
+            offer.forEach(ele=>{
+                if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
+                    applyOffer(product,ele.amount)
+                }
+          
+                if(ele.productId&&product.productId._id.toString()==ele.productId.toString()){
+                 
+                    applyOffer(product,ele.amount)
+                }
+            })
+            function applyOffer(product,amount){
+                const discountedPrice=product.totalPrice-(product.totalPrice*amount)/100
+                product.totalPrice=Math.round(Math.min(product.totalPrice,discountedPrice))
+
+
+            }
+
+        })
         console.log(cart)
         console.log(1)
         const cartTotal= cart.products.reduce((total,product)=>{
@@ -349,11 +391,33 @@ if(deleteCart){
     }
 }
 
+const tryAgainRazorpay = async(req,res)=>{
+    try {
+        console.log(req.body)
+        const{ productPrice,orderId,producId}=req.body
+        const razorpayOrder = await instance.orders.create({
+            amount:productPrice*100 ,
+            currency:'INR',
+            receipt:orderId.toString()
+        })
+        if(razorpayOrder){
+            
+            req.session.producId=producId
+            res.send({status:"razorpayOrder",razorpayOrder})
+        }
+        
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports = {
     addToCart,
     cartView,
     removeCard,
     totalPrice,
     checkOut,
-    placeholder
+    placeholder,
+    tryAgainRazorpay
 }

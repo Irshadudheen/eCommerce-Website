@@ -1,5 +1,6 @@
 const categoryDb = require("../model/categoryDb")
 const offerDb = require("../model/offerDb")
+const productDb = require("../model/productDb")
 //
 const ViewCategoryOffer = async (req,res)=>{
     try {
@@ -7,9 +8,10 @@ const ViewCategoryOffer = async (req,res)=>{
         const category = await categoryDb.find({status:true})
         
       
-        const offerCategory = await offerDb.find().populate('categoryId')
-         
-        res.render('CategoryOffer',{category,offerCategory,message})
+        const offer = await offerDb.find().populate('categoryId').populate('productId')
+         const product = await productDb.find({status:true})
+        
+        res.render('Offer',{category,offer,message,product})
     } catch (error) {
         console.log(error.message)
     }
@@ -19,16 +21,29 @@ const ViewCategoryOffer = async (req,res)=>{
 const addCategoryOffer = async (req,res)=>{
     try {
        
-        const {category,amount,exprDate,name}= req.body
-        const checkCatogery = await offerDb.findOne({categoryId:category})
-        if(checkCatogery){
-            return  res.redirect('/admin/ViewOffer?message="The offer already exists in that categery"')
+        const {category,amount,exprDate,name,productId}= req.body
+        console.log(category)
+        if(category){
+
+            const checkCatogery = await offerDb.findOne({categoryId:category})
+            console.log(checkCatogery,9000000000000000000000000000000000000000)
+            if(checkCatogery){
+                return  res.redirect('/admin/ViewOffer?message="The offer already exists in that categery"')
+            }
+        }else if(productId){
+            const checkTheProduct = await offerDb.findOne({productId})
+            if(checkTheProduct){
+                return  res.redirect('/admin/ViewOffer?message="The offer already exists in that Product"')
+
+            }
+
         }
        
         const offerCategory = new offerDb({
             name,
             categoryId:category,
             amount,
+            productId,
             createDate:Date.now(),
             expreDate:exprDate,
             
@@ -50,8 +65,10 @@ const editCategoryOffer = async (req,res)=>{
        
         const {_id,name,amount,exprDate,method,description}=req.body
         const checkOffer = await offerDb.findOne({name})
-      
-        if(checkOffer._id==_id){
+      console.log(checkOffer)
+      console.log(_id)
+        if(checkOffer._id==_id||checkOffer==null){
+            console.log('sikljsdiojk    ')
             const offerDataUpdate = await offerDb.findByIdAndUpdate({_id},{$set:{name,amount,method,expreDate:exprDate,description}})
 
             if(offerDataUpdate){
@@ -75,9 +92,24 @@ const deal = async (req,res)=>{
     }
 }
 
+//deleteTheOffer
+const deleteTheOffer = async (req,res)=>{
+    try {
+        const {item_id}=req.body
+        const deleteOffer = await offerDb.deleteOne({categoryId:item_id})
+        if(deleteOffer){
+            res.send({status:true})
+        }
+    } catch (error) {
+        console.log(error.message)
+        
+    }
+}
+
 module.exports={
     ViewCategoryOffer,
     addCategoryOffer,
     editCategoryOffer,
-    deal
+    deal,
+    deleteTheOffer
 }

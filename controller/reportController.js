@@ -5,6 +5,7 @@ const reportPage=async (req,res)=>{
     try {
        
         const {period}=req.query
+        console.log(req.query)
         let startDate, endDate;
         const startOfThisWeek = new Date();
         startOfThisWeek.setHours(0,0,0,0)
@@ -38,7 +39,15 @@ const reportPage=async (req,res)=>{
                 endDate = new Date(new Date().getFullYear(), 11, 31, 23, 59, 59, 999); 
                 break;
             }
+            case 'custom':{
+                startDate=new Date(req.query.startDate) 
+                startDate.setHours(0,0,0,0)
+                endDate=new Date (req.query.endDate) 
+                break;
+
+            }
         }
+
         const report =await orderDb.aggregate([
             {
                 $match:{

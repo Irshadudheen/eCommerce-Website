@@ -160,7 +160,12 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                               <% if(cart.products.length>0){%>
+                                <span class="cart-count"><%=cart.products.length%></span>
+                                <%}else{%>
+                                    <span class="cart-count">0</span>
+
+                                    <% } %>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -288,7 +293,7 @@
 
 
 
-                                                        <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productId.price %></td>
+                                                        <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productPrice %></td>
                                                     <td class="quantity-col">
                                                         <div class="cart-product-quantity">
                                                             <input type="number" class="form-control"   value="<%=product.quantity%>" id="p_quantity<%=product.productId._id%>" min="1" onchange="increase('<%= product.productId._id %>','<%=cart._id%>')" max="<%=product.productId.quantity%>" step="1" data-decimals="0" required>

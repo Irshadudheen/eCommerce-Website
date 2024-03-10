@@ -130,7 +130,13 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                               <% if(cartCount){%>
+
+                                    <span class="cart-count"><%=cartCount%></span>
+                               <% }else{%>
+                                <span class="cart-count"><%=cartCount%></span>
+
+                             <%   }%>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -232,13 +238,13 @@
                                         <td class="product-col">
                                             <div class="product">
                                                 <figure class="product-media">
-                                                    <a href="#">
+                                                    <a href="/eachproduct?id=<%=data.productId._id %>">
                                                         <img src="productImage/<%=data.image%>" alt="Product image">
                                                     </a>
                                                 </figure>
                                                 
                                                 <h3 class="product-title">
-                                                    <a href="#"><%=data.productId.name%></a>
+                                                    <a href="/eachproduct?id=<%=data.productId._id %>"><%=data.productId.name%></a>
                                                 </h3><!-- End .product-title -->
                                             </div><!-- End .product -->
                                         </td>

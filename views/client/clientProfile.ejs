@@ -601,7 +601,23 @@
                                                               
                                                                     <tbody>
                                                                         <tr id="rowOrder<%=ele._id%>">
-                                                                            <td><%=ele.couponId%>  </td>
+                                                                            <td id="copyButton" onclick="copy('<%=ele._id%>')" style="cursor :pointer;"><%=ele.couponId%> <input type="hidden" id="data<%=ele._id%>" value="<%=ele.couponId%>"> </td>
+                                                                            <script>
+                                                                               
+                                                                                    function copy(id){
+
+                                                                                        var copyText = document.getElementById(`data${id}`).value;
+                                                                                        
+                                                                                        navigator.clipboard.writeText(copyText)
+                                                                                        .then(function() {
+                                                                                            alert("Text copied to clipboard: " + copyText);
+                                                                                        })
+                                                                                        .catch(function(error) {
+                                                                                            alert("Failed to copy text: " + error);
+                                                                                        });
+                                                                                    }
+                                                                                    
+                                                                            </script>
                                                                             <td>
                                                                                 <%=ele.name%>
                                                                             </td>

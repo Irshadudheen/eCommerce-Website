@@ -158,6 +158,17 @@ const returnOrderProduct = async(req,res)=>{
     }
 }
 
+//succesPaymentRazorpay
+const succesPaymentRazorpay = async (req,res)=>{
+    try {
+        console.log(req.session.producId)
+        const update = await orderDb.findOneAndUpdate({'products._id':req.session.producId},{$set:{'products.$.productStatus':'placed'}},{new:true})
+        console.log(update)
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
 module.exports = {
     delteTheOrder,
     orderlist,
@@ -167,5 +178,6 @@ module.exports = {
     updateSatusOfOrderProduct,
     cancelTheOrder,
     succesPayment,
-    returnOrderProduct
+    returnOrderProduct,
+    succesPaymentRazorpay
 }

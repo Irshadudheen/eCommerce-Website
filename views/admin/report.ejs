@@ -102,7 +102,7 @@
       <div class="row">
         <input type="text" style="margin-top: 40px;margin-left: 17px;"  onclick="downloadPDF('printDive')"  value="Download as PDF">
         <input type="text" style="margin-top: 40px;margin-left: 17px;"  onclick="downloadExcel('printDive')"  value="Download as Excel">
-
+        
         <script>
         function downloadExcel(divName) {
             const table = document.getElementById(divName);
@@ -191,6 +191,18 @@
             </table>
           </div>
         </div>
+        <form action="report">
+
+          <label for="startDate" style="color: aliceblue;">Start Date</label>
+          
+          <input type="date" id="startDate" name="startDate" style="height: 50px;" required>
+          <br>
+          <label for="endDate" style="color: aliceblue;">end Date</label>
+          <input type="hidden" name="period" value="custom">
+          <input type="date" id="endDate" name="endDate" style="height: 50px;"  required>
+          <br>
+          <input type="submit">
+        </form>
       </div>
     </div>
     </div>

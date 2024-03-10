@@ -373,9 +373,9 @@
                                                         <td>Free shipping</td>
                                                     </tr>
                                                     <tr class="summary-total">
-                                                        <td>Total:</td>
+                                                        <td id="totalAmount">Total:</td>
                                                         <td id="totalPrice">
-                                                            <%=totalPrice%>
+                                                            $<%=totalPrice%>
                                                         </td>
                                                     </tr><!-- End .summary-total -->
                                                 </tbody>
@@ -1048,7 +1048,7 @@
                 if (data.status==true) {
                     
                     const totalPrice= document.getElementById('totalPrice').innerText=`$${data.offerPrice}`;
-                   
+                   document.getElementById('totalAmount').innerText='Offer Price:'
                     console.log(data.offerPrice)
                     console.log("yes")
                     Swal.fire({

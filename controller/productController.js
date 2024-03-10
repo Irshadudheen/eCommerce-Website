@@ -11,6 +11,10 @@ const offerDb = require('../model/offerDb')
 const Clientproduct = async (req, res) => {
     try {
         const sortOption= req.query.sort
+        const perPage = 6;
+        const currentPage = parseInt(req.query.page, 10) || 1;
+        const skip = (currentPage - 1) * perPage;
+
         const offer= await offerDb.find()
         const search = req.query.q
         let searchData={}
@@ -36,13 +40,13 @@ const Clientproduct = async (req, res) => {
         console.log("sort",sort);
         let product=[]
         if(search){
-             product = await productDb.find({ $and:[{status: true},{name:searchData.name} ]}).sort(sort).populate({
+             product = await productDb.find({ $and:[{status: true},{name:searchData.name} ]}).sort(sort).skip(skip).limit(perPage).populate({
                 path: "categoryid",
                 match: { status: true }
             }).exec()
 
         }else{
-             product = await productDb.find({status: true} ).sort(sort).populate({
+             product = await productDb.find({status: true} ).sort(sort).skip(skip).limit(perPage).populate({
                 path: "categoryid",
                 match: { status: true }
             }).exec()
@@ -51,23 +55,36 @@ const Clientproduct = async (req, res) => {
         
        
         const wishlist = await wishlistDb.findOne({clientId:user_id})
-       
         
         const filteredProduct = product.filter(product => product.categoryid !== null)
         filteredProduct.forEach(product=>{
             offer.forEach(ele=>{
-                console.log(product.categoryid.toString()==ele.categoryId.toString(),ele.categoryId,product.categoryid)
-               if(product.categoryid._id.toString()==ele.categoryId.toString()){
-                
-                   product.oldPrice=product.price
-                product.price=product.price-(product.price*ele.amount)/100
-               }
+                console.log("wesjmcjrmdfusjmudj")
+                console.log(ele.categoryId,ele.productId,39393939393933939)
+                if(ele.categoryId &&product.categoryid._id.toString()==ele.categoryId.toString()){
+                    applyOffer(product,ele.amount)
+                }
+                if(ele.productId&&product._id.toString()==ele.productId.toString()){
+                    applyOffer(product,ele.amount)
+                }
+                function applyOffer(product,amount){
+                    if(!product.oldPrice){
+                        product.oldPrice=product.price
 
-            })
+                    }
+                    const discountedPrice=  product.price - (product.price * amount) / 100;
+                    product.price=Math.round(Math.min(product.price, discountedPrice)) ;
+
+                }
+                })
         })
+        console.log(Math.ceil(filteredProduct.length/perPage) ,filteredProduct.length,perPage)
+        const productCount = await productDb.countDocuments()
+        const totalPages =Math.ceil(productCount/perPage) 
+        console.log(totalPages)
         const cart = await cartDb.findOne({clientId:user_id})
         const cartCount = cart?.products.length
-        res.render('product', { productData: filteredProduct,sortOption ,wishlist,cartCount,offer});
+        res.render('product', { productData: filteredProduct,sortOption ,totalPages,wishlist,cartCount,currentPage});
 
 
     } catch (error) {
@@ -82,12 +99,25 @@ const eachproduct = async (req, res) => {
         const {id}=req.query
         const productData = await productDb.findOne({_id:id})
         const offer = await offerDb.find()
-        console.log(productData)
-        console.log(productData.quantity)
+       
         const cartOne = await  cartDb.findOne({clientId:req.session.user_id})
         const cartCount = cartOne?.products.length
-        console.log(cartCount,"asadklfj;as;djklfasjkldfuckdkfjdl")
-        res.render('eachproduct', { productData,offer,cartCount})
+
+        offer.forEach(ele=>{
+            if(ele.categoryId&&ele.categoryId.toString()===productData.categoryid.toString()){
+                applyOffer(productData,ele.amount)
+            }
+            if(ele.productId&&ele.productId.toString()===productData._id.toString()){
+                applyOffer(productData,ele.amount)
+            }
+        })
+        function applyOffer(product,amount){
+         
+            const discountedPrice=product.price-(product.price*amount)/100
+            product.price=Math.round(Math.min(product.price,discountedPrice))
+        }
+      
+        res.render('eachproduct', { productData,cartCount})
 
     } catch (error) {
         console.log(error.message)

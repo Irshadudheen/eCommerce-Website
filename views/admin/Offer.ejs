@@ -100,14 +100,14 @@
       <div class="row tm-content-row">
         <div class="col-12 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
-            <h2 class="tm-block-title">List of offer category</h2>
+            <h2 class="tm-block-title">List of offer </h2>
             <% if(message!='undefined'){%>
 
               <p style="color: red;"><%=message%></p>
            <% } %>
             <!-- Search Bar -->
             <div class="input-group mb-3">
-              <input type="text" class="form-control" id="myInput" placeholder="Search for Coupon..."
+              <input type="text" class="form-control" id="myInput" placeholder="Search for offer..."
                 onkeyup="myFunction()">
             </div>
             <input type="hidden" name="data" id="data" value="">
@@ -115,9 +115,8 @@
               <thead>
                 <tr>
                   <th>Offer name</th>
-                  <th>Category Name</th>
+                  <th> Item</th>
                   <th>AMOUNT</th>
-                  <th>METHOD</th>
                   <th>EXPR DATE</th>
                   <th>ACTION</th>
                   <th scope="col">&nbsp;</th>
@@ -125,30 +124,30 @@
                 </tr>
               </thead>
               <tbody id="userTableBody">
-                <%if(offerCategory.length >0){%>
-                 <% offerCategory.forEach(data=>{%>
+                <%if(offer.length >0){%>
+                  <% offer.forEach(data=>{%>
+                    <%  console.log(data.categoryId,44444)%>
 
-                    
-                    <tr id="row">
+                    <%if(data.categoryId){%>
+                    <tr id="row<%=data.categoryId._id%>">
                   <td><%=data.name%></td>
                   <td><%=data.categoryId.name%></td>
                   <td><%=data.amount%></td> 
-                  <td><%=data.method%></td>
                   <td><%=data.expreDate.toLocaleDateString()%></td>
-                  <td><span style="cursor: pointer;" onclick="delteTheCoupon('')" class="material-symbols-outlined">
+                  <td><span style="cursor: pointer;" onclick="deleteTheOffer('<%=data.categoryId._id%>')" class="material-symbols-outlined">
                     delete
                   </span></td>
                   <td> 
-                    <span class="material-symbols-outlined"  style="cursor: pointer;" data-toggle="modal" data-target="#editModalCenter<%data._id%>">
+                    <span class="material-symbols-outlined"  style="cursor: pointer;" data-toggle="modal" data-target="#editModalCatocory<%data._id%>">
                       edit
                     </span>
                     
                     <!-- Modal -->
-                    <div class="modal fade" id="editModalCenter<%data._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal fade" id="editModalCatocory<%data._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" style="background-color: #435c70;">
       <div class="modal-header">
-        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">EDIT COUPON</h5>
+        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">Edit category offer</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -179,11 +178,63 @@
 
 </td>
 </tr>
+ <%}else{%>
+   <tr id="row<%=data.productId._id%>">
+                  <td><%=data.name%></td>
+                  <td><%=data.productId.name%></td>
+                  <td><%=data.amount%></td> 
+                  <td><%=data.expreDate.toLocaleDateString()%></td>
+                  <td><span style="cursor: pointer;" onclick="deleteTheOffer('<%=data.productId._id%>')" class="material-symbols-outlined">
+                    delete
+                  </span></td>
+                  <td> 
+                    <span class="material-symbols-outlined"  style="cursor: pointer;" data-toggle="modal" data-target="#editModalCenter<%data._id%>">
+                      edit
+                    </span>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="editModalCenter<%data._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="background-color: #435c70;">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">EDIT offer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/editCategoryOffer" method="post">
+          
+          <input type="text"
+          placeholder="name"
+          name="name"
+            value="<%=data.name%>"
+            required>
+            <input type="number" min="1" value="<%=data.amount%>" placeholder="amount" max="99" name="amount" required>
+          
+          <input type="hidden" name="_id" value="<%=data._id%>">
+          
+          <input type="date" onchange="checkdateEdit()" value="" name="exprDate" id="exprDate2" style="width: 190px; height: 30px;" required>
+        </div>
+       
+        <div class="modal-footer">
+         
+          <button type="submit" id="submit" class="btn btn-primary">EDIT</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</td>
+</tr>
+
+<% } %>
  <%})%>
 <%}else{%>
 
                       <tr>
-                        <td colspan="5">coupon is not found</td>
+                        <td colspan="5">offer is not found</td>
                       </tr>
                     <%}%>
                     
@@ -195,7 +246,10 @@
                 Add new category
               </button> -->
                 <button type="button" class="btn btn-primary btn-block text-uppercase mb-3 " data-toggle="modal" data-target="#exampleModalCenter">
-                  ADD OFFER
+                  ADD OFFER CATEGORY
+                </button>
+                <button type="button" class="btn btn-primary btn-block text-uppercase mb-3 " data-toggle="modal" data-target="#ProductOffer">
+                  ADD OFFER PRODUCT
                 </button>
             </a>
           </div>
@@ -203,14 +257,46 @@
       </div>
       <!-- Button trigger modal -->
 
-
+      <div class="modal fade" id="ProductOffer" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content" style="background-color: #435c70;">
+            <div class="modal-header">
+              <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">ADD OFFER PRODUCT </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin/adminaddOfferCatogory" method="post">
+                  <input type="text" name="name" placeholder="offer name" required>
+                  <select name="productId"  style="width:190px; height: 30px;" id="">
+                  <% if(product.length>0){
+                     product.forEach(data=>{ %>
+      
+                          <option value="<%=data._id%>"><%=data.name%></option>
+                      <%})}%>
+                 
+                </select>
+                <input type="number" min="1" placeholder="amount"  name="amount" required>
+                
+      
+                <input type="date"  name="exprDate"  style="width: 190px; height: 30px;" required>
+                </div>
+              <div class="modal-footer">
+               
+                <button type="submit" id="submit1" class="btn btn-primary">ADD NEW</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" style="background-color: #435c70;">
       <div class="modal-header">
-        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle">ADD OFFER</h5>
+        <h5 class="modal-title" style="color: aliceblue;" id="exampleModalLongTitle"> ADD OFFER CATEGORY</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -310,6 +396,24 @@
 
   }
   </script>
+  <script>
+    function deleteTheOffer(item_id){
+      fetch('/admin/deleteTheOffer',{
+        method:'POST',
+        headers:{'Content-type':'application/json'},
+        body:JSON.stringify({item_id})
+      }).then(res=>res.json()).then(data=>{
+        if(data.status==true){
+          document.getElementById(`row${item_id}`).remove()
+
+        }
+      })
+
+
+
+    }
+    
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="js/jquery-3.3.1.min.js"></script>

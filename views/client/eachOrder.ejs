@@ -409,7 +409,10 @@
                                                                                 <%}else if(orderData.paymentMethod == "COD"&&ele.productStatus == "Pending" ){%>
                                                                                     <p>the Product will came soon</p>
                                                                                     <% }else if(ele.productStatus == "Pending"){ %>
-                                                                                         <p style="color: red;">The payment is fail.</p>
+                                                                                        <button class="btn btn-primary" id="tryagain" onclick="PlaceOrder('<%=ele._id%>','<%=orderData._id%>','<%=ele.totalPrice%>','<%=ele.quantity%>',)">Try again</button>
+
+
+                                                                                         <p id="messageFailed" style="color: red;">The payment is fail.</p>
                                                                                         <% } %>
                                                                     </div>
                                                                     <% } %>
@@ -814,5 +817,59 @@
         
             console.log("asoxji")
         }})}
+    </script>
+    <script>
+        function PlaceOrder(producId,orderId,productPrice){
+            fetch('/tryAgainPaymentRazorpay', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify({producId,orderId,productPrice})
+                        }).then(res=>res.json()).then(data=>{
+                            if(data.status){
+                                razorpayPayment(data.razorpayOrder)
+                            }
+                        })
+
+        }
+        function razorpayPayment(order){
+            const option = {
+                    key:"rzp_test_E5WE0z0SgB6EwW",
+                    amount: order.amount*100,
+                    currency: order.currency,
+                    name: 'molla',
+                    description: 'Purchase Description',
+                    order_id: order.id,
+                    handler: function(response) {
+                        // Handle the success response here
+                        console.log('Payment successful:', response);
+                        // alert(response.razorpay_payment_id)
+                        // alert(response.razorpay_order_id)
+                        // alert(response.razorpay_signature)
+                        // verifyPayment(response,order)
+                        // Redirect or show success message
+                        fetch('/succesPaymentRazorpay',{
+                            method:'POST',
+                           
+                        })
+                        document.getElementById('statusProduct').innerHTML='placed'
+                        document.getElementById('messageFailed').style.display='none'
+                        document.getElementById('tryagain').style.display='none'
+                        document.getElementById('CancelOder').style.display='block'
+                    },
+                    prefill: {
+                        name: 'Customer Name',
+                        email: 'customer@example.com',
+                        contact: '9999999999'
+                    },
+                    notes: {
+                        address: 'Customer Address'
+                    },
+                    theme: {
+                        color: '#3399cc'
+                    }
+                };
+                const rzp1 = new  Razorpay(option);
+                rzp1.open()
+            }
     </script>
         <%- include('../layout/footer') -%>

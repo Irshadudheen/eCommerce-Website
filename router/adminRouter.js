@@ -51,6 +51,6 @@ adminRouter.post('/updateSatus', adminOrderController.updateSatus)
 adminRouter.post('/block', adminProductController.blockProduct)
 adminRouter.post('/updateClient', adminController.updateClient)
 adminRouter.post('/deleteClient', adminController.deleteClient)
-
+adminRouter.post('/deleteTheOffer',adminOfferController.deleteTheOffer)
 
 module.exports = adminRouter;

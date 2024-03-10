@@ -1,11 +1,15 @@
 const wishlistDb = require('../model/wishlistDb')
 const productDb =require('../model/productDb')
+const cartDb = require('../model/cartDb')
 //VIEW THE WISHLIST
  const viewWishlist = async (req,res)=>{
     try {
         const {user_id}=req.session
         const dataWishlist = await wishlistDb.findOne({clientId:user_id}).populate({path:'products.productId',mondel:'product'})
-        res.render("wishlist",{dataWishlist})
+        const cart = await cartDb.findOne({clientId:user_id})
+        const cartCount= cart.products.length
+        
+       return res.render("wishlist",{dataWishlist,cartCount})
     } catch (error) {
         console.log(error.message)
     }

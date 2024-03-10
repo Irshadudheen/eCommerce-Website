@@ -62,4 +62,6 @@ clientRouter.post('/cancelTheOrder',orderController.cancelTheOrder)
 clientRouter.post('/succesPayment',orderController.succesPayment)
 clientRouter.post('/returnOrderProduct',orderController.returnOrderProduct)
 clientRouter.post('/CheckUserName',clientController.checkUserName)
+clientRouter.post('/tryAgainPaymentRazorpay',cartController.tryAgainRazorpay)
+clientRouter.post('/succesPaymentRazorpay',orderController.succesPaymentRazorpay)
 module.exports = clientRouter;
