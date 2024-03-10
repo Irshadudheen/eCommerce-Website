@@ -227,10 +227,13 @@ const clientDashboard = async (req, res) => {
 //CLIENT LOGOUT
 const logout = async (req, res) => {
     try {
+        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
         req.session.destroy()
-        res.redirect('/')
+      return  res.redirect('/')
     } catch (error) {
+        
         console.log(error.message)
+      
 
     }
 }
