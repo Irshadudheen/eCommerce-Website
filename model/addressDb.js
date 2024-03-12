@@ -10,6 +10,8 @@ const addressSchema = new mongoose.Schema({
     state: { type: String, required: true },
     pincode: { type: Number, required: true },
     mobile: { type: Number, required: true },
+    latitude: { type: Number, }, 
+    longitude: { type: Number, },
 
 
 

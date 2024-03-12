@@ -485,7 +485,7 @@
                                                 </div><!-- End .col-sm-6 -->
                                                 <div class="col-sm-3">
                                                     <label>City *</label>
-                                                    <input type="text" name="city" onkeyup="checkCity(this)" class="form-control" required>
+                                                    <input type="text" name="city" id="city" onkeyup="checkCity(this)" class="form-control" required>
                                                     <p id="cityerror" style="display: none; color: red;">Please enter the city name</p>
                                                     <script>
                                                         function  checkCity(inputTag){
@@ -515,7 +515,7 @@
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <label>Street Address *</label>
-                                                    <input type="text" name="streetAddress" onkeyup="checkStreet(this)"  class="form-control" required>
+                                                    <input type="text" name="streetAddress" id="streetAddress" onkeyup="checkStreet(this)"  class="form-control" required>
                                                     <p id="Streeterror" style="display: none; color: red;">Please enter the Street name</p>
                                                     <script>
                                                         function  checkStreet(inputTag){
@@ -543,7 +543,7 @@
                                                 </div><!-- End .col-sm-8 -->
                                                 <div class="col-sm-4">
                                                     <label>State *</label>
-                                                    <input type="text" name="state" class="form-control" onkeyup="checkState(this)" required>
+                                                    <input type="text" name="state" id="state" class="form-control" onkeyup="checkState(this)" required>
                                                     <p id="Stateerror" style="display: none; color: red;">Please enter the State name</p>
                                                     <script>
                                                         function  checkState(inputTag){
@@ -574,7 +574,7 @@
                                                 <div class="col-sm-4">
                                                     <label>Pincode *</label>
                                                     <input type="number" name="pincode"  onkeyup="checkPincode(this)" class="form-control">
-                                                    <p id="Pincodeerror" style="display: none; color: red;">Please enter the pincode</p>
+                                                    <p id="Pincodeerror" style="display: none; color: red;">Please enter 6 digit pincode</p>
                                                     <script>
                                                         function  checkPincode(inputTag){
                                                           const   addbtn = document.getElementById('add-address')
@@ -582,15 +582,41 @@
 
                                                           console.log(inputTag.value.trim())
                                                           const input = inputTag.value.trim()
-                                                          if(input.length>0&&input>0){
+                                                          console.log(input.length)
+                                                          if(input.length==6){
                                                               console.log("asdidskdsik")
                                                               err.style.display="none"
-
+                                                              fetch(`https://api.postalpincode.in/pincode/${input}`)
+                                                                    .then(res => res.json())
+                                                                    .then(data => {
+                                                                        console.log(data)
+                                                                        console.log(data[0].Message)
+                                                                        if(data[0].Message=='No records found'){
+                                                                            console.log("osdjkdufcjuj")
+                                                                            console.log(err)
+                                                                            err.innerText='No records found'
+                                                                            err.style.display='block'
+                                                                            addbtn.disabled=true
+                                                                        }else{
+                                                                            addbtn.disabled=false
+                                                                            console.log(data[0].PostOffice)
+                                                                            const count = data[0].PostOffice.length-1
+                                                                            document.getElementById('country').value=data[0].PostOffice[0].Country
+                                                                           
+                                                                            console.log(document.getElementById('city'))
+                                                                            document.getElementById('city').value=data[0].PostOffice[0].District
+                                                                            document.getElementById('streetAddress').value=data[0].PostOffice[0].Name
+                                                                            document.getElementById('state').value=data[0].PostOffice[0].Circle
+                                                                        }
+                                                                    }
+                                                                    )
+                                                                    .catch(error => console.error('Error fetching data:', error));
 
                                                            
-                                                           addbtn.disabled=false
+                                                          
                                                           }else{
                                                               console.log(223232323)
+                                                              err.innerText='Please enter 6 digit pincode'
                                                               err.style.display="block"
                                                     
                                                            addbtn.disabled=true
