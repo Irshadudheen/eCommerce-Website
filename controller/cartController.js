@@ -134,7 +134,7 @@ const cartView = async (req, res) => {
         } else {
             console.log("jsdiokljdsilkjrfsdjkdsjkm")
 
-            res.render("cart")
+            res.render("cart",{cart})
         }
         // console.log(cart.productsId)
         // console.log("---------------------------------------------------------",cart.length)
@@ -322,7 +322,7 @@ const placeholder = async (req, res) => {
 
         const orderData = new orderDb({
             clientId: user_id,
-            addressId:address._id,
+            addressId:address,
             products: products,
             totalPrice,
             paymentMethod,

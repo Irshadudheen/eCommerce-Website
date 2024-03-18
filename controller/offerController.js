@@ -4,7 +4,7 @@ const productDb = require("../model/productDb")
 //
 const ViewCategoryOffer = async (req,res)=>{
     try {
-        const {message}=req.query
+        const message=req.flash('message')
         const category = await categoryDb.find({status:true})
         
       
@@ -28,12 +28,14 @@ const addCategoryOffer = async (req,res)=>{
             const checkCatogery = await offerDb.findOne({categoryId:category})
             console.log(checkCatogery,9000000000000000000000000000000000000000)
             if(checkCatogery){
-                return  res.redirect('/admin/ViewOffer?message="The offer already exists in that categery"')
+                req.flash('message','The offer already exists in that categery')
+                return  res.redirect('/admin/ViewOffer')
             }
         }else if(productId){
             const checkTheProduct = await offerDb.findOne({productId})
             if(checkTheProduct){
-                return  res.redirect('/admin/ViewOffer?message="The offer already exists in that Product"')
+                req.flash('message','The offer already exists in that Product')
+                return  res.redirect('/admin/ViewOffer')
 
             }
 
@@ -96,7 +98,7 @@ const deal = async (req,res)=>{
 const deleteTheOffer = async (req,res)=>{
     try {
         const {item_id}=req.body
-        const deleteOffer = await offerDb.deleteOne({categoryId:item_id})
+        const deleteOffer = await offerDb.deleteOne({$or:[{categoryId:item_id},{productId:item_id}]})
         if(deleteOffer){
             res.send({status:true})
         }

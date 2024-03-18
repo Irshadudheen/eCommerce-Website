@@ -30,7 +30,7 @@ const login = async (req, res, next) => {
 //
 const logout = async (req, res, next) => {
     try {
-        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
+        
         req.session.admin_id ? res.redirect('/admin/adminWelcome') : req.session.user_id ? res.redirect('/dashboard') : next()
 
 

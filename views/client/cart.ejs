@@ -160,7 +160,7 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                               <% if(cart.products.length>0){%>
+                               <% if(cart){%>
                                 <span class="cart-count"><%=cart.products.length%></span>
                                 <%}else{%>
                                     <span class="cart-count">0</span>
@@ -263,7 +263,7 @@
                                     <tbody>
                                        
 
-                                      
+
                                             <% if(cart) {%>
                                             <% cart.products.forEach(product =>{ %>
 
@@ -372,15 +372,6 @@
 	                							<td>$0.00</td>
 	                						</tr><!-- End .summary-shipping-row -->
 
-	                						<tr class="summary-shipping-row">
-	                							<td>
-													<div class="custom-control custom-radio">
-														<input type="radio" id="express" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="express">Express:</label>
-													</div><!-- End .custom-control -->
-	                							</td>
-	                							<td>$100.0</td>
-	                						</tr><!-- End .summary-shipping-row -->
 
 	                						
 

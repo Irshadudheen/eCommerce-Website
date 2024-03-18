@@ -27,13 +27,13 @@ clientRouter.post('/', clientController.loginPost)
 
 //
 
-clientRouter.get('/dashboard', authantication.login, clientController.clientDashboard)
+clientRouter.get('/dashboard', clientController.clientDashboard)
 clientRouter.get('/logout', authantication.login, clientController.logout)
 clientRouter.post('/otpSubmit', clientController.otpSubmit)
 
 
-clientRouter.get('/product', authantication.login, productController.Clientproduct)
-clientRouter.get('/eachproduct', authantication.login, productController.eachproduct)
+clientRouter.get('/product', productController.Clientproduct)
+clientRouter.get('/eachproduct', productController.eachproduct)
 clientRouter.post('/removeCard', authantication.login, cartController.removeCard)
 clientRouter.get('/profile', authantication.login, clientController.profile)
 clientRouter.get('/resendOtp', authantication.logout, clientController.resendOtp)

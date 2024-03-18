@@ -643,9 +643,13 @@
                                                                 addbtn.disabled=true
 
 
-                                                            }else{
+                                                            }else if(input.length===10){
                                                                 mobileNumbererror.style.display="none"
                                                                 addbtn.disabled=false
+
+                                                            }else{
+                                                                mobileNumbererror.style.display="block"
+                                                                addbtn.disabled=true
 
                                                             }
                                                         }
@@ -1024,9 +1028,7 @@
                     handler: function(response) {
                         // Handle the success response here
                         console.log('Payment successful:', response);
-                        alert(response.razorpay_payment_id)
-                        alert(response.razorpay_order_id)
-                        alert(response.razorpay_signature)
+                   
                         // verifyPayment(response,order)
                         // Redirect or show success message
                         fetch('/succesPayment',{

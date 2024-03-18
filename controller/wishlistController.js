@@ -5,9 +5,18 @@ const cartDb = require('../model/cartDb')
  const viewWishlist = async (req,res)=>{
     try {
         const {user_id}=req.session
+        let cartCount =0
         const dataWishlist = await wishlistDb.findOne({clientId:user_id}).populate({path:'products.productId',mondel:'product'})
-        const cart = await cartDb.findOne({clientId:user_id})
-        const cartCount= cart.products.length
+        if(dataWishlist){
+            console.log("qqqqqqqq")
+
+            const cart = await cartDb.findOne({clientId:user_id})
+            console.log("djksdk")
+            if(cart){
+
+                cartCount= cart.products.length
+            }
+        }
         
        return res.render("wishlist",{dataWishlist,cartCount})
     } catch (error) {

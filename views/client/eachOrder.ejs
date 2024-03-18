@@ -786,7 +786,21 @@
         </script>
 <script>
     function  returnTheProduct(orderId,producId){
-     fetch('/returnOrderProduct',{
+        Swal.fire({
+  icon: 'question',
+  title: "do you want't return the product ?",
+  customClass: {
+    popup: "custom-popup-class",
+    header: 'custom-header-class',
+    content: 'custom-content-class',
+    confirmButton: 'custom-confirm-button-class'
+  },
+  showCancelButton: true, // Show cancel button
+  confirmButtonText: 'return', // Text for the confirm button
+  cancelButtonText: 'Cancel' // Text for the cancel button
+}).then((result) => {
+  if (result.isConfirmed) {
+    fetch('/returnOrderProduct',{
         method:'POST',
         headers: {
         'Content-Type': 'application/json'
@@ -799,11 +813,35 @@
              const returnBtn = document.getElementById('returnBtn').style.display='none'
              
     }})
+
+  } else if (result.dismiss === Swal.DismissReason.cancel) {
+   
+
+
+    console.log('User clicked Cancel');
+  }
+});
+
+     
     }</script>
     <script>
         function orderCancelProduct(producId,orderId){
             console.log(producId,orderId)
-            fetch('/cancelTheOrder',{
+            Swal.fire({
+  icon: 'question',
+  title: "do you want't cancel the product ?",
+  customClass: {
+    popup: "custom-popup-class",
+    header: 'custom-header-class',
+    content: 'custom-content-class',
+    confirmButton: 'custom-confirm-button-class'
+  },
+  showCancelButton: true, // Show cancel button
+  confirmButtonText: 'Cancel', // Text for the confirm button
+  cancelButtonText: 'No' // Text for the cancel button
+}).then((result) => {
+  if (result.isConfirmed) {
+    fetch('/cancelTheOrder',{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/json'
@@ -816,7 +854,17 @@
 
         
             console.log("asoxji")
-        }})}
+        }})
+
+  } else if (result.dismiss === Swal.DismissReason.cancel) {
+   
+
+
+    console.log('User clicked Cancel');
+  }
+});
+
+           }
     </script>
     <script>
         function PlaceOrder(producId,orderId,productPrice){

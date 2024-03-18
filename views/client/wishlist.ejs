@@ -128,7 +128,7 @@
                         </div><!-- End .compare-dropdown -->
 
                         <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <a href="/cartView" class="dropdown-toggle" >
                                 <i class="icon-shopping-cart"></i>
                                <% if(cartCount){%>
 
@@ -265,7 +265,9 @@
                                             
                                     </tr>
                                <% })%>
-                           <% }%>
+                           <% }else{%>
+                            <td>not found</td>
+                            <% } %>
 							
 							
 							

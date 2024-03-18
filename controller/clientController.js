@@ -154,9 +154,9 @@ const loginPost = async (req, res) => {
     try {
         const email = req.body.singin_email
         const password = req.body.singin_password
-        console.log(email)
+       
         const clientData = await client.findOne({ $or:[{email},{fname:email}] })
-        console.log(clientData)
+       
         if (clientData) {
 
 
@@ -164,7 +164,7 @@ const loginPost = async (req, res) => {
             if (passwordMatch) {
                 console.log(clientData.is_varified,clientData.is_block)
                 if ( clientData.is_block === false) {
-                    console.log("sduhsdfcxuij")
+                  
 
                     if (clientData.is_admin === true) {
                         req.session.admin_id = clientData._id
@@ -206,6 +206,10 @@ const loginPost = async (req, res) => {
 const clientDashboard = async (req, res) => {
     try {
         const {user_id}=req.session
+        let cheackUser=true
+        if(!user_id){
+            cheackUser=false
+        }
         const cart = await cartDb.findOne({clientId:user_id})
         const cartCount = cart?.products.length
             const totalPriceCart = cart?.products.reduce((total, product) => {
@@ -217,7 +221,7 @@ const clientDashboard = async (req, res) => {
         const wishlistCount = wishlist?.products.length
         console.log(cartCount,"dfujiolefjksdiorekljsdfioerklsdfjoerilsdfjkioerkldfj")
         
-        res.render('index',{cartCount,totalPriceCart,wishlistCount})
+        res.render('index',{cartCount,totalPriceCart,wishlistCount,cheackUser})
     } catch (error) {
         console.log(error.massege)
 
@@ -248,7 +252,7 @@ const otpSubmit = async (req, res) => {
         console.log(userData)
         if (userData) {
             const inputOtp = req.body.digit1 * 1000 + req.body.digit2 * 100 + req.body.digit3 * 10 + req.body.digit4 * 1
-            console.log(inputOtp)
+            
             if (inputOtp == otpVerify.otp) {
                 const result= await clientDb.create(userData) 
                 if (result) {
@@ -261,8 +265,9 @@ const otpSubmit = async (req, res) => {
                                 referralCode:`${email}${inputOtp}`,
                                 balance: 50
                             });
+                            
                             req.session.user_id = result._id
-                            console.log(req.session.user_id)
+                        
                           return  res.redirect("/dashboard")
 
                         }
@@ -275,7 +280,7 @@ const otpSubmit = async (req, res) => {
                             balance: 0 
                         });
                         
-                        req.session.user_id = result.userId
+                        req.session.user_id = result._id
                         return  res.redirect("/dashboard")
                     }
                 }
@@ -299,12 +304,12 @@ const profile = async (req, res) => {
         const { user_id } = req.session
         const userData = await clientDb.findOne({ _id: user_id })
         const address = await addressDb.find({ clientId: user_id }).populate("clientId")
-        const order = await orderDb.find({ clientId: user_id }).populate('addressId')
+        const order = await orderDb.find({ clientId: user_id }).populate('addressId').sort({date:-1})
         const coupon = await couponDb.find()
         const wallet = await walletDb.findOne({clientId:user_id})
-        console.log(order,"___________________________________________________________")
+      
        
-console.log(wallet)
+
         
         
         res.render('clientProfile', { userData, address, order,coupon,wallet })
@@ -323,9 +328,9 @@ const resendOtp = async (req, res) => {
 
         const personData = await client.findOne({ email })
         const deleteOtp = await otpDb.deleteOne({ userId: personData._id })
-        console.log(deleteOtp)
+       
         const otp = Math.floor(Math.random() * 9000) + 1000;
-        console.log(otp)
+     
         const otpUpdate = new otpDb({
             userId: personData._id,
             emailId: email,
@@ -336,8 +341,7 @@ const resendOtp = async (req, res) => {
             res.render('forgetOtp',{email})
         }else 
         if (dataOtp) {
-            console.log(otp)
-            console.log(email)
+           
             if (personData) {
                 sendOtpMail(personData.fname, email, otp)
                 res.render('otpVerification', { email })
@@ -367,7 +371,7 @@ const forgotPassword = async (req, res) => {
 const forgotPasswordSubmit = async (req, res) => {
     try {
         const { email } = req.body
-        console.log(req.body)
+       
 
         const checkmail = await clientDb.findOne({  email })
         if(!checkmail){
@@ -411,7 +415,6 @@ const forgotPasswordSubmit = async (req, res) => {
 const forgotOtpPage= async (req,res)=>{
     try {
         const {email}= req.query
-        console.log(req.query,34782904589302568430583045804589300587)
         res.render('forgetOtp',{email})
     } catch (error) {
         console.log(error.message)
@@ -423,12 +426,10 @@ const otpSubmitForgot = async (req, res) => {
     try {
 
         const { digit1, digit2, digit3, digit4, email } = req.body
-        console.log(req.body)
 
         const otpVerify = await otpDb.findOne({ emailId: email })
         
         const inputOtp = digit1 * 1000 + digit2 * 100 + digit3 * 10 + digit4 * 1
-        console.log(inputOtp,otpVerify.otp)
 
         if (otpVerify.otp == inputOtp) {
             console.log(inputOtp,233333333333333333333333333333333333333333333)
@@ -437,6 +438,7 @@ const otpSubmitForgot = async (req, res) => {
 
 
         } else {
+            
             console.log("the otp is incorrect")
         }
 

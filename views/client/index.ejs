@@ -26,11 +26,20 @@
                         </div><!-- End .header-left -->
 
                         <div class="header-right">
-                            <a href="/logout" class="wishlist-link">
+                            <%if(cheackUser){%>
 
-                                <span class="material-symbols-outlined">
-                                    logout
-                                </span>
+                                <a href="/logout" class="wishlist-link">
+                                    
+                                    <span class="material-symbols-outlined">
+                                        logout
+                                    </span>
+                                <%}else{%>
+                                    <a href="/" class="wishlist-link">
+                                    <span class="material-symbols-outlined">
+                                        login
+                                    </span>
+                                </a>
+                                    <%}%>
 
 
 
