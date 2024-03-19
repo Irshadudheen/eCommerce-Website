@@ -2,7 +2,7 @@ const productDb = require('../model/productDb')
 const categoryDb = require('../model/categoryDb')
 const wishlistDb = require('../model/wishlistDb')
 const cartDb = require('../model/cartDb')
-const sharp = require('sharp')
+
 const path = require('path')
 const fs = require('fs')
 const offerDb = require('../model/offerDb')
