@@ -18,25 +18,17 @@ const addToCart = async (req, res) => {
     try {
         
         const { id, quantity } = req.body
+        const products={productId:id,quantity}
         const clientId = req.session.user_id
         const checkTheProduct = await cartDb.findOne({ clientId})
         const checkTheCartProduct = checkTheProduct?.products.some(product=>product.productId==id)
         const productToCart = await productDb.findOne({ _id: id }).populate('categoryid')
         
-        
         if (!checkTheCartProduct) {
             const checkTheCart = await cartDb.findOne({ clientId })
             if (checkTheCart) {
                 const initialLength = checkTheCart.products.length;
-
-
-                checkTheCart.products.push({
-                    productId: id,
-                    quantity,
-                    productPrice: productToCart.price,
-                    totalPrice: quantity * productToCart.price,
-                    image: productToCart.image[0]
-                })
+                checkTheCart.products.push(products)
                 const finalLength = checkTheCart.products.length;
                 if (finalLength > initialLength) {
                     await checkTheCart.save(); // Save the updated cart
@@ -48,20 +40,10 @@ const addToCart = async (req, res) => {
 
 
             } else {
-
                 const newCart = new cartDb({
                     clientId,
-                    products: [{
-                        productId: id,
-                        productPrice: productToCart.price,
-                        quantity,
-                        totalPrice: productToCart.price * quantity,
-                        image: productToCart.image[0],
-                    }
-                    ]
-
-
-                })
+                    products: [products]
+ })
                 const newcart = await newCart.save()
                 if (newcart) {
                     res.send({ status: true })
@@ -100,6 +82,8 @@ const cartView = async (req, res) => {
         // const errmsg = req.flash("err");
         if (cart) {
             cart.products.forEach(product=>{
+                product.productPrice=product.productId.price
+                product.totalPrice=product.productPrice*product.quantity;
                 offer.forEach(ele=>{
               
                     if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
@@ -167,24 +151,21 @@ const removeCard = async (req, res) => {
 //TOTALPRICE
 const totalPrice = async (req, res) => {
     try {
-        const { p_quantity, cart_id, id } = req.body
+        const { p_quantity, id } = req.body
         const { user_id } = req.session
         console.log(id, "productid")
-        const existingCart = await cartDb.findById({ _id: cart_id })
-        const productToUpdate = existingCart.products.find((p) => {
-
-            return p.productId.equals(id)
-
-        })
+        const existingCart = await cartDb.findOne({ clientId: user_id })
+        const productToUpdate = existingCart.products.find((p) =>  p.productId.equals(id))
         if (productToUpdate) {
-
             productToUpdate.quantity = p_quantity
-            productToUpdate.totalPrice = p_quantity * productToUpdate.productPrice
-            const offer = await offerDb.find()
             const updatedCart = await existingCart.save()
-            const newCart = await cartDb.findOne({_id:cart_id}).populate({path:'products.productId',model:'product'})
+           
+          
+            const offer = await offerDb.find()
+            const newCart = await cartDb.findOne({clientId: user_id }).populate({path:'products.productId',model:'product'})
             console.log(newCart)
             newCart.products.forEach(product=>{
+                product.totalPrice=product.productId.price*product.quantity
                 offer.forEach(ele=>{
                     if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
                         applyOffer(product,ele.amount)
@@ -242,6 +223,7 @@ const checkOut = async (req, res) => {
         const cart = await cartDb.findOne({clientId:user_id}).populate({path:'products.productId',model:'product'})
         const offer = await offerDb.find()
         cart.products.forEach(product=>{
+            product.totalPrice=product.productId.price*product.quantity
             offer.forEach(ele=>{
                 if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
                     applyOffer(product,ele.amount)
@@ -311,7 +293,7 @@ const placeholder = async (req, res) => {
                 name: productDetails.name,
                 price: productDetails.price,
                 quantity: cartProduct.quantity,
-                totalPrice: cartProduct.totalPrice,
+                totalPrice: cartProduct.quantity*productDetails.price,
                 image: cartProduct.image,
 
             };
@@ -387,7 +369,7 @@ if(deleteCart){
 
     catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -408,7 +390,7 @@ const tryAgainRazorpay = async(req,res)=>{
         
     } catch (error) {
         console.log(error.message)
-        
+        return res.status(500).send("Internal server error");
     }
 }
 

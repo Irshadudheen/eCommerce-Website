@@ -60,46 +60,28 @@ const sendOtpMail = async (name, email, otp) => {
 //REGISTER THE SUBMIT 
 const signUpPost = async (req, res) => {
     try {
-        const { register_fname, register_lname, register_email, register_mobile, register_password,referralCode } = req.body
+        const { name, email,mobile,password,referralCode } = req.body
         if(referralCode){
             req.session.referralCode=referralCode
         }
-        const checkAccount = await clientDb.findOne({ email: register_email })
-        if (!checkAccount) {
-
-            if (/[A-Za-z.]+$/.test(register_fname)) {
-                if (/[A-Za-z0-9._%+-]+@gmail.com/.test(register_email)) {
-
-
-                    const checkmail = await client.findOne({ register_email })
+            if (/[A-Za-z.]+$/.test(name)) {
+                if (/[A-Za-z0-9._%+-]+@gmail.com/.test(email)) {
+                    const checkmail = await clientDb.findOne({ email })
                     if (checkmail) {
                         console.log('Email is already exsit')
+                        req.flash('message','Email is already exsit')
+                      return  res.redirect('/register')
                     } else {
-
-
-                        const sPassword = await securePassword(register_password)
-                        const fname = register_fname;
-                        const lname = register_lname;
-                        const email = register_email;
-                        const mobile = register_mobile;
-                        //radom string
-                     
-
-                        const Client = new client({
-
-                            fname,
-                            lname,
+                        const sPassword = await securePassword(password)
+                           const Client = new client({
+                            username:name,
                             email,
                             password: sPassword,
                             mobile,
                             is_admin: 0,
                             is_block: false,
-                         
-
-
                         })
                         req.session.ClientData=Client
-                        // const result = await Client.save()
                         if (Client) {
                             const otp = Math.floor((Math.random() * 1000)) + 1000
                             const otpsave = new otpDb({
@@ -109,33 +91,30 @@ const signUpPost = async (req, res) => {
                             const otpResult = await otpsave.save()
                             console.log(otpResult)
                             console.log(otp)
-                            sendOtpMail(fname, email, otp)
-                            res.render('otpVerification', { email })
+                            sendOtpMail(name, email, otp)
+                            req.flash('email',email)
+                            return  res.redirect('/otpPage')
 
 
-
-
-                            console.log('register succcc')
                         } else {
 
                         }
                     }
                 } else {
-                    res.render("login", { message: "give the correct structure to the Email" })
-
                     console.log('give the correct structure to the Email')
+                    req.flash('message','give the correct structure to the email')
+                    return res.redirect('/register')
                 }
             } else {
-                res.render("login", { message: "give correct structure to the name" })
+               
                 console.log("give correct structure to the name")
+                req.flash('message','give correct structure to the name')
+                return res.redirect('/register')
             }
-        } else {
-            console.log('email already exists')
-            res.render("login", { message: "email already exists" })
-
-        }
+       
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -143,61 +122,37 @@ const signUpPost = async (req, res) => {
 //LOGIN PAGE
 const login = async (req, res) => {
     try {
-
-        res.render('login')
+const message = req.flash('message')
+        res.render('login',{message})
     } catch (error) {
         console.log(error.massege)
+        return res.status(500).send("Internal server error");
     }
 }
 //LOGIN PAGE SUBMINT
 const loginPost = async (req, res) => {
     try {
-        const email = req.body.singin_email
-        const password = req.body.singin_password
-       
+        const {email,password}=req.body
         const clientData = await client.findOne({ $or:[{email},{fname:email}] })
-       
-        if (clientData) {
-
-
-            const passwordMatch = await bcrypt.compare(password, clientData.password)
-            if (passwordMatch) {
-                console.log(clientData.is_varified,clientData.is_block)
-                if ( clientData.is_block === false) {
-                  
-
-                    if (clientData.is_admin === true) {
-                        req.session.admin_id = clientData._id
-
-                        res.redirect('/admin/adminWelcome')
-                    } else {
-
-                        req.session.user_id = clientData._id
-
-
-                        res.redirect('/dashboard')
-                    }
-
-                } else {
-                    res.render('login', { message: 'Block' })
-
-                }
-
-
-
-            } else {
-                res.render('login', { message: 'password not correct' })
-
-
-            }
-
-        } else {
-            res.render('login', { message: 'email and password not correct' })
-
-
+        if(!clientData){
+            req.flash('message', 'user is not exist');
+            return res.redirect('/');
         }
+            const passwordMatch = await bcrypt.compare(password, clientData.password)
+            if(!passwordMatch){
+                req.flash('message','password not correct')
+                return res.redirect('/')
+            }
+            if(clientData.is_block){
+                req.flash('message','you are blocked')
+               return res.redirect('/')
+            }
+            req.session.admin_id = clientData.is_admin ? clientData._id :req.session.user_id= clientData._id;
+            const redirectPath = clientData.is_admin ? '/admin/adminWelcome' : '/dashboard';
+            return res.redirect(redirectPath);
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -224,12 +179,13 @@ const clientDashboard = async (req, res) => {
         res.render('index',{cartCount,totalPriceCart,wishlistCount,cheackUser})
     } catch (error) {
         console.log(error.massege)
+        return res.status(500).send("Internal server error");
 
     }
 }
 
 //CLIENT LOGOUT
-const logout = async (req, res) => {
+const logOut = async (req, res) => {
     try {
         console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
         req.session.destroy()
@@ -237,7 +193,7 @@ const logout = async (req, res) => {
     } catch (error) {
         
         console.log(error.message)
-      
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -294,7 +250,7 @@ const otpSubmit = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -316,6 +272,7 @@ const profile = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -344,7 +301,8 @@ const resendOtp = async (req, res) => {
            
             if (personData) {
                 sendOtpMail(personData.fname, email, otp)
-                res.render('otpVerification', { email })
+                req.flash('email',email)
+                return  res.redirect('/otpPage')
 
             }
 
@@ -352,7 +310,7 @@ const resendOtp = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -363,7 +321,7 @@ const forgotPassword = async (req, res) => {
         res.render('forgotPasswordPage')
     } catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -407,7 +365,7 @@ const forgotPasswordSubmit = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -418,7 +376,7 @@ const forgotOtpPage= async (req,res)=>{
         res.render('forgetOtp',{email})
     } catch (error) {
         console.log(error.message)
-        
+        return res.status(500).send("Internal server error");
     }
 }
 //OTPSUBMITFPRGET 
@@ -434,18 +392,22 @@ const otpSubmitForgot = async (req, res) => {
         if (otpVerify.otp == inputOtp) {
             console.log(inputOtp,233333333333333333333333333333333333333333333)
             console.log(email, "aklsdo;ksxklmxlkmesxflkmsfxlnmdfvlkmdklfm,")
-            res.render('toSetNewPassword', { email })
+            req.flash('email',email)
+          return  res.redirect('/otpPage')
+            // res.render('toSetNewPassword', { email })
 
 
         } else {
             
             console.log("the otp is incorrect")
+
         }
 
 
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -464,6 +426,7 @@ const passwordUpdate = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -475,6 +438,7 @@ const register = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -492,6 +456,19 @@ const checkUserName = async (req,res)=>{
     } catch (error) {
         
         console.log(error.message)
+        return res.status(500).send("Internal server error");
+        
+    }
+}
+
+//render otp page 
+const otpPage = async (req,res)=>{
+    try {
+        const email = req.flash('email')
+        return res.render('otpVerification',{email})
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -502,7 +479,7 @@ module.exports = {
     login,
     loginPost,
     signUpPost,
-    logout,
+    logOut,
     otpSubmit,
     profile,
     resendOtp,
@@ -512,7 +489,8 @@ module.exports = {
     passwordUpdate,
     register,
     forgotOtpPage,
-    checkUserName
+    checkUserName,
+    otpPage
 
 
 

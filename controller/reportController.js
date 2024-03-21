@@ -69,6 +69,8 @@ const reportPage=async (req,res)=>{
         res.render('report',{data,report,reportPeriod:period})
         
     } catch (error) {
+        console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 

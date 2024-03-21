@@ -8,10 +8,8 @@ const cartDb = require('../model/cartDb')
         let cartCount =0
         const dataWishlist = await wishlistDb.findOne({clientId:user_id}).populate({path:'products.productId',mondel:'product'})
         if(dataWishlist){
-            console.log("qqqqqqqq")
 
             const cart = await cartDb.findOne({clientId:user_id})
-            console.log("djksdk")
             if(cart){
 
                 cartCount= cart.products.length
@@ -21,6 +19,7 @@ const cartDb = require('../model/cartDb')
        return res.render("wishlist",{dataWishlist,cartCount})
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
  }
 
@@ -67,7 +66,7 @@ const cartDb = require('../model/cartDb')
             
     } catch (error) {
         console.log(error.message)
-        
+        return res.status(500).send("Internal server error");
     }
  }
 
@@ -83,6 +82,7 @@ const cartDb = require('../model/cartDb')
         
     } catch (error) {
         console.log(errror.message)
+        return res.status(500).send("Internal server error");
         
     }
  }

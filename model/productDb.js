@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     status: { type: Boolean, required: true },
     quantity: { type: Number, required: true },
+    // size:{type:String,required:true,enum:['XXL','XL','L','M','S']},
     categoryid: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "category" },
     createdate: { type: String, required: true },
     image: { type: Array, required: true },

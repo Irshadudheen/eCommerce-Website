@@ -14,6 +14,7 @@ const ViewCategoryOffer = async (req,res)=>{
         res.render('Offer',{category,offer,message,product})
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -57,6 +58,7 @@ const addCategoryOffer = async (req,res)=>{
         
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -79,6 +81,7 @@ const editCategoryOffer = async (req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -91,7 +94,9 @@ const deal = async (req,res)=>{
         
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
+
 }
 
 //deleteTheOffer
@@ -104,6 +109,7 @@ const deleteTheOffer = async (req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }

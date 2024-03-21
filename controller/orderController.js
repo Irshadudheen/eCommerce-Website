@@ -15,6 +15,7 @@ const delteTheOrder = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -34,6 +35,7 @@ const orderlist = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -48,6 +50,7 @@ const updateSatus = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -69,6 +72,7 @@ console.log(orderData,1111111111111111111111111111111111111111111111111111)
         res.render("eachOrder",{orderData,productId})
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -81,7 +85,7 @@ const invoice = async (req,res)=>{
         
     } catch (error) {
         console.log(error.message)
-        
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -98,6 +102,7 @@ const updateSatusOfOrderProduct = async (req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -120,6 +125,7 @@ const cancelTheOrder = async(req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -154,6 +160,7 @@ const returnOrderProduct = async(req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -166,6 +173,7 @@ const succesPaymentRazorpay = async (req,res)=>{
         console.log(update)
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 

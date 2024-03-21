@@ -8,6 +8,7 @@ const couponAdmin = async (req,res)=>{
         res.render('coupon',{couponData})
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -53,6 +54,7 @@ const adminAddCoupon = async (req,res)=>{
                 
             } catch (error) {
                 console.log(error.message)
+                return res.status(500).send("Internal server error");
         
     }
 }
@@ -71,6 +73,7 @@ const randomStr=(len, arr)=> {
     
 } catch (error) {
        console.log(error.message) 
+       return res.status(500).send("Internal server error");
 }
 }
     
@@ -87,7 +90,7 @@ const deleteTheCoupon = async (req,res)=>{
         
     } catch (error) {
         console.log(error.message)
-        
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -140,6 +143,7 @@ const admimEditCoupon = async (req,res)=>{
         
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -194,6 +198,7 @@ const checkCopon = async (req,res)=>{
         
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }
@@ -214,6 +219,7 @@ const checkCouponDb = async (req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 module.exports={

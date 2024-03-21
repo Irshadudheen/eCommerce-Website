@@ -33,7 +33,7 @@ const addnewaddress = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -55,7 +55,7 @@ const editProfile = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -69,7 +69,7 @@ const deleteTheAddress = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 

@@ -104,6 +104,7 @@ const productQuantities = {};
         
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }

@@ -109,7 +109,7 @@
                                             <div class="form-group">
                                                 <label for="register-fname">Username*</label>
                                                 <input type="text" onkeyup="thedata(this)" class="form-control" id="register-fname"
-                                                    name="register_fname" required>
+                                                    name="name" required>
                                                     <script>
                                                         function thedata(tag){
                                                             const input = tag.value.trim()
@@ -145,7 +145,7 @@
                                             <div class="form-group">
                                                 <label for="register-email-2">Your email address *</label>
                                                 <input type="email" class="form-control" id="register-email-2"
-                                                name="register_email" required>
+                                                name="email" required>
                                             </div><!-- End .form-group -->
                                             
                                                                                     
@@ -153,7 +153,7 @@
                                             <div class="form-group">
                                                 <label for="register-password-2">Password *</label>
                                                 <input onkeyup="checkPassword(this)" type="password" class="form-control" id="register-password-2"
-                                                    name="register_password" required>
+                                                    name="mobile" required>
                                                     <p id="passwordCriteria">
                                                         <span id="uppercase">Uppercase</span>
                                                         <span id="lowercase">Lowercase</span>
@@ -251,6 +251,8 @@
         
         
         
+        
+    }else{
         
     }
     }

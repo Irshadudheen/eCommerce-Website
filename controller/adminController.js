@@ -13,6 +13,7 @@ const adminDashboard = async (req, res) => {
         res.render('adminDashboard', { order ,data})
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -25,6 +26,7 @@ const logoutadmin = async (req, res) => {
         res.redirect('/')
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -36,6 +38,7 @@ const clientview = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -57,6 +60,7 @@ const editUser = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -80,6 +84,7 @@ const updateClient = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -93,6 +98,7 @@ const deleteClient = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -109,6 +115,7 @@ const blockClient = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 

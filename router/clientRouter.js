@@ -24,11 +24,11 @@ clientRouter.post('/register', clientController.signUpPost)
 
 clientRouter.get('/', authantication.logout, clientController.login)
 clientRouter.post('/', clientController.loginPost)
-
+clientRouter.get('/otpPage',clientController.otpPage)
 //
 
 clientRouter.get('/dashboard', clientController.clientDashboard)
-clientRouter.get('/logout', authantication.login, clientController.logout)
+clientRouter.get('/logout', authantication.login, clientController.logOut)
 clientRouter.post('/otpSubmit', clientController.otpSubmit)
 
 

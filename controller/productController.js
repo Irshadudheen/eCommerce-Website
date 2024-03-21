@@ -89,6 +89,7 @@ const Clientproduct = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -121,6 +122,7 @@ const eachproduct = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -139,6 +141,7 @@ const productAdmin = async (req, res) => {
         res.render('productAdmin', { product: filteredProduct })
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -152,6 +155,7 @@ const addProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -167,6 +171,7 @@ const editProduct = async (req, res) => {
         res.render('editProduct', { id: req.query.id, productData, category })
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -202,6 +207,7 @@ const addProductsubmit = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -242,6 +248,7 @@ const Updateproduct = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -269,6 +276,7 @@ const blockProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -298,6 +306,7 @@ const delectTheImage = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -326,6 +335,7 @@ const cropImage = async (req,res)=>{
         
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
         
     }
 }

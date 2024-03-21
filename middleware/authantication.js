@@ -20,7 +20,7 @@ const login = async (req, res, next) => {
 
     } catch (error) {
         console.log(error.message)
-        return res.status(500).send("An error occurred while logging in.");
+        return res.status(500).send("Internel server error");
 
 
     }
@@ -36,6 +36,7 @@ const logout = async (req, res, next) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 
@@ -48,6 +49,9 @@ const isadminlogin = async (req, res, next) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
+
+
 
     }
 }

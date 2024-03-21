@@ -10,6 +10,7 @@ const addCategory = async (req, res) => {
         res.render('addCategory')
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -44,17 +45,19 @@ const addCategorySumbit = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
 //
-const ViewCategory = async (req, res) => {
+const viewCategory = async (req, res) => {
     try {
         const category = await categoryDb.find()
         res.render('ViewCategory', { category })
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -65,6 +68,7 @@ const deleteCategory = async (req, res) => {
         return res.redirect('/admin/ViewCategory')
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -78,7 +82,7 @@ const editCategory = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -112,6 +116,7 @@ const editCategorySubmit = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
 
     }
 }
@@ -139,6 +144,7 @@ const statusCategory = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message)
+        return res.status(500).send("Internal server error");
     }
 }
 
@@ -146,7 +152,7 @@ const statusCategory = async (req, res) => {
 module.exports = {
     addCategory,
     addCategorySumbit,
-    ViewCategory,
+    viewCategory,
     deleteCategory,
     editCategory,
     editCategorySubmit,
