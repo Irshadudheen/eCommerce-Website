@@ -53,7 +53,7 @@ const addCategorySumbit = async (req, res) => {
 const viewCategory = async (req, res) => {
     try {
         const category = await categoryDb.find()
-        res.render('ViewCategory', { category })
+        res.render('viewCategory', { category })
 
     } catch (error) {
         console.log(error.message)
