@@ -62,7 +62,6 @@ const sendOtpMail = async (name, email, otp) => {
 const signUpPost = async (req, res) => {
     try {
         const { name, email,mobile,password,referralCode } = req.body
-        console.log(req.body)
         if(referralCode){
             req.session.referralCode=referralCode
         }
@@ -140,7 +139,8 @@ const loginPost = async (req, res) => {
                 req.flash('message','you are blocked')
                return res.status(400).redirect('/')
             }
-            req.session.admin_id = clientData.is_admin ? clientData._id :req.session.user_id= clientData._id;
+            clientData.is_admin ?req.session.admin_id= clientData._id :req.session.user_id= clientData._id;
+            console.log('admin:',req.session.admin_id,'user:',req.session.user_id)
             const redirectPath = clientData.is_admin ? '/admin/adminWelcome' : '/dashboard';
             return res.redirect(redirectPath);
     } catch (error) {
