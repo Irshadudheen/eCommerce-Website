@@ -26,6 +26,7 @@ const securePassword = async (password) => {
 const sendOtpMail = async (name, email, otp) => {
     try {
         console.log(email);
+        console.log(otp)
         const Transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
@@ -61,22 +62,31 @@ const sendOtpMail = async (name, email, otp) => {
 const signUpPost = async (req, res) => {
     try {
         const { name, email,mobile,password,referralCode } = req.body
+        console.log(req.body)
         if(referralCode){
             req.session.referralCode=referralCode
         }
-            if (/[A-Za-z.]+$/.test(name)) {
-                if (/[A-Za-z0-9._%+-]+@gmail.com/.test(email)) {
-                    const checkmail = await clientDb.findOne({ email })
-                    if (checkmail) {
-                        console.log('Email is already exsit')
-                        req.flash('message','Email is already exsit')
-                      return  res.redirect('/register')
-                    } else {
+        if(!/[A-Za-z.]+$/.test(name)){
+            
+            req.flash('message','give correct structure to the name')
+            return res.redirect('/register')
+        }
+        if(!/[A-Za-z0-9._%+-]+@gmail.com/.test(email)){
+           
+            req.flash('message','give the correct structure to the email')
+            return res.redirect('/register')
+
+        }
+        const checkmail = await clientDb.findOne({ email })
+        if (checkmail) {
+            req.flash('message','Email is already exsit')
+          return  res.redirect('/register')
+        } else {
                         const sPassword = await securePassword(password)
-                           const Client = new client({
+                        const Client = new client({
                             username:name,
                             email,
-                            password: sPassword,
+                            password:sPassword,
                             mobile,
                             is_admin: 0,
                             is_block: false,
@@ -89,28 +99,12 @@ const signUpPost = async (req, res) => {
                                 otp
                             })
                             const otpResult = await otpsave.save()
-                            console.log(otpResult)
-                            console.log(otp)
                             sendOtpMail(name, email, otp)
                             req.flash('email',email)
                             return  res.redirect('/otpPage')
-
-
-                        } else {
-
-                        }
+                        } 
                     }
-                } else {
-                    console.log('give the correct structure to the Email')
-                    req.flash('message','give the correct structure to the email')
-                    return res.redirect('/register')
-                }
-            } else {
-               
-                console.log("give correct structure to the name")
-                req.flash('message','give correct structure to the name')
-                return res.redirect('/register')
-            }
+                
        
     } catch (error) {
         console.log(error.message)
@@ -122,8 +116,8 @@ const signUpPost = async (req, res) => {
 //LOGIN PAGE
 const login = async (req, res) => {
     try {
-const message = req.flash('message')
-        res.render('login',{message})
+    const message = req.flash('message')
+    res.render('login',{message})
     } catch (error) {
         console.log(error.massege)
         return res.status(500).send("Internal server error");
@@ -134,18 +128,17 @@ const loginPost = async (req, res) => {
     try {
         const {email,password}=req.body
         const clientData = await client.findOne({ $or:[{email},{fname:email}] })
-        if(!clientData){
-            req.flash('message', 'user is not exist');
-            return res.redirect('/');
-        }
-            const passwordMatch = await bcrypt.compare(password, clientData.password)
-            if(!passwordMatch){
-                req.flash('message','password not correct')
-                return res.redirect('/')
+            if(!clientData){
+                req.flash('message', 'user is not exist');
+                return res.status(302).redirect('/');
             }
-            if(clientData.is_block){
+            else if(!(await bcrypt.compare(password, clientData.password))) {
+                req.flash('message','password not correct')
+                return res.status(400).redirect('/')
+            }
+            else if(clientData.is_block){
                 req.flash('message','you are blocked')
-               return res.redirect('/')
+               return res.status(400).redirect('/')
             }
             req.session.admin_id = clientData.is_admin ? clientData._id :req.session.user_id= clientData._id;
             const redirectPath = clientData.is_admin ? '/admin/adminWelcome' : '/dashboard';
@@ -187,7 +180,7 @@ const clientDashboard = async (req, res) => {
 //CLIENT LOGOUT
 const logOut = async (req, res) => {
     try {
-        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
+       
         req.session.destroy()
       return  res.redirect('/')
     } catch (error) {
@@ -264,11 +257,7 @@ const profile = async (req, res) => {
         const coupon = await couponDb.find()
         const wallet = await walletDb.findOne({clientId:user_id})
       
-       
-
-        
-        
-        res.render('clientProfile', { userData, address, order,coupon,wallet })
+      return  res.render('clientProfile', { userData, address, order,coupon,wallet })
 
     } catch (error) {
         console.log(error.message)
@@ -491,7 +480,4 @@ module.exports = {
     forgotOtpPage,
     checkUserName,
     otpPage
-
-
-
 }
