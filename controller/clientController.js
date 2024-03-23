@@ -67,18 +67,18 @@ const signUpPost = async (req, res) => {
         }
         if(!/[A-Za-z.]+$/.test(name)){
             
-            req.flash('message','give correct structure to the name')
+            req.flash('error','give correct structure to the name')
             return res.redirect('/register')
         }
         if(!/[A-Za-z0-9._%+-]+@gmail.com/.test(email)){
            
-            req.flash('message','give the correct structure to the email')
+            req.flash('error','give the correct structure to the email')
             return res.redirect('/register')
 
         }
         const checkmail = await clientDb.findOne({ email })
         if (checkmail) {
-            req.flash('message','Email is already exsit')
+            req.flash('error','Email is already exsit')
           return  res.redirect('/register')
         } else {
                         const sPassword = await securePassword(password)
@@ -140,7 +140,6 @@ const loginPost = async (req, res) => {
                return res.status(400).redirect('/')
             }
             clientData.is_admin ?req.session.admin_id= clientData._id :req.session.user_id= clientData._id;
-            console.log('admin:',req.session.admin_id,'user:',req.session.user_id)
             const redirectPath = clientData.is_admin ? '/admin/adminWelcome' : '/dashboard';
             return res.redirect(redirectPath);
     } catch (error) {
@@ -194,20 +193,28 @@ const logOut = async (req, res) => {
 //OTP SUBMIT
 const otpSubmit = async (req, res) => {
     try {
-        const email = req.body.email
-
+        const {email}=req.body
         const otpVerify = await otpDb.findOne({ emailId: email })
+        if(!otpVerify){
+            req.flash('error','otp is expred')
+                return res.redirect('/otpPage')
+        }
         const userData=req.session.ClientData
-        console.log(userData)
-        if (userData) {
-            const inputOtp = req.body.digit1 * 1000 + req.body.digit2 * 100 + req.body.digit3 * 10 + req.body.digit4 * 1
-            
+        if(!userData){
+            req.flash('error','the user data is loss from session')
+            res.redirect('/register')
+        }
+       
+            const {digit1,digit2,digit3,digit4}=req.body 
+            const inputOtp =digit1+digit2+digit3+digit4
+            console.log(inputOtp)
+            // console.log(inputOtp == otpVerify.otp,otpVerify.otp,inputOtp)
+            console.log("hai")
             if (inputOtp == otpVerify.otp) {
                 const result= await clientDb.create(userData) 
-                if (result) {
-                    await otpDb.deleteOne({ _id: otpVerify._id })
-                    if(req.session.referralCode){
-                        const refferdUser = await walletDb.findOneAndUpdate({referralCode:req.session.referralCode},{$inc:{balance:100}},{new:true})
+                await otpDb.deleteOne({ _id: otpVerify._id })
+                if(req.session.referralCode){
+                    const refferdUser = await walletDb.findOneAndUpdate({referralCode:req.session.referralCode},{$inc:{balance:100}},{new:true})
                         if(refferdUser){
                             const newWallet = await walletDb.create({
                                 clientId:  result._id,
@@ -232,9 +239,12 @@ const otpSubmit = async (req, res) => {
                         req.session.user_id = result._id
                         return  res.redirect("/dashboard")
                     }
-                }
+                
+            }else{
+                req.flash('error','otp is incorrect')
+                return res.redirect('/otpPage')
             }
-        }
+        
 
 
 
@@ -269,32 +279,25 @@ const profile = async (req, res) => {
 //RESENT OTP
 const resendOtp = async (req, res) => {
     try {
-        const { email,forget } = req.query
+        const {forget } = req.query
 
 
-        const personData = await client.findOne({ email })
-        const deleteOtp = await otpDb.deleteOne({ userId: personData._id })
-       
+
         const otp = Math.floor(Math.random() * 9000) + 1000;
-     
-        const otpUpdate = new otpDb({
-            userId: personData._id,
-            emailId: email,
-            otp
-        })
-        const dataOtp = await otpUpdate.save()
+        
+     console.log(req.session.ClientData)
+     const {ClientData}=req.session
+     if(!ClientData){req.flash('error','the user data falied from session'); return res.redirect('/register');}
+        await otpDb.findOneAndDelete({emailId:ClientData.email})
+     const otpUpdate = otpDb.create({ emailId:ClientData.email, otp });
+    
+       
         if(forget){
             res.render('forgetOtp',{email})
-        }else 
-        if (dataOtp) {
-           
-            if (personData) {
-                sendOtpMail(personData.fname, email, otp)
-                req.flash('email',email)
+        }else if (otpUpdate) {
+                sendOtpMail(ClientData.username,ClientData.email, otp)
+                req.flash('email',ClientData.email)
                 return  res.redirect('/otpPage')
-
-            }
-
         }
 
     } catch (error) {
@@ -423,7 +426,8 @@ const passwordUpdate = async (req, res) => {
 //
 const register = async (req, res) => {
     try {
-        res.render('register')
+        const error = req.flash('error')
+        res.render('register',{error})
 
     } catch (error) {
         console.log(error.message)
@@ -454,7 +458,8 @@ const checkUserName = async (req,res)=>{
 const otpPage = async (req,res)=>{
     try {
         const email = req.flash('email')
-        return res.render('otpVerification',{email})
+        const error= req.flash('error')
+        return res.render('otpVerification',{email,error})
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");

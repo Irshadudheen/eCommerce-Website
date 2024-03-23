@@ -91,7 +91,7 @@ const deal = async (req,res)=>{
     try {
       
         res.render('deal')
-        
+    
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");

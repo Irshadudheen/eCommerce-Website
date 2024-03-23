@@ -22,6 +22,9 @@ const addnewaddress = async (req, res) => {
 
         })
         const result = await address.save()
+        if(req.query.checkout){
+            return res.redirect('/checkOut')
+        }
         if (result) {
             console.log(result)
             res.redirect('/profile')

@@ -126,6 +126,9 @@
                                         <i class="bx bxs-check-shield"></i>
                                     </header> -->
                                 <h4>Enter OTP Code</h4>
+                               <% if(error){%>
+                                    <p><%=error%></p>
+                                <%}%>
                                 <form action="/otpSubmit" method="POST">
                                     <div class="input-field">
                                         <input name="digit1" type="number" required />

@@ -191,9 +191,9 @@
                                             </div><!-- End .form-footer -->
                                         </form>
                                         <a href="/">already have account</a>
-                                        <% if(typeof message !=='undefined' ) { %>
+                                        <% if(error) { %>
                                             <p>
-                                                <%= message %>
+                                                <%= error %>
                                             </p>
                                             <% } %>
                                     </div><!-- End .tab-pane -->
@@ -260,14 +260,14 @@
 <script>
     function checkConform(inputTag){
         const input = inputTag.value.trim()
-
+        const signbutton = document.getElementById('signUp1')
         const password = document.getElementById('register-password-2').value.trim()
         if(password!=input){
             document.getElementById('conform').style.display="block"
-
+            signbutton.disabled=true
         }else{
             document.getElementById('conform').style.display="none"
-
+            signbutton.disabled=false
         }
         console.log(input)
 
