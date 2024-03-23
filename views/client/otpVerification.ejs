@@ -139,9 +139,9 @@
                                     </div>
                                     <div id="otpTimer">Time remaining: 00:00</div>
 
-                                    <a href="/resendOtp?email=<%=email%>">Resend OTP</a>
                                     <button type="submit">Verify OTP</button>
                                 </form>
+                                <a href="/resendOtp?email=<%=email%>"><button id="reloadButton">Resend OTP</button></a>
                             </div>
 
                         </div><!-- .End .tab-pane -->
@@ -153,28 +153,57 @@
     </div><!-- End .login-page section-bg -->
 </main><!-- End .main -->
 <script>
-    startOtpTimer(120);
-    function startOtpTimer(durationInSeconds) {
-        const timerElement = document.getElementById('otpTimer');
-        let duration = durationInSeconds;
+// Check if there is a stored timestamp for the timer
+const storedTimestamp = localStorage.getItem('otpTimerStart');
 
-        function updateTimer() {
-            const minutes = Math.floor(duration / 60);
-            const seconds = duration % 60;
-            const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            timerElement.textContent = `Time remaining: ${formattedTime}`;
+// Calculate the remaining time based on the stored timestamp
+let remainingTime = 0;
+if (storedTimestamp) {
+    const currentTime = Math.floor(Date.now() / 1000); // Convert milliseconds to seconds
+    const elapsedTime = currentTime - parseInt(storedTimestamp, 10);
+    remainingTime = Math.max(0, 120 - elapsedTime); // Assuming 120 seconds duration
+}
 
-            if (duration <= 0) {
-                clearInterval(timerInterval);
-                // Optionally, handle expiration logic here
-            } else {
-                duration--;
-            }
+// Start the timer with the remaining time
+startOtpTimer(remainingTime);
+
+function startOtpTimer(durationInSeconds) {
+    const timerElement = document.getElementById('otpTimer');
+    let duration = durationInSeconds;
+    let timerInterval;
+
+    function updateTimer() {
+        const minutes = Math.floor(duration / 60);
+        const seconds = duration % 60;
+        const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timerElement.textContent = `Time remaining: ${formattedTime}`;
+
+        if (duration <= 0) {
+            clearInterval(timerInterval);
+            // Optionally, handle expiration logic here
+        } else {
+            duration--;
         }
-
-        updateTimer(); // Initial update
-        const timerInterval = setInterval(updateTimer, 1000); // Update every second
     }
+
+    updateTimer(); // Initial update
+    timerInterval = setInterval(updateTimer, 1000); // Update every second
+
+    // Store the timestamp when the timer starts
+    if (!storedTimestamp) {
+        localStorage.setItem('otpTimerStart', Math.floor(Date.now() / 1000)); // Convert milliseconds to seconds
+    }
+}
+
+// Add event listener to the button to reload the timer
+const reloadButton = document.getElementById('reloadButton');
+reloadButton.addEventListener('click', function() {
+    // Clear the stored timestamp
+    localStorage.removeItem('otpTimerStart');
+    // Reload the timer
+    startOtpTimer(120); // Assuming 120 seconds duration
+});
+
 </script>
 <script>
 
