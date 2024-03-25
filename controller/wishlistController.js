@@ -71,7 +71,7 @@ const cartDb = require('../model/cartDb')
  }
 
  //PRODUCT REMOVE FROM WISHLIST
- const removefromWishlist = async (req,res)=>{
+ const removeFromWishlist = async (req,res)=>{
     try {
         const {productId}=req.body
         const {user_id}=req.session
@@ -90,5 +90,5 @@ const cartDb = require('../model/cartDb')
 module.exports={
     viewWishlist,
     addToWishlist,
-    removefromWishlist
+    removeFromWishlist
 }

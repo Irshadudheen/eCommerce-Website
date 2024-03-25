@@ -277,7 +277,7 @@
                                                             <figure class="product-media">
                                                                 <a href="/eachproduct?id=<%=product.productId._id %>">
                                                                     
-                                                                    <img src="/productImage/<%=product.image%>" alt="Product image">
+                                                                    <img src="/productImage/<%=product.productId.image[0]%>" alt="Product image">
                                                                 </a>
                                                             </figure>
                                                             
@@ -296,7 +296,13 @@
                                                         <td class="price-col" id="p_price<%=product.productId._id%>"><%=product.productPrice %></td>
                                                     <td class="quantity-col">
                                                         <div class="cart-product-quantity">
-                                                            <input type="number" class="form-control"   value="<%=product.quantity%>" id="p_quantity" min="1" onchange="increase(this,'<%= product.productId._id %>')" max="<%=product.productId.quantity%>" step="1" data-decimals="0" required>
+                                                            <%if(product.productId.quantity>0){%>
+
+                                                                
+                                                                <input type="number" class="form-control"   value="<%=product.quantity%>" id="p_quantity" min="1" onchange="increase(this,'<%= product.productId._id %>')" max="<%=product.productId.quantity%>" step="1" data-decimals="0" required>
+                                                            <%}else{%>
+                                                                <p color="red">out of Stock</p>
+                                                            <%}%>
                                                         </div><!-- End .cart-product-quantity -->
                                                     </td>
                                                     <td class="total-col"  id="p_total<%=product.productId._id%>">$<%= product.totalPrice %></td>
@@ -579,7 +585,19 @@
                      content: 'custom-content-class', // Corrected typo here
                      confirmButton: 'custom-confirm-button-class' // Corrected class name here
                      }
+                  
+                     
                     });
+                       if(data.cartdelete){
+                        const Subtotal =document.getElementById('Subtotal').innerText="$0"
+                        const Total = document.getElementById('total').innerText="$0"
+
+                        
+                     }else{
+                        const Subtotal =document.getElementById('Subtotal').innerText=`$${data.totalPrice}`
+                        const Total = document.getElementById('total').innerText=`$${data.totalPrice}`
+                        
+                     }
 
 
                 }

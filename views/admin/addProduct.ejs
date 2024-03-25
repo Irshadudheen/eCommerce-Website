@@ -1,6 +1,11 @@
 <%-include('../layout/adminHeader')-%>
 
   <body>
+    <script src="https://jsuites.net/v4/jsuites.js"></script>
+    <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@jsuites/cropper/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jsuites/cropper/cropper.min.css" type="text/css" />
+    
     <nav class="navbar navbar-expand-xl">
       <div class="container h-100">
         <a class="navbar-brand" href="/">
@@ -177,7 +182,143 @@
                   ></i> -->
                 <!-- </div> -->
                 <div class="custom-file mt-3 mb-3">
-                  <input type="file" id="imageUpload" onchange="checkImage(event)" multiple accept="image/*" maxlength="4" name="image" />
+                  <!-- <input type="file" id="imageUpload" onchange="checkImage(event)" multiple accept="image/*" maxlength="4" name="image" />
+                  <button>Crop</button> -->
+                  <div style="display: flex;">
+                    <div id="image-cropper1" style="border:1px solid black; margin: 5px;"></div>
+                    <div id="image-cropper-result1"><img style="width:120px; height:120px; margin: 5px;"></div>
+                  </div>
+                  <p><input type="button" value="Get cropped image" id="image-getter1" class="jbutton dark"></p>
+                  <div style="display: flex;">
+                    <div id="image-cropper2" style="border:1px solid black; margin: 5px;"></div>
+                    <div id="image-cropper-result2"><img style="width:120px; height:120px; margin: 5px;"></div>
+                  </div>
+                  <p><input type="button" value="Get cropped image" id="image-getter2" class="jbutton dark"></p>
+                  <div style="display: flex;">
+                    <div id="image-cropper3" style="border:1px solid black; margin: 5px;"></div>
+                    <div id="image-cropper-result3"><img style="width:120px; height:120px; margin: 5px;"></div>
+                  </div>
+                  <p><input type="button" value="Get cropped image" id="image-getter3" class="jbutton dark"></p>
+                  <div style="display: flex;">
+                    <div id="image-cropper4" style="border:1px solid black; margin: 5px;"></div>
+                    <div id="image-cropper-result4"><img style="width:120px; height:120px; margin: 5px;"></div>
+                  </div>
+                  <p><input type="button" value="Get cropped image" id="image-getter4" class="jbutton dark"></p>
+                  <script>
+                    const a= cropper(document.getElementById('image-cropper1'), {
+                            area: [ 280, 280 ],
+                            crop: [ 150, 150 ],
+                        })
+                        const b= cropper(document.getElementById('image-cropper2'), {
+                            area: [ 280, 280 ],
+                            crop: [ 150, 150 ],
+                        })
+                        const c= cropper(document.getElementById('image-cropper3'), {
+                            area: [ 280, 280 ],
+                            crop: [ 150, 150 ],
+                        })
+                        const d= cropper(document.getElementById('image-cropper4'), {
+                            area: [ 280, 280 ],
+                            crop: [ 150, 150 ],
+                        })
+                        
+                        
+                        document.getElementById('image-getter1').onclick = function() {
+                          
+                           const binaryImage= document.getElementById('image-cropper-result1').children[0].src =
+                                document.getElementById('image-cropper1').crop.getCroppedImage().src;
+                              
+                              const image= document.getElementById('image-getter1')
+                              applycrop(binaryImage)
+                              function applycrop(binaryImage){
+                       fetch('/admin/cropImage',{
+                                 method:"POST",
+                                 method: 'POST',
+                                 headers: {
+                                   'Content-Type': 'application/json'
+                                 },
+                                 body: JSON.stringify({ binaryImage })
+                               }).then(res => res.json()).then(data => {
+                                 console.log(data)
+                   
+
+                   })
+                  }
+                        }
+                        document.getElementById('image-getter2').onclick = function() {
+                          
+                          const binaryImage= document.getElementById('image-cropper-result2').children[0].src =
+                               document.getElementById('image-cropper2').crop.getCroppedImage().src;
+                             
+                             const image= document.getElementById('image-getter2')
+                             applycrop(binaryImage)
+                             function applycrop(binaryImage){
+                       fetch('/admin/cropImage',{
+                                 method:"POST",
+                                 method: 'POST',
+                                 headers: {
+                                   'Content-Type': 'application/json'
+                                 },
+                                 body: JSON.stringify({ binaryImage })
+                               }).then(res => res.json()).then(data => {
+                                 console.log(data)
+                   
+
+                   })
+                  }
+                       }
+                       document.getElementById('image-getter3').onclick = function() {
+                          
+                          const binaryImage= document.getElementById('image-cropper-result3').children[0].src =
+                               document.getElementById('image-cropper3').crop.getCroppedImage().src;
+                             
+                             const image= document.getElementById('image-getter3')
+                          
+                             console.log(binaryImage)
+                       fetch('/admin/cropImage',{
+                                 method:"POST",
+                                 method: 'POST',
+                                 headers: {
+                                   'Content-Type': 'application/json'
+                                 },
+                                 body: JSON.stringify({ binaryImage })
+                               }).then(res => res.json()).then(data => {
+                                 console.log(data)
+                   
+
+                   })
+                  
+
+                    
+
+                    
+                       }
+                       document.getElementById('image-getter4').onclick = function() {
+                          
+                          const binaryImage= document.getElementById('image-cropper-result4').children[0].src =
+                               document.getElementById('image-cropper4').crop.getCroppedImage().src;
+                             const image= document.getElementById('image-getter4')
+                             applycrop(binaryImage);
+                             function applycrop(binaryImage){
+                       fetch('/admin/cropImage',{
+                                 method:"POST",
+                                 method: 'POST',
+                                 headers: {
+                                   'Content-Type': 'application/json'
+                                 },
+                                 body: JSON.stringify({ binaryImage })
+                               }).then(res => res.json()).then(data => {
+                                 console.log(data)
+                   
+
+                   })
+                  }
+                       }
+                      
+                      
+                  </script>
+                </div>
+                <div class="Container" id="previewContainer">
 
 
                 </div>
@@ -192,18 +333,43 @@
       </div>
     </div>
     <script>
-      {
+      
+        const previewContainer = document.getElementById('previewContainer')
       const imageinput = document.getElementById('imageUpload')
       function checkImage(event){
         const files = event.target.files;
+
   if(files.length>4){
     console.log("sdjk")
     imageinput.value=""
-    alert("only 4 image")
+   return alert("only 4 image");
 
   }; 
+  previewContainer.innerHTML=''
+
+Array.from(files).forEach(file=>{
+  console.log(file)
+  const reader = new FileReader();
+  reader.onload =()=>{
+
+    const previewImage = document.createElement('img');
+    previewImage.classList.add('preview-image');
+    previewImage.src = reader.result;
+    previewImage.style.width='50px'
+    previewContainer.style.display='flex';
+    previewContainer.style.justifyContent = 'space-between';
+    previewContainer.style.flexWrap ='wrap';
+    previewContainer.appendChild(previewImage)
+  }
+
+  reader.readAsDataURL(file);
+  
+
+})
+
+imageinput.addEventListener('change',checkImage)
       }
-    }
+    
     </script>
     <%-include('../layout/adminFooter')-%>
 
@@ -218,7 +384,12 @@
           $("#expire_date").datepicker();
         });
       </script>
-      
+      <script>
+        
+      </script>
   </body>
-
+  <script src="https://jsuites.net/v4/jsuites.js"></script>
+  <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@jsuites/cropper/cropper.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jsuites/cropper/cropper.min.css" type="text/css" />
   </html>

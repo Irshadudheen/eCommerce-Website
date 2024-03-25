@@ -3,7 +3,7 @@ const productDb = require('../model/productDb')
 const walletDb = require("../model/walletDb")
 
 //DELETE THE ORDER
-const delteTheOrder = async (req, res) => {
+const deleteTheOrder = async (req, res) => {
     try {
         const { product_id, order_id} = req.body
         console.log(product_id, order_id)
@@ -60,15 +60,11 @@ const orderEachView = async (req,res)=>{
     try {
         const {productId,OrderId}= req.query
         const{user_id}=req.session
-        console.log(productId,122121)
        
         const orderData = await orderDb.findOne( {_id:OrderId} ).populate("clientId").populate({path:'products.productId',model:'product'})
        const orderPrdoct= orderData.products.find(product=>product.productId.toString()==productId.toString())
-        console.log(orderPrdoct)
 
           
-        console.log(req.query)
-console.log(orderData,1111111111111111111111111111111111111111111111111111)
         res.render("eachOrder",{orderData,productId})
     } catch (error) {
         console.log(error.message)
@@ -93,9 +89,7 @@ const invoice = async (req,res)=>{
 //
 const updateSatusOfOrderProduct = async (req,res)=>{
     try {
-        console.log(req.body)
         const {option,product_id}=req.body
-        console.log(option,product_id)
         const UpdateproductStatus = await  orderDb.findOneAndUpdate({"products._id":product_id},{$set:{"products.$.productStatus":option}})
         if(UpdateproductStatus){
             res.send({status:true})
@@ -112,13 +106,9 @@ const cancelTheOrder = async(req,res)=>{
         console.log(req.body)
        const{ producId,orderId}=req.body
        const {user_id}=req.session
-       console.log(req.session)
        const update = await orderDb.findOneAndUpdate({'products._id': producId},{$set:{'products.$.productStatus':"Cancel"}},{new:true})
-        console.log(update)
         if(update){
-            console.log(update.products[0].totalPrice)
             const updateWallet =await walletDb.findOneAndUpdate({clientId:user_id},{$inc:{balance:update.products[0].totalPrice}}) 
-            console.log(updateWallet)
             if(updateWallet){
                 res.send({status:true})
             }
@@ -133,13 +123,9 @@ const cancelTheOrder = async(req,res)=>{
 //succesPaymentRazorpay
 const succesPayment = async(req,res)=>{
     try {
-        console.log(req.session.rezorpay)
 const {OrderId}=req.session
         const update = await orderDb.findOneAndUpdate({_id:OrderId},{$set:{orderStatus:'placed'}})
-        console.log(update,'230939029',209309209390,'dfjkfdjdj')
       const data =   update.products.forEach(product=>product.productStatus='placed')
-      
-
        await update.save()
         
     } catch (error) {
@@ -178,7 +164,7 @@ const succesPaymentRazorpay = async (req,res)=>{
 }
 
 module.exports = {
-    delteTheOrder,
+    deleteTheOrder,
     orderlist,
     updateSatus,
     orderEachView,

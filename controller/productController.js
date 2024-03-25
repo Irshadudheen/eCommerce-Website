@@ -8,24 +8,21 @@ const fs = require('fs')
 const offerDb = require('../model/offerDb')
 
 //TOTAL VIEW OF PRODUCT IN CLIENT
-const Clientproduct = async (req, res) => {
+const clientProduct = async (req, res) => {
     try {
         const sortOption= req.query.sort
         const perPage = 6;
         const currentPage = parseInt(req.query.page, 10) || 1;
         const skip = (currentPage - 1) * perPage;
-
         const offer= await offerDb.find()
         const search = req.query.q
         let searchData={}
         if(search){
-            searchData = { name: { $regex: search, $options: 'i' } }
-               
+            searchData = { name: { $regex: search, $options: 'i' } }    
         }
-        console.log(searchData)
-        console.log(search)
+        
         const {user_id}=req.session
-        console.log(sortOption)
+      
         let sort = {};
         if (sortOption === 'default') {
             sort = { createdate: -1 };
@@ -59,8 +56,6 @@ const Clientproduct = async (req, res) => {
         const filteredProduct = product.filter(product => product.categoryid !== null)
         filteredProduct.forEach(product=>{
             offer.forEach(ele=>{
-                console.log("wesjmcjrmdfusjmudj")
-                console.log(ele.categoryId,ele.productId,39393939393933939)
                 if(ele.categoryId &&product.categoryid._id.toString()==ele.categoryId.toString()){
                     applyOffer(product,ele.amount)
                 }
@@ -78,10 +73,8 @@ const Clientproduct = async (req, res) => {
                 }
                 })
         })
-        console.log(Math.ceil(filteredProduct.length/perPage) ,filteredProduct.length,perPage)
         const productCount = await productDb.countDocuments()
         const totalPages =Math.ceil(productCount/perPage) 
-        console.log(totalPages)
         const cart = await cartDb.findOne({clientId:user_id})
         const cartCount = cart?.products.length
         res.render('product', { productData: filteredProduct,sortOption ,totalPages,wishlist,cartCount,currentPage});
@@ -94,11 +87,17 @@ const Clientproduct = async (req, res) => {
 }
 
 //SELCTED PRODUCT IN CLIENT
-const eachproduct = async (req, res) => {
+const eachProduct = async (req, res) => {
     try {
 
         const {id}=req.query
+        if(id.length!==24){
+         return   res.render('404')
+        }
         const productData = await productDb.findOne({_id:id})
+        if(!productData){
+            res.render('404')
+        }
         const offer = await offerDb.find()
        
         const cartOne = await  cartDb.findOne({clientId:req.session.user_id})
@@ -130,15 +129,17 @@ const eachproduct = async (req, res) => {
 //PRODUCT VIEW
 const productAdmin = async (req, res) => {
     try {
-        const Allproduct = await productDb.find().populate({
+        const perPage = 3;
+        const currentPage = parseInt(req.query.page, 10) || 1;
+        const skip = (currentPage - 1) * perPage;
+        const Allproduct = await productDb.find().skip(skip).limit(perPage).populate({
             path: "categoryid",
             match: { status: true }
-        }).exec()
-
+        })
         const filteredProduct = Allproduct.filter(product => product.categoryid !== null)
-        console.log(Allproduct, "allproduct")
-
-        res.render('productAdmin', { product: filteredProduct })
+        const productCount = await productDb.countDocuments()
+        const totalPages =Math.ceil(productCount/perPage) 
+        res.render('productAdmin', { product: filteredProduct,productCount,totalPages,currentPage })
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");
@@ -149,10 +150,10 @@ const productAdmin = async (req, res) => {
 const addProduct = async (req, res) => {
     try {
         const category = await categoryDb.find()
-
-
+        if(req.session.productImage){
+            req.session.productImage=null;
+        }
         res.render('addProduct', { category })
-
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");
@@ -177,10 +178,9 @@ const editProduct = async (req, res) => {
 }
 
 //TO ADD THE PRODUCT SUBMIT
-const addProductsubmit = async (req, res) => {
+const addProductSubmit = async (req, res) => {
     try {
         const { name, price, stock, category, description } = req.body
-
         console.log(stock)
         // const checkName =await find({name:{$regex: new RegExp("^"+name+"$","i")}})
         // console.log(checkName);
@@ -194,17 +194,13 @@ const addProductsubmit = async (req, res) => {
             quantity: stock,
             categoryid: category,
             createdate: Date.now(),
-            image,
+            image:req.session.productImage,
             productDescription: description
         })
         const result = await product.save()
         if (result) {
-            
-            res.redirect('/admin/productAdmin')
+          return  res.redirect('/admin/productAdmin')
         }
-        console.log(result)
-
-
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");
@@ -213,7 +209,7 @@ const addProductsubmit = async (req, res) => {
 }
 
 //UPDATEPRODUCT
-const Updateproduct = async (req, res) => {
+const updateProduct = async (req, res) => {
     try {
 
 
@@ -314,10 +310,18 @@ const delectTheImage = async (req, res) => {
 //CROP PRODUCT IMAGE
 const cropImage = async (req,res)=>{
     try {
-        const {binaryImage,productId }= req.body
+    
+        const {binaryImage}= req.body
         console.log(req.file,1111111111111111111111111111)
+        const name=Date.now()+'.jpg'
+        if(!req.session.productImage){
 
-        const imagePath=  path.join(__dirname, '../public/productImage',"jkljk.jpg")
+            req.session.productImage=[]
+        }
+        const{productImage}=req.session
+        productImage.push(name)
+        console.log(productImage,'34')
+        const imagePath=  path.join(__dirname, '../public/productImage',name)
 
         const base64Image = binaryImage.replace(/^data:image\/\w+;base64,/, '');
         const buffer = Buffer.from(base64Image, 'base64');
@@ -343,13 +347,13 @@ const cropImage = async (req,res)=>{
 
 
 module.exports = {
-    eachproduct,
+    eachProduct,
     productAdmin,
     addProduct,
     editProduct,
-    addProductsubmit,
-    Updateproduct,
-    Clientproduct,
+    addProductSubmit,
+    updateProduct,
+    clientProduct,
     blockProduct,
     delectTheImage,
     cropImage

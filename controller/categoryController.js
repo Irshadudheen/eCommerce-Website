@@ -6,7 +6,6 @@ const clientDb = require('../model/clientDb')
 //LOAD THE PAGE ADDCATEGORY
 const addCategory = async (req, res) => {
     try {
-
         res.render('addCategory')
     } catch (error) {
         console.log(error.message)
@@ -91,25 +90,25 @@ const editCategorySubmit = async (req, res) => {
     try {
         const { id, name, description } = req.body
         const checkdata = await categoryDb.findOne({ name: { $regex: new RegExp('^' + name + "$", "i") } })
-        if (checkdata==null) {
+        if (!checkdata) {
 
 
             const categoryUpdate = await categoryDb.updateOne({ _id: id }, { $set: { name, description } })
 
-          return  res.send({ status: true })
+            return res.send({ status: true })
 
 
-         
 
 
-        }else if(checkdata._id==id){
+
+        } else if (checkdata._id == id) {
             const categoryUpdate = await categoryDb.updateOne({ _id: id }, { $set: { name, description } })
 
-          return  res.send({ status: true })
+            return res.send({ status: true })
 
         } else {
-            res.send({ status: false,message: "the catogory is already exists" })
-    
+            res.send({ status: false, message: "the catogory is already exists" })
+
         }
 
 

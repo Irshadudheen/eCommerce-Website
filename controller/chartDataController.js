@@ -57,7 +57,6 @@ const productQuantities = {};
                 const monthIndex = orderDate.getMonth();
                 const dayOfMonth = orderDate.getDate() - 1;
                 const productId = products.productId; 
-        
        
                 if (productQuantities[productId]) {
                  productQuantities[productId]++;
@@ -109,25 +108,7 @@ const productQuantities = {};
     }
 }
 
-// const topTenProduct =async(req,res)=>{
-//     try {
-//      const data=  await orderDb.aggregate([
-//         {$unwind:'$products'},
-//         {$group:{
-//             _id:'$proucts.productId',
-//             totalQuantity:{$sum:'$products.quintity'},
 
-//         }},
-//        { $sort:{totalQuantity:-1}},
-//        {$limit:10}
-//        ])
-// console.log(data)
-//     } catch (error) {
-//         console.log(error.message)
-        
-//     }
-// }
-// topTenProduct()
 module.exports={
     orderPrdouct,
  

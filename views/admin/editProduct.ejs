@@ -125,22 +125,28 @@
                               <%}%>
                     </select>
                     <div class="custom-file mt-3 mb-3">
+                      
                       <!-- <div style="display: flex;">
                         <div id="image-cropper" style="border:1px solid black; margin: 5px;"></div>
                         <div id="image-cropper-result"><img style="width:120px; height:120px; margin: 5px;"></div>
                       </div>
-                      <p><input type="button" value="Get cropped image" id="image-getter" class="jbutton dark"></p> -->
+                      <p><input type="button" value="Get cropped image" id="image-getter" class="jbutton dark"></p>
+                       -->
                       <script>
                         const a= cropper(document.getElementById('image-cropper'), {
                             area: [ 280, 280 ],
                             crop: [ 150, 150 ],
                         })
+                        
                         console.log(a.image)
                         
                         document.getElementById('image-getter').onclick = function() {
+                          
                            const binaryImage= document.getElementById('image-cropper-result').children[0].src =
                                 document.getElementById('image-cropper').crop.getCroppedImage().src;
                               const productId= document.getElementById('productId').value
+                              const image= document.getElementById('image-getter')
+                            
                              
                                 fetch('/admin/cropImage',{
                                   method:"POST",
@@ -222,7 +228,9 @@ function checkImage(event){
                     <div id="row<%= i %>" class="col-xl-6 col-lg-6 col-md-6">
                       <div class="image-button-wrapper">
                         <div id="draggable" class="image-container" draggable="true" ondrag="abc()">
-                          <img src="/productImage/<%= productData.image[i] %>" width="150" height="150" alt="">
+                          <div id="data"></div>
+                          <img src="/productImage/<%= productData.image[i] %>" onclick="imageToCrop('<%= productData.image[i] %>',this)" width="150" height="150" alt="">
+                          <!-- <button id="<%=productData.image[i] %>">crop</button> -->
                         </div>
                         <div class="button-container">
                           <input type="submit" value="delete" onclick="delectTheImage('<%= productData.image[i] %>','<%= productData._id %>','<%= i %>')">
@@ -287,7 +295,20 @@ function checkImage(event){
           });
         });
       </script>
-      
+      <script>
+        function imageToCrop(image,tag){
+          const a=new cropper(tag, {
+            aspectRatio:0,
+            viewMode:0
+                            // area: [ 280, 280 ],
+                            // crop: [ 150, 150 ],
+                        })
+          console.log(tag.src)
+          console.log(image)
+
+
+        }
+      </script>
   </body>
 
   </html>

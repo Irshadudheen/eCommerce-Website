@@ -118,7 +118,7 @@ const cartView = async (req, res) => {
         } else {
             console.log("jsdiokljdsilkjrfsdjkdsjkm")
 
-            res.render("cart",{cart})
+            res.render("cart",{cart,totalPrice:0})
         }
         // console.log(cart.productsId)
         // console.log("---------------------------------------------------------",cart.length)
@@ -132,15 +132,58 @@ const cartView = async (req, res) => {
 
     }
 }
-//REMOVE CARD
-const removeCard = async (req, res) => {
+//REMOVE CART
+const removeCart = async (req, res) => {
     try {
         const { _id, cart_id } = req.body
-        const removeCard = await cartDb.findByIdAndUpdate({ _id: cart_id }, { $pull: { products: { productId: _id } } })
+        const removeCart = await cartDb.findByIdAndUpdate({ _id: cart_id }, { $pull: { products: { productId: _id } } })
         console.log(_id)
-        if (removeCard) {
-            res.send({ status: true })
+        console.log(removeCart)
+        
+    
+        
+        if(removeCart.products.length==1){
+            console.log("aaa")
+            await cartDb.deleteOne({_id:cart_id})
+            res.send({status:true,cartdelete:true})
+        }else{
+            const offer = await offerDb.find()
+            const newCart = await cartDb.findOne({_id:cart_id}).populate("products.productId")
+            newCart.products.forEach(product=>{
+                product.productPrice=product.productId.price
+                product.totalPrice=product.productPrice*product.quantity;
+                offer.forEach(ele=>{
+              
+                    if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
+                   
+                applyOffer(product,ele.amount)
+
+        } if(ele.productId && product.productId._id.toString()==ele. productId.toString() ){
+            applyOffer(product,ele.amount)
+
+        }})
+        function applyOffer(product,amount){
+            console.log(product.productPrice,'q')
+            console.log(product,amount,"rfidokreoeruofidkucjikwjkwtfuicjmt4sdijt4mfsuidjwduitjmuit4ocdjmji")
+         
+            const discountedPrice=product.totalPrice-(product.totalPrice*amount)/100
+            const discountedPriceIn=product.productPrice-(product.productPrice*amount)/100
+            console.log(discountedPrice)
+            product.totalPrice=Math.round(Math.min(product.totalPrice,discountedPrice))
+            product.productPrice=Math.round(Math.min(product.productPrice,discountedPriceIn))
+            console.log(product.totalPrice)
+           
         }
+    })
+    const totalPrice = newCart.products.reduce((total, product) => {
+        return total + product.totalPrice
+        
+    }, 0)
+
+            res.send({ status: true ,totalPrice})
+        }
+       
+        
 
     } catch (error) {
         console.log(error.message)
@@ -228,7 +271,6 @@ const checkOut = async (req, res) => {
                 if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
                     applyOffer(product,ele.amount)
                 }
-          
                 if(ele.productId&&product.productId._id.toString()==ele.productId.toString()){
                  
                     applyOffer(product,ele.amount)
@@ -237,10 +279,7 @@ const checkOut = async (req, res) => {
             function applyOffer(product,amount){
                 const discountedPrice=product.totalPrice-(product.totalPrice*amount)/100
                 product.totalPrice=Math.round(Math.min(product.totalPrice,discountedPrice))
-
-
             }
-
         })
         console.log(cart)
         console.log(1)
@@ -249,45 +288,35 @@ const checkOut = async (req, res) => {
         },0)
         console.log(cartTotal)
         res.render('checkOut', { totalPrice:cartTotal, address,cart})
-
     } catch (error) {
         console.log(error.message)
 
     }
 }
 
-//PLACEHOLDER
-const placeholder = async (req, res) => {
+//placeOrder
+const placeOrder = async (req, res) => {
     try {
         const { user_id } = req.session
         const {coupon}=req?.session
         let dectription="the full price"
         if(coupon){
-
             const addUserId = await couponDb.findOneAndUpdate({_id:coupon},{$push:{users:{clientId:user_id}}},{ new: true })
             dectription="the offer price by  Coupon"
         }
         const address = await addressDb.findOne({ _id: req.body.address_id })
-        console.log(user_id, address, "address and user_id")
-
-
         const { paymentMethod, totalPrice } = req.body
         if(paymentMethod =='Wallet'){
-
             const Wallet = await walletDb.findOne({clientId:user_id})
             if(totalPrice>Wallet.balance){
                return res.send({Wallet:false})
             }
         }
         const cart = await cartDb.findOne({ clientId: user_id })
-
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
-            console.log(cartProduct.totalPrice, "_______________________________________++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-
             const productDetails = await productDb.findById(cartProduct.productId);
             productDetails.quantity -= cartProduct.quantity;
             const decreserQuantity = await productDetails.save()
-
             return {
                 productId: cartProduct.productId,
                 name: productDetails.name,
@@ -295,13 +324,11 @@ const placeholder = async (req, res) => {
                 quantity: cartProduct.quantity,
                 totalPrice: cartProduct.quantity*productDetails.price,
                 image: cartProduct.image,
-
             };
         }))
         const timestamp = Date.now();
         const date = new Date(timestamp);
         const formattedDate = date.toLocaleString();
-
         const orderData = new orderDb({
             clientId: user_id,
             addressId:address,
@@ -309,64 +336,39 @@ const placeholder = async (req, res) => {
             totalPrice,
             paymentMethod,
             dectription,
-            
             date: formattedDate,
             payment: totalPrice,
-
-
-
         })
         const dataOrder = await orderData.save()
-
-
-
-
-
         if (paymentMethod =="COD") {
-
-
-
             const deleteCart = await cartDb.deleteOne({ clientId: req.session.user_id })
             if (deleteCart) {
                 res.send({ status: true })
             } else {
                 res.send({ status: false })
             }
-
         }else if(paymentMethod =="Razorpay"){
             const deleteCart = await cartDb.deleteOne({ clientId: req.session.user_id })
-if(deleteCart){
-
+        if(deleteCart){
     const razorpayOrder = await instance.orders.create({
         amount:totalPrice*100 ,
         currency:'INR',
         receipt:dataOrder._id.toString()
     })
-    
     if(razorpayOrder){
         req.session.OrderId=orderData._id
         res.send({status:"razorpayOrder",razorpayOrder})
     }
-    
 }
 }else if(paymentMethod =='Wallet'){
-    const deleteCart = await cartDb.deleteOne({ clientId: req.session.user_id })
+     await cartDb.deleteOne({ clientId: req.session.user_id })
     const wallet = await walletDb.findOneAndUpdate({clientId: req.session.user_id},{$inc:{balance:-totalPrice}})
     if(wallet){
         req.session.OrderId=orderData._id
         res.send({Wallet:true})
     }
-
 }
     }
-
-
-
-
-
-
-
-
     catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");
@@ -383,7 +385,6 @@ const tryAgainRazorpay = async(req,res)=>{
             receipt:orderId.toString()
         })
         if(razorpayOrder){
-            
             req.session.producId=producId
             res.send({status:"razorpayOrder",razorpayOrder})
         }
@@ -397,9 +398,9 @@ const tryAgainRazorpay = async(req,res)=>{
 module.exports = {
     addToCart,
     cartView,
-    removeCard,
+    removeCart,
     totalPrice,
     checkOut,
-    placeholder,
+    placeOrder,
     tryAgainRazorpay
 }

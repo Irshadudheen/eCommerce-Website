@@ -148,7 +148,7 @@ const admimEditCoupon = async (req,res)=>{
 }
 
 
-const checkCopon = async (req,res)=>{
+const checkCoupon = async (req,res)=>{
     try {
         const {userTypeID,totalPrice}=req.body
         const {user_id}=req.session
@@ -227,6 +227,6 @@ module.exports={
     adminAddCoupon,
     deleteTheCoupon,
     admimEditCoupon,
-    checkCopon,
+    checkCoupon,
     checkCouponDb
 }

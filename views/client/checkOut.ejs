@@ -934,8 +934,8 @@
             const totalPrice= document.getElementById('totalPrice').innerText.replace('$','')
             console.log(totalPrice)
             const placeOrderBtn = document.getElementById('placeOrder')
-            placeOrderBtn.addEventListener('click',function(e){
-                e.preventDefault()
+            
+                
                 const selectedPaymentMethod = document.querySelector('input[name="method"]:checked').value
                
 
@@ -1015,7 +1015,7 @@
 
 
                 
-                })
+            
         }
         function razorpayPayment(order){
             const option = {

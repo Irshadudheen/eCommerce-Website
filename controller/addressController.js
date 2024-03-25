@@ -1,7 +1,7 @@
 const addressDb = require('../model/addressDb')
 const clientDb = require('../model/clientDb')
 
-const addnewaddress = async (req, res) => {
+const addNewAddress = async (req, res) => {
     try {
         const { country, streetAddress, city, state, pincode, mobile } = req.body
         const { user_id } = req.session
@@ -77,7 +77,7 @@ const deleteTheAddress = async (req, res) => {
 }
 
 module.exports = {
-    addnewaddress,
+    addNewAddress,
     editProfile,
     deleteTheAddress
 }

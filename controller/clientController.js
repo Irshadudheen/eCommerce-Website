@@ -263,7 +263,7 @@ const profile = async (req, res) => {
         const { user_id } = req.session
         const userData = await clientDb.findOne({ _id: user_id })
         const address = await addressDb.find({ clientId: user_id }).populate("clientId")
-        const order = await orderDb.find({ clientId: user_id }).populate('addressId').sort({date:-1})
+        const order = await orderDb.find({ clientId: user_id }).populate('addressId').populate('products.productId').sort({date:-1})
         const coupon = await couponDb.find()
         const wallet = await walletDb.findOne({clientId:user_id})
       
@@ -466,6 +466,16 @@ const otpPage = async (req,res)=>{
         
     }
 }
+const errorPage= async (req,res)=>{
+    try {
+        res.render('404')
+        
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).send('Internal server error')
+        
+    }
+}
 
 //EXPORT
 module.exports = {
@@ -484,5 +494,6 @@ module.exports = {
     register,
     forgotOtpPage,
     checkUserName,
-    otpPage
+    otpPage,
+    errorPage
 }

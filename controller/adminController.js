@@ -19,7 +19,7 @@ const adminDashboard = async (req, res) => {
 }
 
 //LOGOUTADMIN
-const logoutadmin = async (req, res) => {
+const logoutAdmin = async (req, res) => {
     try {
         req.session.destroy()
 
@@ -31,7 +31,7 @@ const logoutadmin = async (req, res) => {
 }
 
 //SHOW ADMIN THE CLIENT
-const clientview = async (req, res) => {
+const clientView = async (req, res) => {
     try {
         const data = await clientDb.find({ is_admin: 0 })
         res.render('clientview', { data })
@@ -122,8 +122,8 @@ const blockClient = async (req, res) => {
 
 module.exports = {
     adminDashboard,
-    logoutadmin,
-    clientview,
+    logoutAdmin,
+    clientView,
     editUser,
     updateClient,
     deleteClient,
