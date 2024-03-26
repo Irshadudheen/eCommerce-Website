@@ -104,11 +104,11 @@ const updateSatusOfOrderProduct = async (req,res)=>{
 const cancelTheOrder = async(req,res)=>{
     try {
         console.log(req.body)
-       const{ producId,orderId}=req.body
+       const{ producId,total}=req.body
        const {user_id}=req.session
        const update = await orderDb.findOneAndUpdate({'products._id': producId},{$set:{'products.$.productStatus':"Cancel"}},{new:true})
         if(update){
-            const updateWallet =await walletDb.findOneAndUpdate({clientId:user_id},{$inc:{balance:update.products[0].totalPrice}}) 
+        const updateWallet =await walletDb.findOneAndUpdate({clientId:user_id},{$inc:{balance:total},$push:{history:{type:'Credit',amount:total,description:'the order is cancel'}}}) 
             if(updateWallet){
                 res.send({status:true})
             }

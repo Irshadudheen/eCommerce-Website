@@ -387,8 +387,9 @@ const placeOrder = async (req, res) => {
 }
 }else if(paymentMethod =='Wallet'){
      await cartDb.deleteOne({ clientId: req.session.user_id })
-    const wallet = await walletDb.findOneAndUpdate({clientId: req.session.user_id},{$inc:{balance:-totalPrice}})
+    const wallet = await walletDb.findOneAndUpdate({clientId: req.session.user_id},{$inc:{balance:-totalPrice},$push:{history:{type:'depit',amount:totalPrice,description:'the order placed'}}})
     if(wallet){
+        
         req.session.OrderId=orderData._id
         res.send({Wallet:true})
     }

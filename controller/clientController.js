@@ -214,12 +214,13 @@ const otpSubmit = async (req, res) => {
                 const result= await clientDb.create(userData) 
                 await otpDb.deleteOne({ _id: otpVerify._id })
                 if(req.session.referralCode){
-                    const refferdUser = await walletDb.findOneAndUpdate({referralCode:req.session.referralCode},{$inc:{balance:100}},{new:true})
+                    const refferdUser = await walletDb.findOneAndUpdate({referralCode:req.session.referralCode},{$inc:{balance:100},$push:{history:{type:'Credit',amount:100,description:'the refffered offer'}}},{new:true})
                         if(refferdUser){
                             const newWallet = await walletDb.create({
                                 clientId:  result._id,
                                 referralCode:`${email}${inputOtp}`,
-                                balance: 50
+                                balance: 50,
+                                history:[{type:'Credit',amount:50,description:'reffer offer'}]
                             });
                             
                             req.session.user_id = result._id
@@ -233,7 +234,8 @@ const otpSubmit = async (req, res) => {
                         const newWallet = await walletDb.create({
                             clientId:  result._id,
                             referralCode:`${email}${inputOtp}`,
-                            balance: 0 
+                            balance: 0 ,
+                            history:[]
                         });
                         
                         req.session.user_id = result._id

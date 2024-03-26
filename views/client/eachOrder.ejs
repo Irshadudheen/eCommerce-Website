@@ -401,7 +401,7 @@
                                                                         <button class="btn btn-secondary" id="returnBtn" onclick="returnTheProduct('<%=orderData._id%>','<%=ele._id%>')">Return Order</button>
                                                                         <button class="btn btn-primary" onclick="invoiceBill('<%=ele.totalPrice%>','<%=ele.quantity%>')">Download Bill</button>
                                                                         <% } else if (ele.productStatus == "placed") { %>
-                                                                        <button id="CancelOder" onclick="orderCancelProduct('<%=ele._id%>','<%=orderData._id%>')" class="btn btn-secondary">Cancel Order</button>
+                                                                        <button id="CancelOder" onclick="orderCancelProduct('<%=ele._id%>','<%=ele.totalPrice%>')" class="btn btn-secondary">Cancel Order</button>
                                                                         <% }else if(ele.productStatus == "Return") {%>
                                                                             <p style="color: red;">This order has been returned.</p>
                                                                             <%}else if(ele.productStatus == "Cancel"){%>
@@ -825,8 +825,8 @@
      
     }</script>
     <script>
-        function orderCancelProduct(producId,orderId){
-            console.log(producId,orderId)
+        function orderCancelProduct(producId,total){
+            
             Swal.fire({
   icon: 'question',
   title: "do you want't cancel the product ?",
@@ -846,7 +846,7 @@
                 headers:{
                     'Content-Type': 'application/json'
                 },
-            body:JSON.stringify({producId,orderId})
+            body:JSON.stringify({producId,total})
             }).then(res => res.json()).then(data => {
         if (data.status == true) {
             const status = document.getElementById('statusProduct').innerHTML='Cancel'

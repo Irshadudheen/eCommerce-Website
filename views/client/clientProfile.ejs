@@ -488,14 +488,32 @@
                                                       <div class="transaction-history">
                                                         <h3>Transaction History</h3>
                                                         <ul>
-                                                          <li>
-                                                            <span class="transaction-type">Credit</span>
-                                                            <span class="transaction-amount">+$50</span>
-                                                          </li>
-                                                          <li>
-                                                            <span class="transaction-type">Debit</span>
-                                                            <span class="transaction-amount">-$30</span>
-                                                          </li>
+                                                            
+                                                            <%if(wallet.history){%>
+                                                                <%  wallet.history.forEach(ele=>{%>
+                                                                    <%if(ele.type=='Credit'){%>
+                                                                        <li>
+                                                                        <span class="transaction-type">Credit</span>
+                                                                        <span class="transaction-amount">+$<%=ele.amount%></span>
+                                                                        <span class="transaction-description"><%=ele.description%></span>
+                                                                        <span class="transaction-timestamp"><%=ele.timestamp.toLocaleDateString()%></span>
+
+                                                                        
+                                                                    </li>
+                                                                <% }else{%>
+                                                                <li>
+                                                                    <span class="transaction-type">Debit</span>
+                                                                        <span class="transaction-amount">-$<%=ele.amount%></span>
+                                                                        <span class="transaction-amount">-$<%=ele.description%></span>
+                                                                        <span class="transaction-timestamp"><%=ele.timestamp.toLocaleDateString()%></span>
+
+
+                                                                    </li>
+                                                                    <%}%>
+                                                                <%})%>
+                                                                <%}%>
+                                                        
+                                                         
                                                           <!-- Add more transaction items as needed -->
                                                         </ul>
                                                       </div>
