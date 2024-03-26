@@ -970,6 +970,21 @@
                         
                         
                     }).then(res => res.json()).then(data => {
+                        console.log(data,data.outOfStock)
+                        if(data.outOfStock){
+                            console.log(data)
+                            // alert('Out of stock the product')
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Out of stock the product',
+                                customClass: {
+                                    popup: "custom-popup-class",
+                                    header: 'custom-header-class',
+                                    content: 'custom-content-class', // Corrected typo here
+                                    confirmButton: 'custom-confirm-button-class' // Corrected class name here
+                                }
+                            });
+                        }
                         if (data.status==true) {
                             Swal.fire({
                                 icon: 'success',

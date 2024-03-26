@@ -321,9 +321,13 @@ const placeOrder = async (req, res) => {
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
 
             const productDetails = await productDb.findById(cartProduct.productId);
+            if (  productDetails.quantity==0) {
+                return { outOfStock: true, productId: cartProduct.productId };
+            }
             if(cartProduct.quantity>productDetails.quantity){
                 cartProduct.quantity=productDetails.quantity
             }
+            
             productDetails.quantity -= cartProduct.quantity;
             const decreserQuantity = await productDetails.save()
             const offer = await offerDb.find()
@@ -360,6 +364,10 @@ const placeOrder = async (req, res) => {
                 image: cartProduct.image,
             };
         }))
+        const outOfStockProducts = products.filter(product => product.outOfStock);
+        if (outOfStockProducts.length > 0) {
+            return res.send({ outOfStock: true, products: outOfStockProducts });
+        }
         const timestamp = Date.now();
         const date = new Date(timestamp);
         const formattedDate = date.toLocaleString();
