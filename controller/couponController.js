@@ -169,12 +169,14 @@ const checkCoupon = async (req,res)=>{
                     console.log(name,amount,exprDate,method)
                     req.session.coupon=existingCoupon._id
                     if(method=='fixed amount'){
+                        
                         const offerPrice = totalPrice-amount
                         console.log(offerPrice)
                         return  res.send({status:true,name,offerPrice})
 
                         
                     }else if(method=="percentage"){
+                        
                         const offerPrice = totalPrice-(totalPrice*amount)/100
                         
                         console.log(offerPrice)

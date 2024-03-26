@@ -317,12 +317,37 @@ const placeOrder = async (req, res) => {
             const productDetails = await productDb.findById(cartProduct.productId);
             productDetails.quantity -= cartProduct.quantity;
             const decreserQuantity = await productDetails.save()
+            const offer = await offerDb.find()
+            offer.forEach(ele=>{
+                if(ele.categoryId&&ele.categoryId.toString()===productDetails.categoryid.toString()){
+                    applyOffer(productDetails,ele.amount)
+                }
+                if(ele.productId&&ele.productId.toString()===productDetails._id.toString()){
+                    applyOffer(productDetails,ele.amount)
+                }
+            })
+            function applyOffer(product,amount){
+             
+                const discountedPrice=product.price-(product.price*amount)/100
+                product.price=Math.round(Math.min(product.price,discountedPrice))
+            }
+            let totalPrice=cartProduct.quantity*productDetails.price
+            console.log('total:',totalPrice)
+            if(coupon){
+                const coupondata = await couponDb.findOne({_id:coupon})
+                 totalPrice =totalPrice-(productDetails.price*coupondata.amount) /100
+                 console.log(coupondata.amount)
+            }
+            console.log('coupon:',totalPrice)
+           
+            
+           
             return {
                 productId: cartProduct.productId,
                 name: productDetails.name,
                 price: productDetails.price,
                 quantity: cartProduct.quantity,
-                totalPrice: cartProduct.quantity*productDetails.price,
+                totalPrice,
                 image: cartProduct.image,
             };
         }))
