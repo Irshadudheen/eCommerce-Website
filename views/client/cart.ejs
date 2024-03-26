@@ -305,7 +305,11 @@
                                                             <%}%>
                                                         </div><!-- End .cart-product-quantity -->
                                                     </td>
-                                                    <td class="total-col"  id="p_total<%=product.productId._id%>">$<%= product.totalPrice %></td>
+                                                    
+
+                                                        <td class="total-col"  id="p_total<%=product.productId._id%>">$<%= product.totalPrice %></td>
+                                                   
+                                                   
                                    
                                                     <td class="remove-col"><button onclick="btnToDelete('<%=product.productId._id%>','<%=cart._id%>')" class="btn-remove"><i class="icon-close"></i></button></td>
                                                 </tr>
@@ -340,7 +344,8 @@
 	                					<tbody>
 	                						<tr class="summary-subtotal">
 	                							<td>Subtotal:</td>
-                                                <% if(typeof totalPrice !== 'undefined') {
+                                               
+                                                <% if(totalPrice) {
                                                     %>
                                                     <td id="Subtotal">$<%=totalPrice%></td>
                                                     

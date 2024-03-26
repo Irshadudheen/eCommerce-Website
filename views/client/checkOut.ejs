@@ -301,13 +301,16 @@
                                     </form>
                                 </div><!-- End .checkout-discount -->
                                 <div class="select-container">
+                                    <% if(address.length>0){%>
                                     <select name="address" id="addressSelect">
                                         <% address.forEach(data=> { %>
                                             <option id="address" value="<%= data._id %>">
                                                 pincode <%= data.pincode %> -MOBILE <%= data.mobile %>
                                             </option>
                                             <% }) %>
+
                                     </select>
+                                    <%}%>
                                     <style>
                                         .select-container {
                                             width: 300px;
@@ -443,12 +446,16 @@
                                                     </div><!-- End .collapse -->
                                                 </div><!-- End .card -->
                                             </div><!-- End .accordion -->
-        
-                                            <button type="submit" id="placeOrder" onclick="placeOrder()"
+                                           
+                                            <button type="submit"<%= address.length > 0 ? '' : 'disabled' %>  id="placeOrder" onclick="placeOrder()"
                                                 class="btn btn-outline-primary-2 btn-order btn-block">
                                                 <span class="btn-text">Place Order</span>
                                                 <span class="btn-hover-text">Proceed to Checkout</span>
                                             </button>
+                                            <%if(address.length == 0 ){%>
+                                                <p style="color: red;">please add address</p>
+                                            <%}%>
+                                            
                                      
                                         </div><!-- End .summary -->
                                     </aside><!-- End .col-lg-3 -->

@@ -63,9 +63,6 @@ const addToCart = async (req, res) => {
 const cartView = async (req, res) => {
     try {
         const { user_id } = req.session
-        console.log(req.body,433434343434)
-        console.log(req.query)
-        const {hidden}=req.query
         const offer = await offerDb.find()
         const cart = await cartDb.findOne({ clientId: user_id }).populate({
             path: 'products.productId',
@@ -82,6 +79,11 @@ const cartView = async (req, res) => {
         // const errmsg = req.flash("err");
         if (cart) {
             cart.products.forEach(product=>{
+                if(product.quantity>product.productId.quantity){
+                    product.quantity=product.productId.quantity
+                }
+               
+
                 product.productPrice=product.productId.price
                 product.totalPrice=product.productPrice*product.quantity;
                 offer.forEach(ele=>{
@@ -266,6 +268,9 @@ const checkOut = async (req, res) => {
         const cart = await cartDb.findOne({clientId:user_id}).populate({path:'products.productId',model:'product'})
         const offer = await offerDb.find()
         cart.products.forEach(product=>{
+            if(product.quantity>product.productId.quantity){
+                product.quantity=product.productId.quantity
+            }
             product.totalPrice=product.productId.price*product.quantity
             offer.forEach(ele=>{
                 if(ele.categoryId&&product.productId.categoryid.toString()==ele.categoryId.toString()){
@@ -314,7 +319,11 @@ const placeOrder = async (req, res) => {
         }
         const cart = await cartDb.findOne({ clientId: user_id })
         const products = await Promise.all(cart.products.map(async (cartProduct) => {
+
             const productDetails = await productDb.findById(cartProduct.productId);
+            if(cartProduct.quantity>productDetails.quantity){
+                cartProduct.quantity=productDetails.quantity
+            }
             productDetails.quantity -= cartProduct.quantity;
             const decreserQuantity = await productDetails.save()
             const offer = await offerDb.find()
