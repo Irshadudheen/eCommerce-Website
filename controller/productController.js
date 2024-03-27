@@ -164,7 +164,7 @@ const addProduct = async (req, res) => {
 const editProduct = async (req, res) => {
     try {
 
-        const category = await categoryDb.find()
+        const category = await categoryDb.find({status:true})
 
         // const productData= await productDb.findByIdAndUpdate({_id:id},{$set:{ name:req.body.name,email:req.body.email,mobile:req.body.mobile }},{new:true})
         if(req.query.id.length!==24) return res.redirect('/404')
