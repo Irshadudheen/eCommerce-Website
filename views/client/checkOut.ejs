@@ -946,7 +946,10 @@
                 const selectedPaymentMethod = document.querySelector('input[name="method"]:checked').value
                
 
-                    console.log(selectedPaymentMethod)
+                    if(!selectedPaymentMethod){
+                      return  alert('enter any payment')
+                    }
+
                     const paymentMethod = 'Cash on delivery'
                     const address_id = document.getElementById('addressSelect').value
                     if(!address_id.trim()){
@@ -1096,8 +1099,9 @@
                 
             }).then(res => res.json()).then(data => {
                 if (data.status==true) {
-                    
-                    const totalPrice= document.getElementById('totalPrice').innerText=`$${data.offerPrice}`;
+                    id.style.display='none'
+                    const offerPrice= Math.round(data.offerPrice)
+                    const totalPrice= document.getElementById('totalPrice').innerText=`$${offerPrice}`;
                    document.getElementById('totalAmount').innerText='Offer Price:'
                     console.log(data.offerPrice)
                     console.log("yes")
