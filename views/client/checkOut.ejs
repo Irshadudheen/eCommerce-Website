@@ -953,7 +953,9 @@
                     const paymentMethod = 'Cash on delivery'
                     const address_id = document.getElementById('addressSelect').value
                     if(!address_id.trim()){
+                        document.getElementById('addressSelect').style.display='none';
                         return alert('please add address!')
+
                     }
                     if(selectedPaymentMethod=='COD'){
                        if(totalPrice>5000){
@@ -976,6 +978,7 @@
                         console.log(data,data.outOfStock)
                         if(data.addressNotHave){
                             alert("the address is not have")
+
                         }
                         if(data.outOfStock){
                             console.log(data)
