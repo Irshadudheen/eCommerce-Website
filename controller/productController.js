@@ -10,6 +10,7 @@ const offerDb = require('../model/offerDb')
 //TOTAL VIEW OF PRODUCT IN CLIENT
 const clientProduct = async (req, res) => {
     try {
+        let productCount = await productDb.countDocuments()
         const sortOption= req.query.sort
         const perPage = 6;
         const currentPage = parseInt(req.query.page, 10) || 1;
@@ -18,7 +19,8 @@ const clientProduct = async (req, res) => {
         const search = req.query.q
         let searchData={}
         if(search){
-            searchData = { name: { $regex: search, $options: 'i' } }    
+            searchData = { name: { $regex: search, $options: 'i' } } 
+            productCount=  await productDb.find({name:searchData.name}).countDocuments()
         }
         
         const {user_id}=req.session
@@ -73,7 +75,7 @@ const clientProduct = async (req, res) => {
                 }
                 })
         })
-        const productCount = await productDb.countDocuments()
+         
         const totalPages =Math.ceil(productCount/perPage) 
         const cart = await cartDb.findOne({clientId:user_id})
         const cartCount = cart?.products.length
