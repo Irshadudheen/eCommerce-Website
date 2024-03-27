@@ -4,13 +4,18 @@ const chartController= require('./chartDataController')
 //ADMIN ADASHBOARD
 const adminDashboard = async (req, res) => {
     try {
-        const order = await orderDb.find().populate("clientId").populate({
+        const perPage = 6;
+        const currentPage = parseInt(req.query.page, 10) || 1;
+        const skip = (currentPage - 1) * perPage;
+        const order = await orderDb.find().skip(skip).limit(perPage).populate("clientId").populate({
             path: 'products.productId',
             model: 'product'
         })
+        const orderCount = await orderDb.countDocuments()
+        const totalPages =Math.ceil(orderCount/perPage) 
        const data = await chartController.orderPrdouct()
    
-        res.render('adminDashboard', { order ,data})
+        res.render('adminDashboard', { order ,data,orderCount,totalPages,currentPage})
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");

@@ -974,6 +974,9 @@
                         
                     }).then(res => res.json()).then(data => {
                         console.log(data,data.outOfStock)
+                        if(data.addressNotHave){
+                            alert("the address is not have")
+                        }
                         if(data.outOfStock){
                             console.log(data)
                             // alert('Out of stock the product')

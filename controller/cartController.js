@@ -310,6 +310,9 @@ const placeOrder = async (req, res) => {
             dectription="the offer price by  Coupon"
         }
         const address = await addressDb.findOne({ _id: req.body.address_id })
+        if(!address){
+            return res.send({addressNotHave:true})
+        }
         const { paymentMethod, totalPrice } = req.body
         if(paymentMethod =='Wallet'){
             const Wallet = await walletDb.findOne({clientId:user_id})
