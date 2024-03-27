@@ -167,8 +167,11 @@ const editProduct = async (req, res) => {
         const category = await categoryDb.find()
 
         // const productData= await productDb.findByIdAndUpdate({_id:id},{$set:{ name:req.body.name,email:req.body.email,mobile:req.body.mobile }},{new:true})
+        if(req.query.id.length!==24) return res.redirect('/404')
         const productData = await productDb.findOne({ _id: req.query.id })
-        console.log(productData);
+        if(!productData){
+          return  res.redirect('/404')
+        }
         res.render('editProduct', { id: req.query.id, productData, category })
     } catch (error) {
         console.log(error.message)

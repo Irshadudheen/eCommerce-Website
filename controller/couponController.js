@@ -97,14 +97,13 @@ const deleteTheCoupon = async (req,res)=>{
 //COUPON EDIT
 const admimEditCoupon = async (req,res)=>{
     try {
-        const{name,amount,method,exprDate,_id}=req.body
-        console.log(req.body)
+        const{name,amount,exprDate,_id}=req.body
         
         const checkAlreadyHave = await couponDb.findOne({name: { $regex: new RegExp('^' + name + "$", "i")}})
         if(checkAlreadyHave==null){
             if(exprDate.trim()){
 
-                const updatCoupon = await couponDb.findOneAndUpdate({_id},{$set:{name,amount,method,exprDate}})
+                const updatCoupon = await couponDb.findOneAndUpdate({_id},{$set:{name,method,exprDate}})
                 
                 if(updatCoupon){
                     res.send({status:true})
