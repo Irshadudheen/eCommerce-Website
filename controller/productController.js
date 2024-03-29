@@ -94,11 +94,11 @@ const eachProduct = async (req, res) => {
 
         const {id}=req.query
         if(id.length!==24){
-         return   res.render('404')
+         return   res.redirect('/404')
         }
         const productData = await productDb.findOne({_id:id})
         if(!productData){
-            res.render('404')
+          return  res.redirect('/404')
         }
         const offer = await offerDb.find()
        

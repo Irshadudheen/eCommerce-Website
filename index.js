@@ -36,9 +36,6 @@ app.use('/admin', adminRouter)
 app.use('/', clientRouter)
 
 
-//MONGODB CONNETTIOIN
-
-//ERROR
 
 
 
