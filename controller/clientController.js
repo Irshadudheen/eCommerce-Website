@@ -1,5 +1,5 @@
 const client = require("../model/clientDb")
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 const nodemailer = require('nodemailer')
 const clientDb = require("../model/clientDb")
 const otpDb = require("../model/otpDb")
@@ -131,6 +131,10 @@ const loginPost = async (req, res) => {
                 req.flash('message', 'user is not exist');
                 return res.status(302).redirect('/');
             }
+            // else if(password!==clientData.password){
+            //     req.flash('message','password not correct')
+            //     return res.status(400).redirect('/')
+            // }
             else if(!(await bcrypt.compare(password, clientData.password))) {
                 req.flash('message','password not correct')
                 return res.status(400).redirect('/')

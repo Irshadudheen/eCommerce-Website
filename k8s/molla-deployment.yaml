@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: molla-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: molla
+  template:
+    metadata:
+      labels:
+        app: molla
+    spec:
+      containers:
+        - name: molla 
+          image: irhadudheen/shopping:shopping
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: molla-srv
+spec:
+  type: NodePort
+  selector:
+    app: molla
+  ports:
+    - name: molla-srv-port
+      protocol: TCP
+      port: 3000 
+      targetPort: 3000 
+      

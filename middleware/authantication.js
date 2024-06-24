@@ -2,7 +2,7 @@
 
 const clientDb = require("../model/clientDb")
 
-const login = async (req, res, next) => {
+const logIn = async (req, res, next) => {
     try {
 
         if (!req.session.user_id) {
@@ -11,8 +11,8 @@ const login = async (req, res, next) => {
         else {
             const checkStatus = await clientDb.findOne({ _id: req.session.user_id, is_block: false })
             
-            checkStatus ? next() : req.session.destroy(()=>res.redirect('/'))
-
+            checkStatus ? next() : req.session.destroy(()=>res.redirect('/')) 
+            
             
 
 
@@ -58,7 +58,7 @@ const isadminlogin = async (req, res, next) => {
 
 //
 module.exports = {
-    login,
+    logIn,
     logout,
     isadminlogin
 }

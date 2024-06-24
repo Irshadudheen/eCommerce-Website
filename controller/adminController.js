@@ -82,6 +82,8 @@ const updateClient = async (req, res) => {
             if (ClientData) {
                 res.redirect('/admin/clientview')
             } else {
+                req.flash('message','there data not update')
+                res.redirect(`/editUser?id=${id}`)
                 res.render("editClient", { message: 'there data not update' })
             }
         } else {

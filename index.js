@@ -4,7 +4,6 @@ const dotenv = require('dotenv').config()
 const path = require('path')
 const flash = require('express-flash')
 const session = require('express-session')
-const easyinvoice = require('easyinvoice')
 const config = require('./config/config')
 const adminRouter = require('./router/adminRouter')
 const clientRouter = require('./router/clientRouter')
@@ -39,5 +38,5 @@ app.use('/', clientRouter)
 
 
 
-//CONNETTION OF SERVER
+// //CONNETTION OF SERVER
 app.listen(PORT, () => console.log(`The server is running ${PORT}`))

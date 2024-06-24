@@ -229,7 +229,7 @@ function checkImage(event){
                       <div class="image-button-wrapper">
                         <div id="draggable" class="image-container" draggable="true" ondrag="abc()">
                           <div id="data"></div>
-                          <img src="/productImage/<%= productData.image[i] %>" onclick="imageToCrop('<%= productData.image[i] %>',this)" width="150" height="150" alt="">
+                          <img src="/productImage/<%= productData.image[i] %>" width="150" height="150" alt="">
                           <!-- <button id="<%=productData.image[i] %>">crop</button> -->
                         </div>
                         <div class="button-container">
@@ -261,25 +261,7 @@ function checkImage(event){
         </div>
       </div>
     </div>
-    <script>
-      function abc(){
-        let dragExecuted = false
-        if (!dragExecuted) {
-    // Execute your function with arguments
-    abd(); // Pass the arguments
     
-    dragExecuted = true;
-    
-    event.target.addEventListener('dragend', () => {
-      dragExecuted = false;
-    });
-  }
-  function abd(){
-
-    console.log("jsdikljsdlkjm")
-  }
-    }
-    </script>
     <%-include('../layout/adminFooter')-%>
 
       <script src="js/jquery-3.3.1.min.js"></script>
@@ -295,20 +277,7 @@ function checkImage(event){
           });
         });
       </script>
-      <script>
-        function imageToCrop(image,tag){
-          const a=new cropper(tag, {
-            aspectRatio:0,
-            viewMode:0
-                            // area: [ 280, 280 ],
-                            // crop: [ 150, 150 ],
-                        })
-          console.log(tag.src)
-          console.log(image)
-
-
-        }
-      </script>
+      
   </body>
 
   </html>
