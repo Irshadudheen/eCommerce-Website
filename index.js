@@ -8,7 +8,7 @@ const config = require('./config/config')
 const adminRouter = require('./router/adminRouter')
 const clientRouter = require('./router/clientRouter')
 const app = express()
-const {PORT}= process.env
+const { PORT } = process.env
 
 app.use(express.static(path.join(__dirname, "./public")))
 app.use(express.static(path.join(__dirname, './public/client')))

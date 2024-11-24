@@ -250,13 +250,6 @@ const otpSubmit = async (req, res) => {
                 req.flash('error','otp is incorrect')
                 return res.redirect('/otpPage')
             }
-        
-
-
-
-
-
-
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");

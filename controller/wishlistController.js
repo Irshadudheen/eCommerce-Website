@@ -1,93 +1,93 @@
 const wishlistDb = require('../model/wishlistDb')
-const productDb =require('../model/productDb')
+const productDb = require('../model/productDb')
 const cartDb = require('../model/cartDb')
 //VIEW THE WISHLIST
- const viewWishlist = async (req,res)=>{
+const viewWishlist = async (req, res) => {
     try {
-        const {user_id}=req.session
-        let cartCount =0
-        const dataWishlist = await wishlistDb.findOne({clientId:user_id}).populate({path:'products.productId',mondel:'product'})
-        if(dataWishlist){
+        const { user_id } = req.session
+        let cartCount = 0
+        const dataWishlist = await wishlistDb.findOne({ clientId: user_id }).populate({ path: 'products.productId', mondel: 'product' })
+        if (dataWishlist) {
 
-            const cart = await cartDb.findOne({clientId:user_id})
-            if(cart){
+            const cart = await cartDb.findOne({ clientId: user_id })
+            if (cart) {
 
-                cartCount= cart.products.length
+                cartCount = cart.products.length
             }
         }
-        
-       return res.render("wishlist",{dataWishlist,cartCount})
+
+        return res.render("wishlist", { dataWishlist, cartCount })
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");
     }
- }
+}
 
- //ADD TO WISHLIST
- const addToWishlist = async (req,res)=>{
+//ADD TO WISHLIST
+const addToWishlist = async (req, res) => {
     try {
-        const {productId}=req.body
-        
-        const {user_id}=req.session
-        const productToData = await productDb.findOne({_id:productId})
-        const checkInWishlist = await wishlistDb.findOne({clientId:user_id,products:{$elemMatch:{productId}}})
-        if(!checkInWishlist){
-            const checkWishlist = await wishlistDb.findOne({clientId:user_id})
-            if(checkWishlist){
-                console.log(checkWishlist,"rgjsdjkhnsdfjnsejkdfnwsjdfnjdfkmndjsfkmnsfjnfjs")
+        const { productId } = req.body
+
+        const { user_id } = req.session
+        const productToData = await productDb.findOne({ _id: productId })
+        const checkInWishlist = await wishlistDb.findOne({ clientId: user_id, products: { $elemMatch: { productId } } })
+        if (!checkInWishlist) {
+            const checkWishlist = await wishlistDb.findOne({ clientId: user_id })
+            if (checkWishlist) {
+                console.log(checkWishlist, "rgjsdjkhnsdfjnsejkdfnwsjdfnjdfkmndjsfkmnsfjnfjs")
                 const initialLength = checkWishlist.products.length
                 checkWishlist.products.push({
                     productId,
-                    image:productToData.image[0]
+                    image: productToData.image[0]
                 })
                 const finalLength = checkWishlist.products.length;
-                if(finalLength>initialLength){
+                if (finalLength > initialLength) {
                     await checkWishlist.save()
-                    res.send({status:true})
+                    res.send({ status: true })
                 }
 
-            }else{
+            } else {
 
                 const result = new wishlistDb({
-                    clientId:user_id,
-                    products:[{
+                    clientId: user_id,
+                    products: [{
                         productId,
-                        image:productToData.image[0]
+                        image: productToData.image[0]
                     }]
                 })
                 const newWishlist = await result.save()
-                if(newWishlist){
-                    res.send({status:true})
+                if (newWishlist) {
+                    res.send({ status: true })
                 }
             }
-        }else{
-            res.send({status:false})
+        } else {
+            res.send({ status: false })
         }
-            
+
     } catch (error) {
         console.log(error.message)
         return res.status(500).send("Internal server error");
     }
- }
+}
 
- //PRODUCT REMOVE FROM WISHLIST
- const removeFromWishlist = async (req,res)=>{
+//PRODUCT REMOVE FROM WISHLIST
+const removeFromWishlist = async (req, res) => {
     try {
-        const {productId}=req.body
-        const {user_id}=req.session
-        const removeProduct = await wishlistDb.findOneAndUpdate({clientId:user_id},{$pull:{products:{productId}}})
-        if(removeProduct){
-            res.send({status:true})
+        const { productId } = req.body
+        const { user_id } = req.session
+        const removeProduct = await wishlistDb.findOneAndUpdate({ clientId: user_id }, { $pull: { products: { productId } } })
+        if (removeProduct) {
+            res.send({ status: true })
         }
-        
+
     } catch (error) {
         console.log(errror.message)
         return res.status(500).send("Internal server error");
-        
-    }
- }
 
-module.exports={
+    }
+}
+
+module.exports = {
     viewWishlist,
     addToWishlist,
     removeFromWishlist
